@@ -1,0 +1,25 @@
+{
+  "name": "vsap",
+  "version": "0.1.0",
+  "description": "Open-source collection of fancy, animated and useful Vue components for website building.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lichingchester/vsap.git"
+  },
+  "author": "lichingchester",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lichingchester/vsap/issues"
+  },
+  "homepage": "https://github.com/lichingchester/vsap#readme",
+  "devDependencies": {
+    "vitepress": "^1.6.3"
+  }
+}
