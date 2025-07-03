@@ -1,3 +1,6 @@
+@import "tailwindcss";
+@source "../../../src";
+
 /**
  * Customize default theme styling by overriding CSS variables:
  * https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
@@ -136,4 +139,3 @@
 .DocSearch {
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
 }
-

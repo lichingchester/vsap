@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Open-source collection of fancy, animated and useful Vue components for website building.",
   "main": "index.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "docs:dev": "vitepress dev docs",
@@ -20,6 +23,12 @@
   },
   "homepage": "https://github.com/lichingchester/vsap#readme",
   "devDependencies": {
-    "vitepress": "^1.6.3"
+    "@types/node": "~24.0.10",
+    "vitepress": "~1.6.3"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "~4.1.11",
+    "gsap": "~3.13.0",
+    "tailwindcss": "~4.1.11"
   }
 }
