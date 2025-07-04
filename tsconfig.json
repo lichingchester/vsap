@@ -1,0 +1,18 @@
+{
+  "include": [
+    "docs/**/*.ts",
+    "docs/**/*.vue",
+    "docs/**/*.md",
+    "src/**/*.ts",
+    "src/**/*.vue"
+  ],
+  "vueCompilerOptions": {
+    "vitePressExtensions": [".md"]
+  },
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
+  }
+}

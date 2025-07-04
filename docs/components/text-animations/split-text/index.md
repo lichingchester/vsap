@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useTemplateRef } from "vue";
-import SplitText from '@/src/components/text-animations/SplitText/SplitText.vue'
-
+import SplitText from '@/src/components/text-animations/split-text/SplitText.vue';
+import Preview from '@/src/docs/text-animations/split-text/Preview.vue';
+import ComponentTitle from '@/src/docs/ui/ComponentTitle.vue';
 
 const splitManualPlayRef = useTemplateRef('splitManualPlayRef'); // Reference to the DOM element
 
@@ -16,19 +17,26 @@ const handleClick = () => {
 };
 </script>
 
-<SplitText text="Hello World!" class="text-8xl" type="words,chars" />
+<!-- # Split Text -->
+
+<ComponentTitle>Split Text</ComponentTitle>
+
+<Preview />
+
+## Split Text
+
+<!-- <SplitText text="Hello World!" class="text-8xl" type="words,chars" />
 <SplitText text="The text in this paragraph is split by words and lines. Lines can be tricky to manage responsively. In this demo we are solving this with autoSplit:true and onSplit. autoSplit is used to Split the text automatically when the text element resizes. We are then using the onSplit callback to revert the old animation, then on the new Split, creating a new animation with the progress preserved. So this is all you need to have a responsive line animation that resplits on resize." mask="lines" type="lines" />
 <button @click="handleClick">Toggle Animation</button>
-<SplitText ref="splitManualPlayRef" text="Manual Play" class="text-8xl" is-manual-play />
+<SplitText ref="splitManualPlayRef" text="Manual Play" class="text-8xl" is-manual-play /> -->
 
 ---
 
-<button @click="handleClick">Toggle Animation</button>
+<!-- <button @click="handleClick">Toggle Animation</button>
 
 <div class="h-[100vh] flex flex-col justify-end">
   <SplitText text="Hello World!" class="text-8xl" />
-  <!-- <SplitText text="Hello World!" class="text-8xl" isManualPlay/> -->
-</div>
+</div> -->
 
 Certainly! Here’s a breakdown of what the SplitText.vue component does:
 

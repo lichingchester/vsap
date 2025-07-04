@@ -29,7 +29,7 @@ export default defineConfig({
         items: [
           {
             text: "Split Text",
-            link: "/components/text-animations/split-text/",
+            link: "/components/text-animations/split-text",
           },
         ],
       },
