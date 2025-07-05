@@ -38,5 +38,7 @@ export default defineConfig({
     socialLinks: [
       { icon: "github", link: "https://github.com/vuejs/vitepress" },
     ],
+
+    outline: [2, 3],
   },
 });

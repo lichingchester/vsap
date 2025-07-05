@@ -64,11 +64,16 @@ let textSplitter: any = null; // GSAP SplitText instance
  */
 const setupAnimation = (splitter: SplitText, element: HTMLElement): void => {
   // Determine which elements to animate based on type
-  const animationTargets: Element[] = [
-    ...splitter.chars,
-    ...splitter.words,
-    ...splitter.lines,
-  ];
+  const animationTargets: Element[] = [];
+
+  // Make sure no duplicate animated elements
+  if (props.type.includes("chars")) {
+    animationTargets.push(...splitter.chars);
+  } else if (props.type.includes("words")) {
+    animationTargets.push(...splitter.words);
+  } else if (props.type.includes("lines")) {
+    animationTargets.push(...splitter.lines);
+  }
 
   // Optimize animation performance with will-change
   animationTargets.forEach((target: Element) => {

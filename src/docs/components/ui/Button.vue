@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
 
 const borderStyle = computed(() => {
   return {
-    primary: "border border-[var(--vp-c-default-2)]",
+    primary: "border border-[var(--vp-input-border-color)]",
     // secondary: "border border-[var(--vp-c-secondary-1)]",
     // outline: "border border-[var(--vp-c-secondary-1)]",
   }[props.variant];
