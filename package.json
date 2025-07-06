@@ -1,48 +1,50 @@
 {
-  "name": "vsap",
-  "version": "0.1.0",
-  "description": "Open-source collection of fancy, animated and useful Vue components for website building.",
-  "main": "index.js",
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "scripts": {
-    "test": "vitest",
-    "test:run": "vitest run",
-    "test:ui": "vitest --ui",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lichingchester/vsap.git"
-  },
-  "author": "lichingchester",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/lichingchester/vsap/issues"
-  },
-  "homepage": "https://github.com/lichingchester/vsap#readme",
-  "devDependencies": {
-    "@types/node": "^24.0.10",
-    "@vitest/ui": "^3.2.4",
-    "@vue/test-utils": "^2.4.6",
-    "jsdom": "^26.1.0",
-    "typescript": "^5.8.3",
-    "vitepress": "^1.6.3",
-    "vitest": "^3.2.4"
-  },
-  "dependencies": {
-    "@tailwindcss/vite": "^4.1.11",
-    "@vueuse/core": "^13.5.0",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "gsap": "^3.13.0",
-    "lucide-vue-next": "^0.525.0",
-    "reka-ui": "^2.3.2",
-    "tailwind-merge": "^3.3.1",
-    "tailwindcss": "^4.1.11",
-    "tw-animate-css": "^1.3.5"
-  }
+	"name": "vsap",
+	"version": "0.1.0",
+	"description": "Open-source collection of fancy, animated and useful Vue components for website building.",
+	"main": "index.js",
+	"engines": {
+		"node": ">=18.0.0"
+	},
+	"scripts": {
+		"test": "vitest",
+		"test:run": "vitest run",
+		"test:ui": "vitest --ui",
+		"docs:dev": "vitepress dev docs",
+		"docs:build": "vitepress build docs",
+		"docs:preview": "vitepress preview docs",
+		"build:registry": "jsrepo build"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/lichingchester/vsap.git"
+	},
+	"author": "lichingchester",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/lichingchester/vsap/issues"
+	},
+	"homepage": "https://github.com/lichingchester/vsap#readme",
+	"devDependencies": {
+		"@types/node": "^24.0.10",
+		"@vitest/ui": "^3.2.4",
+		"@vue/test-utils": "^2.4.6",
+		"jsdom": "^26.1.0",
+		"jsrepo": "^2.4.2",
+		"typescript": "^5.8.3",
+		"vitepress": "^1.6.3",
+		"vitest": "^3.2.4"
+	},
+	"dependencies": {
+		"@tailwindcss/vite": "^4.1.11",
+		"@vueuse/core": "^13.5.0",
+		"class-variance-authority": "^0.7.1",
+		"clsx": "^2.1.1",
+		"gsap": "^3.13.0",
+		"lucide-vue-next": "^0.525.0",
+		"reka-ui": "^2.3.2",
+		"tailwind-merge": "^3.3.1",
+		"tailwindcss": "^4.1.11",
+		"tw-animate-css": "^1.3.5"
+	}
 }
