@@ -39,7 +39,7 @@ const props = withDefaults(defineProps<SplitTextProps>(), {
   duration: 1,
   ease: "power4.out",
   type: "words",
-  from: () => ({ opacity: 0, y: 60, visibility: "hidden" }),
+  from: () => ({ opacity: 0, y: "100%", visibility: "hidden" }),
   to: () => ({ opacity: 1, y: 0, visibility: "visible" }),
   start: "top 90%",
   mask: undefined,
