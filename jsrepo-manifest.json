@@ -1,0 +1,29 @@
+{
+	"categories": [
+		{
+			"name": "text-animations",
+			"blocks": [
+				{
+					"name": "split-text",
+					"directory": "src/components/text-animations/split-text",
+					"category": "text-animations",
+					"tests": true,
+					"docs": true,
+					"subdirectory": true,
+					"list": true,
+					"files": [
+						"README.md",
+						"SplitText.spec.ts",
+						"SplitText.vue"
+					],
+					"localDependencies": [],
+					"dependencies": [
+						"gsap@^3.13.0"
+					],
+					"devDependencies": [],
+					"_imports_": {}
+				}
+			]
+		}
+	]
+}
