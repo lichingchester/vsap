@@ -5,6 +5,10 @@ import { ref } from "vue";
 // Docs UI
 import PreviewBlock from "@/src/docs/components/ui/PreviewBlock.vue";
 import Button from "@/src/docs/components/ui/Button.vue";
+import ConfigItem from "@/src/docs/components/ui/configurations/ConfigItem.vue";
+import ConfigGroup from "@/src/docs/components/ui/configurations/ConfigGroup.vue";
+
+// Shadcn
 import {
   Select,
   SelectContent,
@@ -15,8 +19,6 @@ import {
   SelectValue,
 } from "@/src/docs/components/shadcn/ui/select";
 import { Slider } from "@/src/docs/components/shadcn/ui/slider";
-import ConfigItem from "@/src/docs/components/ui/configurations/ConfigItem.vue";
-import ConfigGroup from "@/src/docs/components/ui/configurations/ConfigGroup.vue";
 
 // Components
 import SplitText from "@/src/components/text-animations/split-text/SplitText.vue";

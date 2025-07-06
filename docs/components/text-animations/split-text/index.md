@@ -1,111 +1,201 @@
 <script setup lang="ts">
-import Preview from '@/src/docs/components/text-animations/split-text/Preview.vue';
-import ComponentTitle from '@/src/docs/components/ui/ComponentTitle.vue';
+// Docs UI
+import Preview from "@/src/docs/components/text-animations/split-text/Preview.vue";
+import Showcases from "@/src/docs/components/text-animations/split-text/Showcases.vue";
 </script>
 
-<ComponentTitle>Split Text</ComponentTitle>
+# Split Text
 
-<Preview />
+<Preview>
+  <template v-slot:usage> ```bash npx ``` </template>
+</Preview>
 
 ## Installation
 
-### Dependency
-
-<!-- ```bash -->
-<!-- ``` -->
-
-<<< @/../snippets/install-dependency/gsap.sh
-
-<!-- <<< ../../../../snippets/install-dependency/gsap.sh -->
-
-### TS + Tailwind
+### jsrepo
 
 ```bash
-
+npx jsrepo add text-animations/split-text
 ```
 
-<!-- <SplitText text="Hello World!" class="text-8xl" type="words,chars" />
-<SplitText text="The text in this paragraph is split by words and lines. Lines can be tricky to manage responsively. In this demo we are solving this with autoSplit:true and onSplit. autoSplit is used to Split the text automatically when the text element resizes. We are then using the onSplit callback to revert the old animation, then on the new Split, creating a new animation with the progress preserved. So this is all you need to have a responsive line animation that resplits on resize." mask="lines" type="lines" />
-<button @click="handleClick">Toggle Animation</button>
-<SplitText ref="splitManualPlayRef" text="Manual Play" class="text-8xl" is-manual-play /> -->
+### Standalone
 
----
+```bash
+npx jsrepo add https://github.com/lichingchester/vsap/tree/main/text-animations/split-text
+```
 
-<!-- <button @click="handleClick">Toggle Animation</button>
-
-<div class="h-[100vh] flex flex-col justify-end">
-  <SplitText text="Hello World!" class="text-8xl" />
-</div> -->
-
-Certainly! Here’s a breakdown of what the SplitText.vue component does:
-
----
-
-### Purpose
-
-This Vue 3 component animates text by splitting it into characters, words, or lines and animating them as they enter the viewport using [GSAP](https://greensock.com/gsap/) and its plugins ([SplitText](https://greensock.com/SplitText/) and [ScrollTrigger](https://greensock.com/scrolltrigger/)).
-
----
-
-### Key Features
-
-- **Text Splitting:** Splits the given text into chars, words, or lines for animation.
-- **Scroll Animation:** Animates the split text when it enters the viewport.
-- **Customizable Animation:** Props allow you to control delay, duration, easing, split type, and animation styles.
-- **Cleanup:** Properly cleans up GSAP timelines and split instances on unmount.
-
----
+## API Reference
 
 ### Props
 
-- `text`: The string to display and animate.
-- `classes`: Extra CSS classes for the wrapper.
-- `delay`: Delay between each letter/word/line animation (ms).
-- `duration`: Duration of each animation (seconds).
-- `ease`: Easing function for the animation.
-- `splitType`: How to split the text (`chars`, `words`, `lines`, etc.).
-- `from`: Initial animation state (e.g., `{ opacity: 0, y: 40 }`).
-- `to`: Final animation state (e.g., `{ opacity: 1, y: 0 }`).
-- `threshold`: How much of the element must be visible before animating.
-- `rootMargin`: Offset for the scroll trigger.
-- `textAlign`: Text alignment.
+| Prop         | Type                                               | Default                | Description                                                                                                                 |
+| ------------ | -------------------------------------------------- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| text         | `string`                                           |                        | Text content to be animated.                                                                                                |
+| classes      | `string`                                           |                        | Optional CSS class for styling.                                                                                             |
+| stagger      | `number`                                           | `0.05`                 | Delay between each element animation (in seconds)                                                                           |
+| duration     | `number`                                           | `1`                    | Duration of each element animation (in seconds)                                                                             |
+| ease         | `string`                                           | `power4.out`           | GSAP easing function [Official Doc](https://gsap.com/docs/v3/Eases)                                                         |
+| type         | `string`                                           | `words`                | GSAP SplitText type option [Official Doc](https://gsap.com/docs/v3/Plugins/SplitText/#type)                                 |
+| from         | `object`                                           | `{[key: string]: any}` | GSAP Tween Data for initial state [Official Doc](https://gsap.com/docs/v3/GSAP/Tween#data)                                  |
+| to           | `object`                                           | `{[key: string]: any}` | GSAP Tween Data for end state [Official Doc](https://gsap.com/docs/v3/GSAP/Tween#data)                                      |
+| start        | `string`                                           | `top 90%`              | Determines the starting position of the ScrollTrigger [Official Doc](https://gsap.com/docs/v3/Plugins/ScrollTrigger/#start) |
+| mask         | `"lines"` \| `"words"` \| `"chars"` \| `undefined` | `undefined`            | GSAP SplitText Mask Option [Official Doc](https://gsap.com/docs/v3/Plugins/SplitText/#mask*)                                |
+| isManualPlay | `boolean`                                          | `false`                | Whether to trigger animation manually instead of on scroll                                                                  |
 
----
+### Emits
 
-### How It Works
+| Emit                | Payload | Description                      |
+| ------------------- | ------- | -------------------------------- |
+| animation-completed | `void`  | Emitted when animation completes |
 
-1. **Setup:**  
-   On mount, the text is split using GSAP’s `SplitText` plugin according to `splitType`.
+### Expose
 
-2. **Animation:**  
-   A GSAP timeline is created. When the element scrolls into view (using `ScrollTrigger`), the split elements animate from the `from` state to the `to` state, staggered by `delay`.
+| Expose               | Type       | Description                                              |
+| -------------------- | ---------- | -------------------------------------------------------- |
+| play                 | `function` | Play the animation manually if `isManualPlay` is true    |
+| reverse              | `function` | Reverse the animation manually if `isManualPlay` is true |
+| isAnimationCompleted | `property` | Track animation completion state                         |
 
-3. **Reactivity:**  
-   If any relevant prop changes, the animation resets and re-initializes.
+## Key Features
 
-4. **Cleanup:**  
-   On unmount, all GSAP timelines, triggers, and split instances are killed and reverted to prevent memory leaks.
+### Text Splitting
 
----
+Splits the given text into chars, words, or lines for animation with GSAP SplitText plugin.
 
-### Template
+### Scroll Animation
 
-Renders a `<div>` with the provided text and applies the split/animation logic to it.
+Animates the split text when it enters the viewport by default with GSAP ScrollTrigger plugin, can disable by `isManualPlay` to `true`.
 
----
+### Customizable Animation
 
-### Example Usage
+Props allow you to control delay, duration, easing, split type, and animation styles.
 
-```vue
+Source code edit allow you to setup more complicated animation with GSAP Timeline:
+
+```ts
+// Build the animation sequence
+timeline.set(animationTargets, {
+  ...props.from,
+  immediateRender: false,
+  force3D: true,
+});
+
+// For more complex animations, you can add stagger effects here
+timeline.to(animationTargets, {
+  ...props.to,
+  duration: props.duration,
+  ease: props.ease,
+  stagger: props.stagger,
+  force3D: true,
+});
+```
+
+### Responsive re-splitting
+
+See https://gsap.com/docs/v3/Plugins/SplitText/#features
+
+## Showcases
+
+### Advanced GSAP Config
+
+<Showcases case-name="AdvancedGsapConfig" />
+
+```vue{6-13}
+<template>
+  <SplitText
+    text="Hello World!"
+    class="text-8xl text-center"
+    type="chars,words"
+    :from="{
+      opacity: 0,
+      y: 'random(150, 0)',
+      x: 'random(-100, 100)',
+      rotate: 'random(-180, 180)',
+      visibility: 'hidden',
+    }"
+    :to="{ opacity: 1, y: 0, x: 0, rotate: 0, visibility: 'visible' }"
+    ease="elastic.out(1,0.3)"
+    :duration="2"
+  />
+</template>
+```
+
+### Mask
+
+<Showcases case-name="Mask" />
+
+```vue {5}
 <SplitText
-  text="Animate me!"
-  splitType="chars"
-  :delay="80"
-  :duration="0.5"
-  ease="power2.out"
+  text="Hello World!"
+  class="text-8xl text-center"
+  type="chars,words"
+  mask="chars"
 />
 ```
 
----
+### Manual Play
 
-Let me know if you want a more detailed explanation of any part!
+<Showcases case-name="Manual" />
+
+```vue
+<script setup lang="ts">
+import { useTemplateRef } from "vue";
+
+const isManualPlayRef = useTemplateRef("isManualPlayRef");
+
+const play = () => {
+  isManualPlayRef.play();
+};
+
+const reverse = () => {
+  isManualPlayRef.reverse();
+};
+</script>
+
+<template>
+  <button @click="play">Play</button>
+  <button @click="reverse">Reverse</button>
+
+  <SplitText
+    ref="isManualPlayRef"
+    text="Hello World!"
+    class="text-8xl text-center"
+    type="chars,words"
+    :from="{
+      x: (index) => `random(['${index % 2 === 0 ? '0' : '100%, -100%'}])`,
+      y: (index) => `random(['${index % 2 !== 0 ? '0' : '100%, -100%'}])`,
+    }"
+    :to="{
+      x: 0,
+      y: 0,
+    }"
+    mask="chars"
+    ease="power3.inOut"
+    is-manual-play
+  />
+</template>
+```
+
+### Absolute Position
+
+<Showcases case-name="Absolute" />
+
+```vue {4}
+<template>
+  <SplitText
+    text="Hello World!"
+    class="absolute left-3 bottom-3 text-8xl text-center"
+    :from="{
+      opacity: 0,
+      y: '-200%',
+    }"
+    :to="{
+      opacity: 1,
+      y: 0,
+    }"
+    :duration="2"
+    ease="power3.out"
+    type="lines"
+  />
+</template>
+```

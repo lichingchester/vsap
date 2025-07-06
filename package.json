@@ -42,6 +42,7 @@
 		"clsx": "^2.1.1",
 		"gsap": "^3.13.0",
 		"lucide-vue-next": "^0.525.0",
+		"prettier-plugin-vitepress": "^0.0.10",
 		"reka-ui": "^2.3.2",
 		"tailwind-merge": "^3.3.1",
 		"tailwindcss": "^4.1.11",
