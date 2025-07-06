@@ -25,6 +25,16 @@ export default defineConfig({
 
     sidebar: [
       {
+        text: "Getting Started",
+        items: [
+          { text: "Installation", link: "/getting-started/installation" },
+          // { text: "Quick Start", link: "/getting-started/quick-start" },
+          // { text: "Usage", link: "/getting-started/usage" },
+          // { text: "Configuration", link: "/getting-started/configuration" },
+          // { text: "Contributing", link: "/getting-started/contributing" },
+        ],
+      },
+      {
         text: "Text Animations",
         items: [
           {
