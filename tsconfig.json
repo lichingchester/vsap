@@ -4,7 +4,9 @@
     "docs/**/*.vue",
     "docs/**/*.md",
     "src/**/*.ts",
-    "src/**/*.vue"
+    "src/**/*.md",
+    "src/**/*.vue",
+    "*.md"
   ],
   "vueCompilerOptions": {
     "vitePressExtensions": [".md"]
