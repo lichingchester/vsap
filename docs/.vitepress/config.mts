@@ -43,6 +43,15 @@ export default defineConfig({
           },
         ],
       },
+      {
+        text: "Backgrounds",
+        items: [
+          {
+            text: "Aurora",
+            link: "/components/backgrounds/aurora",
+          },
+        ],
+      },
     ],
 
     socialLinks: [

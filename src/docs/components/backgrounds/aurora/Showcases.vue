@@ -127,7 +127,7 @@ const isManualPlayRef = useTemplateRef("isManualPlayRef");
         }"
         :duration="2"
         ease="power3.out"
-        type="chars,words"
+        type="lines"
       />
     </PreviewBlock>
   </template>
