@@ -24,6 +24,14 @@ npx jsrepo add text-animations/split-text
 npx jsrepo add https://github.com/lichingchester/vsap/tree/main/text-animations/split-text
 ```
 
+### Manually
+
+::: details Source Code {open}
+
+<<< @/../src/components/text-animations/split-text/SplitText.vue
+
+:::
+
 ## API Reference
 
 ### Props
@@ -31,7 +39,6 @@ npx jsrepo add https://github.com/lichingchester/vsap/tree/main/text-animations/
 | Prop         | Type                                               | Default                | Description                                                                                                                 |
 | ------------ | -------------------------------------------------- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------- |
 | text         | `string`                                           |                        | Text content to be animated.                                                                                                |
-| classes      | `string`                                           |                        | Optional CSS class for styling.                                                                                             |
 | stagger      | `number`                                           | `0.05`                 | Delay between each element animation (in seconds)                                                                           |
 | duration     | `number`                                           | `1`                    | Duration of each element animation (in seconds)                                                                             |
 | ease         | `string`                                           | `power4.out`           | GSAP easing function [Official Doc](https://gsap.com/docs/v3/Eases)                                                         |
