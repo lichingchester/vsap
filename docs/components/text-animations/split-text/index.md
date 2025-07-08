@@ -32,75 +32,6 @@ npx jsrepo add https://github.com/lichingchester/vsap/tree/main/text-animations/
 
 :::
 
-## API Reference
-
-### Props
-
-| Prop         | Type                                               | Default                | Description                                                                                                                 |
-| ------------ | -------------------------------------------------- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| text         | `string`                                           |                        | Text content to be animated.                                                                                                |
-| stagger      | `number`                                           | `0.05`                 | Delay between each element animation (in seconds)                                                                           |
-| duration     | `number`                                           | `1`                    | Duration of each element animation (in seconds)                                                                             |
-| ease         | `string`                                           | `power4.out`           | GSAP easing function [Official Doc](https://gsap.com/docs/v3/Eases)                                                         |
-| type         | `string`                                           | `words`                | GSAP SplitText type option [Official Doc](https://gsap.com/docs/v3/Plugins/SplitText/#type)                                 |
-| from         | `object`                                           | `{[key: string]: any}` | GSAP Tween Data for initial state [Official Doc](https://gsap.com/docs/v3/GSAP/Tween#data)                                  |
-| to           | `object`                                           | `{[key: string]: any}` | GSAP Tween Data for end state [Official Doc](https://gsap.com/docs/v3/GSAP/Tween#data)                                      |
-| start        | `string`                                           | `top 90%`              | Determines the starting position of the ScrollTrigger [Official Doc](https://gsap.com/docs/v3/Plugins/ScrollTrigger/#start) |
-| mask         | `"lines"` \| `"words"` \| `"chars"` \| `undefined` | `undefined`            | GSAP SplitText Mask Option [Official Doc](https://gsap.com/docs/v3/Plugins/SplitText/#mask*)                                |
-| isManualPlay | `boolean`                                          | `false`                | Whether to trigger animation manually instead of on scroll                                                                  |
-
-### Emits
-
-| Emit                | Payload | Description                      |
-| ------------------- | ------- | -------------------------------- |
-| animation-completed | `void`  | Emitted when animation completes |
-
-### Expose
-
-| Expose               | Type       | Description                                              |
-| -------------------- | ---------- | -------------------------------------------------------- |
-| play                 | `function` | Play the animation manually if `isManualPlay` is true    |
-| reverse              | `function` | Reverse the animation manually if `isManualPlay` is true |
-| isAnimationCompleted | `property` | Track animation completion state                         |
-
-## Key Features
-
-### Text Splitting
-
-Splits the given text into chars, words, or lines for animation with GSAP SplitText plugin.
-
-### Scroll Animation
-
-Animates the split text when it enters the viewport by default with GSAP ScrollTrigger plugin, can disable by `isManualPlay` to `true`.
-
-### Customizable Animation
-
-Props allow you to control delay, duration, easing, split type, and animation styles.
-
-Source code edit allow you to setup more complicated animation with GSAP Timeline:
-
-```ts
-// Build the animation sequence
-timeline.set(animationTargets, {
-  ...props.from,
-  immediateRender: false,
-  force3D: true,
-});
-
-// For more complex animations, you can add stagger effects here
-timeline.to(animationTargets, {
-  ...props.to,
-  duration: props.duration,
-  ease: props.ease,
-  stagger: props.stagger,
-  force3D: true,
-});
-```
-
-### Responsive re-splitting
-
-See https://gsap.com/docs/v3/Plugins/SplitText/#features
-
 ## Showcases
 
 ### Advanced GSAP Config
@@ -202,7 +133,76 @@ const reverse = () => {
     }"
     :duration="2"
     ease="power3.out"
-    type="lines"
+    type="chars,words"
   />
 </template>
 ```
+
+## API Reference
+
+### Props
+
+| Prop         | Type                                               | Default                | Description                                                                                                                 |
+| ------------ | -------------------------------------------------- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| text         | `string`                                           |                        | Text content to be animated.                                                                                                |
+| stagger      | `number`                                           | `0.05`                 | Delay between each element animation (in seconds)                                                                           |
+| duration     | `number`                                           | `1`                    | Duration of each element animation (in seconds)                                                                             |
+| ease         | `string`                                           | `power4.out`           | GSAP easing function [Official Doc](https://gsap.com/docs/v3/Eases)                                                         |
+| type         | `string`                                           | `words`                | GSAP SplitText type option [Official Doc](https://gsap.com/docs/v3/Plugins/SplitText/#type)                                 |
+| from         | `object`                                           | `{[key: string]: any}` | GSAP Tween Data for initial state [Official Doc](https://gsap.com/docs/v3/GSAP/Tween#data)                                  |
+| to           | `object`                                           | `{[key: string]: any}` | GSAP Tween Data for end state [Official Doc](https://gsap.com/docs/v3/GSAP/Tween#data)                                      |
+| start        | `string`                                           | `top 90%`              | Determines the starting position of the ScrollTrigger [Official Doc](https://gsap.com/docs/v3/Plugins/ScrollTrigger/#start) |
+| mask         | `"lines"` \| `"words"` \| `"chars"` \| `undefined` | `undefined`            | GSAP SplitText Mask Option [Official Doc](https://gsap.com/docs/v3/Plugins/SplitText/#mask*)                                |
+| isManualPlay | `boolean`                                          | `false`                | Whether to trigger animation manually instead of on scroll                                                                  |
+
+### Emits
+
+| Emit                | Payload | Description                      |
+| ------------------- | ------- | -------------------------------- |
+| animation-completed | `void`  | Emitted when animation completes |
+
+### Expose
+
+| Expose               | Type       | Description                                              |
+| -------------------- | ---------- | -------------------------------------------------------- |
+| play                 | `function` | Play the animation manually if `isManualPlay` is true    |
+| reverse              | `function` | Reverse the animation manually if `isManualPlay` is true |
+| isAnimationCompleted | `property` | Track animation completion state                         |
+
+## Key Features
+
+### Text Splitting
+
+Splits the given text into chars, words, or lines for animation with GSAP SplitText plugin.
+
+### Scroll Animation
+
+Animates the split text when it enters the viewport by default with GSAP ScrollTrigger plugin, can disable by `isManualPlay` to `true`.
+
+### Customizable Animation
+
+Props allow you to control delay, duration, easing, split type, and animation styles.
+
+Source code edit allow you to setup more complicated animation with GSAP Timeline:
+
+```ts
+// Build the animation sequence
+timeline.set(animationTargets, {
+  ...props.from,
+  immediateRender: false,
+  force3D: true,
+});
+
+// For more complex animations, you can add stagger effects here
+timeline.to(animationTargets, {
+  ...props.to,
+  duration: props.duration,
+  ease: props.ease,
+  stagger: props.stagger,
+  force3D: true,
+});
+```
+
+### Responsive re-splitting
+
+See https://gsap.com/docs/v3/Plugins/SplitText/#features
