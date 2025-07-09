@@ -4,7 +4,7 @@ import Preview from "@/src/docs/components/backgrounds/aurora/Preview.vue";
 import Showcases from "@/src/docs/components/backgrounds/aurora/Showcases.vue";
 </script>
 
-# Split Text
+# Aurora
 
 <Preview>
   <template v-slot:usage> ```bash npx ``` </template>
@@ -15,20 +15,72 @@ import Showcases from "@/src/docs/components/backgrounds/aurora/Showcases.vue";
 ### jsrepo
 
 ```bash
-npx jsrepo add text-animations/split-text
+npx jsrepo add backgrounds/aurora
 ```
 
 ### Standalone
 
 ```bash
-npx jsrepo add https://github.com/lichingchester/vsap/tree/main/text-animations/split-text
+npx jsrepo add https://github.com/lichingchester/vsap/tree/main/backgrounds/aurora
 ```
 
 ### Manually
 
-::: details Source Code {open}
+::: details Source Code
 
-<<< @/../src/components/text-animations/split-text/SplitText.vue
+<<< @/../src/components/backgrounds/aurora/Aurora.vue
+
+:::
+
+## Showcases
+
+### Ocean
+
+<Showcases case-name="Ocean" />
+
+::: details Usage
+
+```vue
+<template>
+  <Aurora
+    baseColor="#173564"
+    auroraColor1="#00aaff"
+    auroraColor2="#5c53a2"
+    :speed="1.0"
+    :intensity="5.9"
+    :densityX="1.9"
+    :densityY="4.9"
+    :verticalFalloff="1.9"
+    :opacity="1"
+    :noiseAmplitude="0.5"
+  />
+</template>
+```
+
+:::
+
+### Stage Curtain
+
+<Showcases case-name="Stage Curtain" />
+
+::: details Usage
+
+```vue
+<template>
+  <Aurora
+    baseColor="#0a1d2d"
+    auroraColor1="#A500B5"
+    auroraColor2="#FF6F61"
+    :speed="1.0"
+    :intensity="2.6"
+    :densityX="10"
+    :densityY="0.2"
+    :verticalFalloff="0.5"
+    :opacity="1"
+    :noiseAmplitude="0.1"
+  />
+</template>
+```
 
 :::
 
@@ -36,173 +88,30 @@ npx jsrepo add https://github.com/lichingchester/vsap/tree/main/text-animations/
 
 ### Props
 
-| Prop         | Type                                               | Default                | Description                                                                                                                 |
-| ------------ | -------------------------------------------------- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| text         | `string`                                           |                        | Text content to be animated.                                                                                                |
-| stagger      | `number`                                           | `0.05`                 | Delay between each element animation (in seconds)                                                                           |
-| duration     | `number`                                           | `1`                    | Duration of each element animation (in seconds)                                                                             |
-| ease         | `string`                                           | `power4.out`           | GSAP easing function [Official Doc](https://gsap.com/docs/v3/Eases)                                                         |
-| type         | `string`                                           | `words`                | GSAP SplitText type option [Official Doc](https://gsap.com/docs/v3/Plugins/SplitText/#type)                                 |
-| from         | `object`                                           | `{[key: string]: any}` | GSAP Tween Data for initial state [Official Doc](https://gsap.com/docs/v3/GSAP/Tween#data)                                  |
-| to           | `object`                                           | `{[key: string]: any}` | GSAP Tween Data for end state [Official Doc](https://gsap.com/docs/v3/GSAP/Tween#data)                                      |
-| start        | `string`                                           | `top 90%`              | Determines the starting position of the ScrollTrigger [Official Doc](https://gsap.com/docs/v3/Plugins/ScrollTrigger/#start) |
-| mask         | `"lines"` \| `"words"` \| `"chars"` \| `undefined` | `undefined`            | GSAP SplitText Mask Option [Official Doc](https://gsap.com/docs/v3/Plugins/SplitText/#mask*)                                |
-| isManualPlay | `boolean`                                          | `false`                | Whether to trigger animation manually instead of on scroll                                                                  |
-
-### Emits
-
-| Emit                | Payload | Description                      |
-| ------------------- | ------- | -------------------------------- |
-| animation-completed | `void`  | Emitted when animation completes |
-
-### Expose
-
-| Expose               | Type       | Description                                              |
-| -------------------- | ---------- | -------------------------------------------------------- |
-| play                 | `function` | Play the animation manually if `isManualPlay` is true    |
-| reverse              | `function` | Reverse the animation manually if `isManualPlay` is true |
-| isAnimationCompleted | `property` | Track animation completion state                         |
+| Prop            | Type     | Default     | Description                                                                                    |
+| --------------- | -------- | ----------- | ---------------------------------------------------------------------------------------------- |
+| baseColor       | `string` | `"#1b1b1b"` | Background color behind the aurora effect.                                                     |
+| auroraColor1    | `string` | `"#00ff00"` | Primary color of the aurora.                                                                   |
+| auroraColor2    | `string` | `"#0000ff"` | Secondary color of the aurora, blended with the primary.                                       |
+| speed           | `number` | `1.0`       | Animation speed multiplier. Higher values create faster movement.                              |
+| intensity       | `number` | `3.0`       | Intensity of the aurora effect. Higher values create more vibrant, pronounced colors.          |
+| densityX        | `number` | `2.5`       | Horizontal density. Higher values create more detailed horizontal patterns.                    |
+| densityY        | `number` | `0.0`       | Vertical density. Higher values create more detailed vertical patterns.                        |
+| verticalFalloff | `number` | `1.0`       | Controls how quickly the effect fades toward the bottom. Higher values create sharper falloff. |
+| opacity         | `number` | `1.0`       | Overall opacity of the aurora effect.                                                          |
+| noiseAmplitude  | `number` | `0.3`       | Strength of the noise distortion. Higher values create more dramatic wave patterns.            |
+| resolution      | `number` | `1.0`       | Rendering resolution multiplier. Lower values improve performance but reduce quality.          |
 
 ## Key Features
 
-### Text Splitting
+### Fully Customizable
 
-Splits the given text into chars, words, or lines for animation with GSAP SplitText plugin.
+Extensive props for adjusting colors, intensity, movement, and visual characteristics.
 
-### Scroll Animation
+### Immersive Backgrounds
 
-Animates the split text when it enters the viewport by default with GSAP ScrollTrigger plugin, can disable by `isManualPlay` to `true`.
+Perfect for creating atmospheric website backgrounds.
 
-### Customizable Animation
+### Full-Screen or Container-Bound
 
-Props allow you to control delay, duration, easing, split type, and animation styles.
-
-Source code edit allow you to setup more complicated animation with GSAP Timeline:
-
-```ts
-// Build the animation sequence
-timeline.set(animationTargets, {
-  ...props.from,
-  immediateRender: false,
-  force3D: true,
-});
-
-// For more complex animations, you can add stagger effects here
-timeline.to(animationTargets, {
-  ...props.to,
-  duration: props.duration,
-  ease: props.ease,
-  stagger: props.stagger,
-  force3D: true,
-});
-```
-
-### Responsive re-splitting
-
-See https://gsap.com/docs/v3/Plugins/SplitText/#features
-
-## Showcases
-
-### Advanced GSAP Config
-
-<Showcases case-name="AdvancedGsapConfig" />
-
-```vue{6-13}
-<template>
-  <SplitText
-    text="Hello World!"
-    class="text-8xl text-center"
-    type="chars,words"
-    :from="{
-      opacity: 0,
-      y: 'random(150, 0)',
-      x: 'random(-100, 100)',
-      rotate: 'random(-180, 180)',
-      visibility: 'hidden',
-    }"
-    :to="{ opacity: 1, y: 0, x: 0, rotate: 0, visibility: 'visible' }"
-    ease="elastic.out(1,0.3)"
-    :duration="2"
-  />
-</template>
-```
-
-### Mask
-
-<Showcases case-name="Mask" />
-
-```vue {5}
-<SplitText
-  text="Hello World!"
-  class="text-8xl text-center"
-  type="chars,words"
-  mask="chars"
-/>
-```
-
-### Manual Play
-
-<Showcases case-name="Manual" />
-
-```vue
-<script setup lang="ts">
-import { useTemplateRef } from "vue";
-
-const isManualPlayRef = useTemplateRef("isManualPlayRef");
-
-const play = () => {
-  isManualPlayRef.play();
-};
-
-const reverse = () => {
-  isManualPlayRef.reverse();
-};
-</script>
-
-<template>
-  <button @click="play">Play</button>
-  <button @click="reverse">Reverse</button>
-
-  <SplitText
-    ref="isManualPlayRef"
-    text="Hello World!"
-    class="text-8xl text-center"
-    type="chars,words"
-    :from="{
-      x: (index) => `random(['${index % 2 === 0 ? '0' : '100%, -100%'}])`,
-      y: (index) => `random(['${index % 2 !== 0 ? '0' : '100%, -100%'}])`,
-    }"
-    :to="{
-      x: 0,
-      y: 0,
-    }"
-    mask="chars"
-    ease="power3.inOut"
-    is-manual-play
-  />
-</template>
-```
-
-### Absolute Position
-
-<Showcases case-name="Absolute" />
-
-```vue {4}
-<template>
-  <SplitText
-    text="Hello World!"
-    class="absolute left-3 bottom-3 text-8xl text-center"
-    :from="{
-      opacity: 0,
-      y: '-200%',
-    }"
-    :to="{
-      opacity: 1,
-      y: 0,
-    }"
-    :duration="2"
-    ease="power3.out"
-    type="lines"
-  />
-</template>
-```
+Can fill entire viewport or be contained within specific elements.

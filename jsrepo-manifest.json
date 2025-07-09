@@ -1,6 +1,29 @@
 {
 	"categories": [
 		{
+			"name": "backgrounds",
+			"blocks": [
+				{
+					"name": "aurora",
+					"directory": "src/components/backgrounds/aurora",
+					"category": "backgrounds",
+					"tests": false,
+					"docs": false,
+					"subdirectory": true,
+					"list": true,
+					"files": [
+						"Aurora.vue"
+					],
+					"localDependencies": [],
+					"dependencies": [
+						"three@^0.178.0"
+					],
+					"devDependencies": [],
+					"_imports_": {}
+				}
+			]
+		},
+		{
 			"name": "text-animations",
 			"blocks": [
 				{

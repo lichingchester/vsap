@@ -27,6 +27,7 @@
 	"homepage": "https://github.com/lichingchester/vsap#readme",
 	"devDependencies": {
 		"@types/node": "^24.0.10",
+		"@types/three": "^0.178.0",
 		"@vitest/ui": "^3.2.4",
 		"@vue/test-utils": "^2.4.6",
 		"jsdom": "^26.1.0",
