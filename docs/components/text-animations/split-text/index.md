@@ -26,7 +26,7 @@ npx jsrepo add https://github.com/lichingchester/vsap/tree/main/text-animations/
 
 ### Manually
 
-::: details Source Code {open}
+::: details Source Code
 
 <<< @/../src/components/text-animations/split-text/SplitText.vue
 
@@ -37,6 +37,7 @@ npx jsrepo add https://github.com/lichingchester/vsap/tree/main/text-animations/
 ### Advanced GSAP Config
 
 <Showcases case-name="AdvancedGsapConfig" />
+::: details Usage
 
 ```vue{6-13}
 <template>
@@ -58,22 +59,31 @@ npx jsrepo add https://github.com/lichingchester/vsap/tree/main/text-animations/
 </template>
 ```
 
+:::
+
 ### Mask
 
 <Showcases case-name="Mask" />
 
-```vue {5}
-<SplitText
-  text="Hello World!"
-  class="text-8xl text-center"
-  type="chars,words"
-  mask="chars"
-/>
+::: details Usage
+
+```vue {6}
+<template>
+  <SplitText
+    text="Hello World!"
+    class="text-8xl text-center"
+    type="chars,words"
+    mask="chars"
+  />
+</template>
 ```
+
+:::
 
 ### Manual Play
 
 <Showcases case-name="Manual" />
+::: details Usage
 
 ```vue
 <script setup lang="ts">
@@ -114,9 +124,12 @@ const reverse = () => {
 </template>
 ```
 
+:::
+
 ### Absolute Position
 
 <Showcases case-name="Absolute" />
+::: details Usage
 
 ```vue {4}
 <template>
@@ -137,6 +150,8 @@ const reverse = () => {
   />
 </template>
 ```
+
+:::
 
 ## API Reference
 
