@@ -24,6 +24,135 @@ npx jsrepo add text-animations/split-text
 npx jsrepo add https://github.com/lichingchester/vsap/tree/main/text-animations/split-text
 ```
 
+### Manually
+
+::: details Source Code
+
+<<< @/../src/components/text-animations/split-text/SplitText.vue
+
+:::
+
+## Showcases
+
+### Advanced GSAP Config
+
+<Showcases case-name="AdvancedGsapConfig" />
+::: details Usage
+
+```vue{6-13}
+<template>
+  <SplitText
+    text="Hello World!"
+    class="text-8xl text-center"
+    type="chars,words"
+    :from="{
+      opacity: 0,
+      y: 'random(150, 0)',
+      x: 'random(-100, 100)',
+      rotate: 'random(-180, 180)',
+      visibility: 'hidden',
+    }"
+    :to="{ opacity: 1, y: 0, x: 0, rotate: 0, visibility: 'visible' }"
+    ease="elastic.out(1,0.3)"
+    :duration="2"
+  />
+</template>
+```
+
+:::
+
+### Mask
+
+<Showcases case-name="Mask" />
+
+::: details Usage
+
+```vue {6}
+<template>
+  <SplitText
+    text="Hello World!"
+    class="text-8xl text-center"
+    type="chars,words"
+    mask="chars"
+  />
+</template>
+```
+
+:::
+
+### Manual Play
+
+<Showcases case-name="Manual" />
+::: details Usage
+
+```vue
+<script setup lang="ts">
+import { useTemplateRef } from "vue";
+
+const isManualPlayRef = useTemplateRef("isManualPlayRef");
+
+const play = () => {
+  isManualPlayRef.play();
+};
+
+const reverse = () => {
+  isManualPlayRef.reverse();
+};
+</script>
+
+<template>
+  <button @click="play">Play</button>
+  <button @click="reverse">Reverse</button>
+
+  <SplitText
+    ref="isManualPlayRef"
+    text="Hello World!"
+    class="text-8xl text-center"
+    type="chars,words"
+    :from="{
+      x: (index) => `random(['${index % 2 === 0 ? '0' : '100%, -100%'}])`,
+      y: (index) => `random(['${index % 2 !== 0 ? '0' : '100%, -100%'}])`,
+    }"
+    :to="{
+      x: 0,
+      y: 0,
+    }"
+    mask="chars"
+    ease="power3.inOut"
+    is-manual-play
+  />
+</template>
+```
+
+:::
+
+### Absolute Position
+
+<Showcases case-name="Absolute" />
+::: details Usage
+
+```vue {4}
+<template>
+  <SplitText
+    text="Hello World!"
+    class="absolute left-3 bottom-3 text-8xl text-center"
+    :from="{
+      opacity: 0,
+      y: '-200%',
+    }"
+    :to="{
+      opacity: 1,
+      y: 0,
+    }"
+    :duration="2"
+    ease="power3.out"
+    type="chars,words"
+  />
+</template>
+```
+
+:::
+
 ## API Reference
 
 ### Props
@@ -31,7 +160,6 @@ npx jsrepo add https://github.com/lichingchester/vsap/tree/main/text-animations/
 | Prop         | Type                                               | Default                | Description                                                                                                                 |
 | ------------ | -------------------------------------------------- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------- |
 | text         | `string`                                           |                        | Text content to be animated.                                                                                                |
-| classes      | `string`                                           |                        | Optional CSS class for styling.                                                                                             |
 | stagger      | `number`                                           | `0.05`                 | Delay between each element animation (in seconds)                                                                           |
 | duration     | `number`                                           | `1`                    | Duration of each element animation (in seconds)                                                                             |
 | ease         | `string`                                           | `power4.out`           | GSAP easing function [Official Doc](https://gsap.com/docs/v3/Eases)                                                         |
@@ -93,109 +221,3 @@ timeline.to(animationTargets, {
 ### Responsive re-splitting
 
 See https://gsap.com/docs/v3/Plugins/SplitText/#features
-
-## Showcases
-
-### Advanced GSAP Config
-
-<Showcases case-name="AdvancedGsapConfig" />
-
-```vue{6-13}
-<template>
-  <SplitText
-    text="Hello World!"
-    class="text-8xl text-center"
-    type="chars,words"
-    :from="{
-      opacity: 0,
-      y: 'random(150, 0)',
-      x: 'random(-100, 100)',
-      rotate: 'random(-180, 180)',
-      visibility: 'hidden',
-    }"
-    :to="{ opacity: 1, y: 0, x: 0, rotate: 0, visibility: 'visible' }"
-    ease="elastic.out(1,0.3)"
-    :duration="2"
-  />
-</template>
-```
-
-### Mask
-
-<Showcases case-name="Mask" />
-
-```vue {5}
-<SplitText
-  text="Hello World!"
-  class="text-8xl text-center"
-  type="chars,words"
-  mask="chars"
-/>
-```
-
-### Manual Play
-
-<Showcases case-name="Manual" />
-
-```vue
-<script setup lang="ts">
-import { useTemplateRef } from "vue";
-
-const isManualPlayRef = useTemplateRef("isManualPlayRef");
-
-const play = () => {
-  isManualPlayRef.play();
-};
-
-const reverse = () => {
-  isManualPlayRef.reverse();
-};
-</script>
-
-<template>
-  <button @click="play">Play</button>
-  <button @click="reverse">Reverse</button>
-
-  <SplitText
-    ref="isManualPlayRef"
-    text="Hello World!"
-    class="text-8xl text-center"
-    type="chars,words"
-    :from="{
-      x: (index) => `random(['${index % 2 === 0 ? '0' : '100%, -100%'}])`,
-      y: (index) => `random(['${index % 2 !== 0 ? '0' : '100%, -100%'}])`,
-    }"
-    :to="{
-      x: 0,
-      y: 0,
-    }"
-    mask="chars"
-    ease="power3.inOut"
-    is-manual-play
-  />
-</template>
-```
-
-### Absolute Position
-
-<Showcases case-name="Absolute" />
-
-```vue {4}
-<template>
-  <SplitText
-    text="Hello World!"
-    class="absolute left-3 bottom-3 text-8xl text-center"
-    :from="{
-      opacity: 0,
-      y: '-200%',
-    }"
-    :to="{
-      opacity: 1,
-      y: 0,
-    }"
-    :duration="2"
-    ease="power3.out"
-    type="lines"
-  />
-</template>
-```

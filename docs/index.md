@@ -3,23 +3,21 @@
 layout: home
 
 hero:
-  name: "VSAP"
-  text: "Open-source collection of fancy, animated and useful Vue components for website building."
-  tagline: My great project tagline
+  name: "VSAP (TBC)"
+  text: "Creative components for your beautiful websites"
+  tagline: An open-source library featuring animated and practical Vue components designed for website development
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+      text: Components
+      link: /components/text-animations/split-text
     - theme: alt
-      text: API Examples
-      link: /api-examples
-
-features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+      text: Docs
+      link: /getting-started/installation
+# features:
+#   - title: Feature A
+#     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+#   - title: Feature B
+#     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+#   - title: Feature C
+#     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
 ---
-

@@ -20,7 +20,6 @@ interface AnimationProperties {
  */
 interface SplitTextProps {
   text: string; // Text content to be animated
-  classes?: string; // Optional CSS class for styling
   stagger?: number; // Delay between each element animation (in seconds)
   duration?: number; // Duration of each element animation (in seconds)
   ease?: string; // GSAP easing function
@@ -34,7 +33,6 @@ interface SplitTextProps {
 
 // Props definition with default values
 const props = withDefaults(defineProps<SplitTextProps>(), {
-  classes: "",
   stagger: 0.05,
   duration: 1,
   ease: "power4.out",
@@ -193,7 +191,6 @@ watch(
   [
     () => props.text,
     () => props.stagger,
-    () => props.classes,
     () => props.mask,
     () => props.duration,
     () => props.ease,
@@ -207,7 +204,7 @@ watch(
     isAnimationCompleted.value = false;
     initializeSplitText();
   },
-  { deep: true } // Watch deeply for object changes
+  { deep: true }, // Watch deeply for object changes
 );
 
 // Clean up resources when component is unmounted
@@ -242,7 +239,7 @@ defineExpose({
 </script>
 
 <template>
-  <div ref="splitTextRef" :class="`${classes}`">
+  <div ref="splitTextRef">
     {{ text }}
   </div>
 </template>
