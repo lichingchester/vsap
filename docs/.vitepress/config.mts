@@ -20,7 +20,8 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: "Home", link: "/" },
-      { text: "Examples", link: "/markdown-examples" },
+      { text: "Docs", link: "/getting-started/installation" },
+      { text: "Components", link: "/components/text-animations/split-text" },
     ],
 
     sidebar: [
@@ -55,7 +56,7 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: "github", link: "https://github.com/vuejs/vitepress" },
+      { icon: "github", link: "https://github.com/lichingchester/vsap" },
     ],
 
     outline: [2, 3],
