@@ -10,3 +10,5 @@ script: js, ts
 style: pure css, tailwind
 
 https://jsrepo.dev/docs/jsrepo-json
+
+https://github.com/sapegin/vitest-cheat-sheet
