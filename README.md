@@ -1,14 +1,5 @@
-# vsap
+# vsap (TBC)
 
-Open-source collection of fancy, animated and useful Vue components for website building.
+This is an open-source library of effects and UI components that I built out of my passion for web development. It’s designed to make website enhancement super easy—just copy, pick, and use (or quickly tweak) ready-made visual effects and components in your own projects.
 
-#
-
-install
-
-script: js, ts
-style: pure css, tailwind
-
-https://jsrepo.dev/docs/jsrepo-json
-
-https://github.com/sapegin/vitest-cheat-sheet
+It’s perfect for developers who want quick, cool solutions with minimal effort—whether you’re feeling creative or just want something done fast.
