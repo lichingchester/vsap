@@ -6,5 +6,11 @@ export default defineConfig({
   test: {
     globals: true,
     environment: "jsdom",
+    browser: {
+      provider: "playwright", // or 'webdriverio'
+      enabled: true,
+      // at least one instance is required
+      instances: [{ browser: "chromium" }],
+    },
   },
 });

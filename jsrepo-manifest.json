@@ -30,19 +30,41 @@
 					"name": "split-text",
 					"directory": "src/components/text-animations/split-text",
 					"category": "text-animations",
-					"tests": true,
+					"tests": false,
 					"docs": true,
 					"subdirectory": true,
 					"list": true,
 					"files": [
 						"README.md",
-						"SplitText.spec.ts",
 						"SplitText.vue"
 					],
 					"localDependencies": [],
 					"dependencies": [
 						"gsap@^3.13.0"
 					],
+					"devDependencies": [],
+					"_imports_": {}
+				}
+			]
+		},
+		{
+			"name": "utils",
+			"blocks": [
+				{
+					"name": "link-tag",
+					"directory": "src/components/utils/link-tag",
+					"category": "utils",
+					"tests": true,
+					"docs": false,
+					"subdirectory": true,
+					"list": true,
+					"files": [
+						"LinkTag.spec.ts",
+						"LinkTag.vue",
+						"nuxt/LinkTag.vue"
+					],
+					"localDependencies": [],
+					"dependencies": [],
 					"devDependencies": [],
 					"_imports_": {}
 				}
