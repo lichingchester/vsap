@@ -13,6 +13,7 @@ Thank you for your interest in contributing to the VSAP project!
     - [Prerequisites](#prerequisites)
   - [\[WIP\]](#wip)
   - [Code Style and Standards \[WIP\]](#code-style-and-standards-wip)
+    - [Icons](#icons)
   - [Reporting Bugs \[WIP\]](#reporting-bugs-wip)
   - [Feature Requests \[WIP\]](#feature-requests-wip)
   - [Running Tests \[WIP\]](#running-tests-wip)
@@ -51,6 +52,11 @@ We follow the [Conventional Commits](https://www.conventionalcommits.org/)
 - Use the provided `.vscode` folder settings for consistent development experience
   - This folder is committed to Git to ensure all contributors have the same settings
   - Please do not override these settings in your local environment or include personal settings in pull requests
+
+### Icons
+
+- https://simpleicons.org/?q=vue
+- https://lucide.dev/guide/comparison
 
 ## Reporting Bugs [WIP]
 
