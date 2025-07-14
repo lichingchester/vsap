@@ -50,7 +50,7 @@ npx jsrepo add utils/link-tag
 ```
 
 ```bash [<div class="flex items-center gap-2"><IconNuxt class="size-4" />Nuxt</div>]
-npx jsrepo add utils/nuxt/link-tag
+npx jsrepo add utils/link-tag-nuxt
 ```
 
 :::
@@ -64,7 +64,7 @@ npx jsrepo add https://github.com/lichingchester/vsap/tree/main/utils/link-tag
 ```
 
 ```bash [<div class="flex items-center gap-2"><IconNuxt class="size-4" />Nuxt</div>]
-npx jsrepo add https://github.com/lichingchester/vsap/tree/main/utils/nuxt/link-tag
+npx jsrepo add https://github.com/lichingchester/vsap/tree/main/utils/link-tag-nuxt
 ```
 
 :::
@@ -83,7 +83,7 @@ npx jsrepo add https://github.com/lichingchester/vsap/tree/main/utils/nuxt/link-
 
 ::: details Source Code
 
-<<< @/../src/components/utils/link-tag/nuxt/LinkTag.vue
+<<< @/../src/components/utils/link-tag-nuxt/LinkTag.vue
 
 :::
 
