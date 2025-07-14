@@ -1,34 +1,7 @@
 <script setup lang="ts">
-import { computed, defineAsyncComponent, h } from "vue";
-import type { SlotsType } from "vue";
-
-// Create a fallback component that renders an <a> tag
-interface ATagProps {
-  href?: string;
-  target?: string;
-  [key: string]: unknown; // For other HTML attributes
-}
-
-// Create a fallback component that renders an <a> tag
-const ATag = (props: ATagProps, { slots }: { slots: SlotsType }) => {
-  return h("a", props, slots);
-};
-
-// Try to import RouterLink dynamically with a fallback
-const RouterLink = defineAsyncComponent({
-  loader: async () => {
-    try {
-      // @ts-ignore
-      const router = await import("vue-router");
-      return router.RouterLink;
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (_) {
-      return ATag;
-    }
-  },
-  loadingComponent: ATag,
-  errorComponent: ATag,
-});
+import { computed } from "vue";
+// @ts-ignore
+import { NuxtLink } from "#components";
 
 interface LinkTagProps {
   /**
@@ -54,7 +27,7 @@ interface LinkTagProps {
   /**
    * Additional attributes to pass to the element
    */
-  attributes?: Record<string, unknown>;
+  attributes?: Record<string, any>;
 }
 
 const props = withDefaults(defineProps<LinkTagProps>(), {
@@ -65,10 +38,10 @@ const props = withDefaults(defineProps<LinkTagProps>(), {
 });
 
 // Get the component type based on props
-const is = computed(() => {
+const is = computed<"a" | "div" | typeof NuxtLink>(() => {
   if (props.noLink) return "div";
   if (props.external) return "a";
-  return RouterLink;
+  return NuxtLink;
 });
 
 // Determine target attribute
@@ -86,7 +59,7 @@ const link = computed(() => {
     return { href: props.href, target: target.value, ...props.attributes };
   }
 
-  // For RouterLink
+  // For NuxtLink
   return {
     to: props.href,
     target: target.value || undefined,

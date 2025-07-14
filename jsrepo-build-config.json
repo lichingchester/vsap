@@ -6,11 +6,12 @@
   "doNotListCategories": [],
   "listBlocks": [],
   "listCategories": [],
-  "excludeDeps": [],
+  "excludeDeps": ["vue", "vue-router"],
   "includeBlocks": [],
   "includeCategories": [],
   "excludeBlocks": [],
   "excludeCategories": [],
   "preview": false,
-  "includeDocs": false
+  "includeDocs": false,
+  "allowSubdirectories": true
 }
