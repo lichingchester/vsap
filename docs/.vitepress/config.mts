@@ -53,6 +53,28 @@ export default defineConfig({
           },
         ],
       },
+      // {
+      //   text: "UI Components",
+      //   items: [
+      //     {
+      //       text: "Button",
+      //       link: "/components/ui/buttons/button",
+      //     },
+      //     {
+      //       text: "Card",
+      //       link: "/components/ui/cards/card",
+      //     },
+      //   ],
+      // },
+      {
+        text: "Utilities",
+        items: [
+          {
+            text: "Link Tag",
+            link: "/components/utils/link-tag",
+          },
+        ],
+      },
     ],
 
     socialLinks: [
