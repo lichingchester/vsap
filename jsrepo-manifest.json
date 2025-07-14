@@ -60,8 +60,23 @@
 					"list": true,
 					"files": [
 						"LinkTag.spec.ts",
-						"LinkTag.vue",
-						"nuxt/LinkTag.vue"
+						"LinkTag.vue"
+					],
+					"localDependencies": [],
+					"dependencies": [],
+					"devDependencies": [],
+					"_imports_": {}
+				},
+				{
+					"name": "link-tag-nuxt",
+					"directory": "src/components/utils/link-tag-nuxt",
+					"category": "utils",
+					"tests": false,
+					"docs": false,
+					"subdirectory": true,
+					"list": true,
+					"files": [
+						"LinkTag.vue"
 					],
 					"localDependencies": [],
 					"dependencies": [],
