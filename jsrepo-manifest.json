@@ -27,6 +27,22 @@
 			"name": "text-animations",
 			"blocks": [
 				{
+					"name": "gradient-text",
+					"directory": "src/components/text-animations/gradient-text",
+					"category": "text-animations",
+					"tests": false,
+					"docs": false,
+					"subdirectory": true,
+					"list": true,
+					"files": [
+						"GradientText.vue"
+					],
+					"localDependencies": [],
+					"dependencies": [],
+					"devDependencies": [],
+					"_imports_": {}
+				},
+				{
 					"name": "split-text",
 					"directory": "src/components/text-animations/split-text",
 					"category": "text-animations",
