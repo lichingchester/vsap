@@ -15,18 +15,49 @@ import GradientText from "@/src/components/text-animations/gradient-text/Gradien
 
 // Initial colors, can be any length
 const configColors = ref(["#40ffaa", "#4079ff", "#40ffaa"]);
+// Color percentages for gradient stops (0-100) - each element is an array for the slider component
+const configColorPercentages = ref([[0], [50], [100]]);
 
 // --- Fix: make slider value an array, use [0] for value ---
 const configAnimationSpeed = ref([3]); // <-- array!
 const configShowBorder = ref(false);
 
-const gradientBarStyle = computed(() => ({
-  background: `linear-gradient(90deg, ${configColors.value.join(", ")})`,
-}));
+const gradientBarStyle = computed(() => {
+  const colorStops = configColors.value.map((color, index) => {
+    const percentage = configColorPercentages.value[index]?.[0] || 0;
+    return `${color} ${percentage}%`;
+  });
+  return {
+    background: `linear-gradient(90deg, ${colorStops.join(", ")})`,
+  };
+});
+
+const gradientColorsWithPercentages = computed(() => {
+  return configColors.value.map((color, index) => {
+    const percentage = configColorPercentages.value[index]?.[0] || 0;
+    return `${color} ${percentage}%`;
+  });
+});
 
 // Optional: Validate hex code (returns true/false)
 function isValidHex(str) {
   return /^#[0-9a-fA-F]{6}$/.test(str);
+}
+
+// Add a new color with default percentage
+function addColor() {
+  configColors.value.push('#40ffaa');
+  // Add new percentage at the end
+  const lastPercentage = configColorPercentages.value[configColorPercentages.value.length - 1]?.[0] || 100;
+  configColorPercentages.value.push([Math.min(lastPercentage + 10, 100)]);
+}
+
+// Remove the last color and its percentage
+function removeColor() {
+  if (configColors.value.length > 2) {
+    configColors.value.pop();
+    configColorPercentages.value.pop();
+  }
 }
 </script>
 
@@ -36,7 +67,7 @@ function isValidHex(str) {
       class="relative min-h-76 flex items-center justify-center py-10"
     >
       <GradientText
-        :colors="configColors"
+        :colors="gradientColorsWithPercentages"
         :animationSpeed="configAnimationSpeed[0]"
         :showBorder="configShowBorder"
         class="text-8xl text-center"
@@ -90,7 +121,7 @@ function isValidHex(str) {
               <button
                 v-if="configColors.length < 8"
                 class="rounded border border-muted px-2 py-1 text-xs ml-2 hover:bg-background/30"
-                @click="configColors.push('#40ffaa')"
+                @click="addColor"
                 type="button"
               >
                 + Add
@@ -99,7 +130,7 @@ function isValidHex(str) {
               <button
                 v-if="configColors.length > 2"
                 class="rounded border border-muted px-2 py-1 text-xs ml-2 hover:bg-background/30"
-                @click="configColors.pop()"
+                @click="removeColor"
                 type="button"
               >
                 - Remove
@@ -111,6 +142,38 @@ function isValidHex(str) {
               class="h-2 rounded-full w-full"
               :style="gradientBarStyle"
             ></div>
+          </div>
+        </ConfigItem>
+
+        <ConfigItem name="Color Positions">
+          <div class="flex flex-col gap-3 w-full">
+            <template v-for="(color, idx) in configColors" :key="idx">
+              <div class="flex items-center gap-4 w-full">
+                <!-- Color preview -->
+                <span
+                  class="inline-block w-4 h-4 rounded-full border flex-shrink-0"
+                  :style="{
+                    background: isValidHex(configColors[idx])
+                      ? configColors[idx]
+                      : '#fff',
+                  }"
+                ></span>
+                
+                <!-- Slider -->
+                <Slider
+                  v-model="configColorPercentages[idx]"
+                  :min="0"
+                  :max="100"
+                  :step="1"
+                  class="flex-1"
+                />
+                
+                <!-- Percentage display -->
+                <span class="min-w-max text-sm font-medium w-10 text-right">
+                  {{ Math.round(configColorPercentages[idx]?.[0] || 0) }}%
+                </span>
+              </div>
+            </template>
           </div>
         </ConfigItem>
       </ConfigGroup>
