@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useTemplateRef } from "vue";
+import { ref } from "vue";
 import { RotateCcw } from "lucide-vue-next";
 
 // Docs UI
@@ -7,19 +7,17 @@ import PreviewBlock from "@/src/docs/components/ui/PreviewBlock.vue";
 import Button from "@/src/docs/components/ui/Button.vue";
 
 // Components
-import SplitText from "@/src/components/text-animations/gradient-text/GradientText.vue";
+import GradientText from "@/src/components/text-animations/gradient-text/GradientText.vue";
 
 defineProps<{
   caseName: string;
 }>();
 
 const componentKey = ref(0);
-
-const isManualPlayRef = useTemplateRef("isManualPlayRef");
 </script>
 
 <template>
-  <template v-if="caseName === 'AdvancedGsapConfig'">
+  <template v-if="caseName === 'Rainbow Flow'">
     <PreviewBlock class="relative min-h-76 flex items-center justify-center">
       <Button
         class="absolute right-3 top-3"
@@ -32,14 +30,26 @@ const isManualPlayRef = useTemplateRef("isManualPlayRef");
 
       <GradientText
         :key="componentKey"
-        text="Hello World!"
-        class="text-8xl text-center"
-        type="chars,words"
-      />
+        :colors="[
+          '#ff0000 0%',
+          '#ff8000 16%',
+          '#ffff00 33%',
+          '#80ff00 50%',
+          '#00ff80 66%',
+          '#0080ff 83%',
+          '#ff0000 100%',
+        ]"
+        :animationSpeed="4"
+        :degree="45"
+        gradientType="linear"
+        class="text-8xl text-center font-bold"
+      >
+        Rainbow Flow
+      </GradientText>
     </PreviewBlock>
   </template>
 
-  <template v-if="caseName === 'Mask'">
+  <template v-if="caseName === 'Ocean Waves'">
     <PreviewBlock class="relative min-h-76 flex items-center justify-center">
       <Button
         class="absolute right-3 top-3"
@@ -50,49 +60,29 @@ const isManualPlayRef = useTemplateRef("isManualPlayRef");
         <RotateCcw class="size-5" />
       </Button>
 
-      <SplitText
+      <GradientText
         :key="componentKey"
-        text="Hello World!"
-        class="text-8xl text-center"
-        type="chars,words"
-        mask="chars"
-      />
+        :colors="[
+          '#0ea5e9 0%',
+          '#06b6d4 25%',
+          '#0891b2 50%',
+          '#0e7490 75%',
+          '#0ea5e9 100%',
+        ]"
+        :animationSpeed="6"
+        :degree="90"
+        gradientType="linear"
+        class="text-8xl text-center font-bold"
+      >
+        Ocean Waves
+      </GradientText>
     </PreviewBlock>
   </template>
 
-  <template v-if="caseName === 'Manual'">
-    <PreviewBlock class="relative min-h-76 flex items-center justify-center">
-      <div class="absolute right-3 top-3 flex gap-3">
-        <Button variant="primary" @click="isManualPlayRef?.play"> Play </Button>
-        <Button variant="primary" @click="isManualPlayRef?.reverse">
-          Reverse
-        </Button>
-      </div>
-
-      <SplitText
-        ref="isManualPlayRef"
-        text="Hello World!"
-        class="text-8xl text-center"
-        type="chars,words"
-        :from="{
-          x: (index: number) =>
-            `random(['${index % 2 === 0 ? '0' : '100%, -100%'}])`,
-          y: (index: number) =>
-            `random(['${index % 2 !== 0 ? '0' : '100%, -100%'}])`,
-        }"
-        :to="{
-          x: 0,
-          y: 0,
-        }"
-        mask="chars"
-        ease="power3.inOut"
-        is-manual-play
-      />
-    </PreviewBlock>
-  </template>
-
-  <template v-if="caseName === 'Absolute'">
-    <PreviewBlock class="relative min-h-76">
+  <template v-if="caseName === 'Cyber Neon'">
+    <PreviewBlock
+      class="relative min-h-76 flex items-center justify-center bg-gray-900"
+    >
       <Button
         class="absolute right-3 top-3"
         variant="primary"
@@ -102,23 +92,55 @@ const isManualPlayRef = useTemplateRef("isManualPlayRef");
         <RotateCcw class="size-5" />
       </Button>
 
-      <SplitText
-        ref="isManualPlayRef"
+      <GradientText
         :key="componentKey"
-        text="Hello World!"
-        class="absolute left-3 bottom-3 text-8xl text-center"
-        :from="{
-          opacity: 0,
-          y: '-200%',
-        }"
-        :to="{
-          opacity: 1,
-          y: 0,
-        }"
-        :duration="2"
-        ease="power3.out"
-        type="chars,words"
-      />
+        :colors="[
+          '#00ff41 0%',
+          '#00d4aa 25%',
+          '#ff0080 50%',
+          '#8000ff 75%',
+          '#00ff41 100%',
+        ]"
+        :animationSpeed="2"
+        :degree="0"
+        gradientType="linear"
+        class="text-8xl text-center font-bold"
+      >
+        CYBER NEON
+      </GradientText>
+    </PreviewBlock>
+  </template>
+
+  <template v-if="caseName === 'Fire Flame'">
+    <PreviewBlock
+      class="relative min-h-76 flex items-center justify-center bg-gray-900"
+    >
+      <Button
+        class="absolute right-3 top-3"
+        variant="primary"
+        size="icon"
+        @click="componentKey++"
+      >
+        <RotateCcw class="size-5" />
+      </Button>
+
+      <GradientText
+        :key="componentKey"
+        :colors="[
+          '#ff4500 0%',
+          '#ff6347 20%',
+          '#ffa500 40%',
+          '#ffff00 60%',
+          '#ffa500 80%',
+          '#ff4500 100%',
+        ]"
+        :animationSpeed="1.5"
+        :degree="270"
+        gradientType="linear"
+        class="text-8xl text-center font-bold"
+      >
+        Fire Flame
+      </GradientText>
     </PreviewBlock>
   </template>
 </template>
