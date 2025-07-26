@@ -46,9 +46,12 @@ function isValidHex(str) {
 
 // Add a new color with default percentage
 function addColor() {
-  configColors.value.push('#40ffaa');
+  configColors.value.push("#40ffaa");
   // Add new percentage at the end
-  const lastPercentage = configColorPercentages.value[configColorPercentages.value.length - 1]?.[0] || 100;
+  const lastPercentage =
+    configColorPercentages.value[
+      configColorPercentages.value.length - 1
+    ]?.[0] || 100;
   configColorPercentages.value.push([Math.min(lastPercentage + 10, 100)]);
 }
 
@@ -106,15 +109,28 @@ function removeColor() {
                       'border-red-400': !isValidHex(configColors[idx]),
                     }"
                   />
-                  <!-- Color preview -->
-                  <span
-                    class="inline-block w-5 h-5 rounded-full border"
-                    :style="{
-                      background: isValidHex(configColors[idx])
-                        ? configColors[idx]
-                        : '#fff',
-                    }"
-                  ></span>
+                  <!-- Color preview with click to open color picker -->
+                  <div class="relative">
+                    <button
+                      type="button"
+                      class="inline-block w-5 h-5 rounded-full border border-border shadow-sm hover:shadow-md transition-shadow cursor-pointer focus:outline-none"
+                      :style="{ background: configColors[idx] }"
+                      @click="$refs[`colorInput${idx}`][0].click()"
+                      :aria-label="`Pick color, current color is ${configColors[idx]}`"
+                    ></button>
+                    <input
+                      :ref="`colorInput${idx}`"
+                      type="color"
+                      :value="configColors[idx]"
+                      @input="
+                        configColors[idx] = (
+                          $event.target as HTMLInputElement
+                        ).value
+                      "
+                      class="absolute opacity-0 pointer-events-none"
+                      tabindex="-1"
+                    />
+                  </div>
                 </div>
               </template>
               <!-- Add color button -->
@@ -158,7 +174,7 @@ function removeColor() {
                       : '#fff',
                   }"
                 ></span>
-                
+
                 <!-- Slider -->
                 <Slider
                   v-model="configColorPercentages[idx]"
@@ -167,7 +183,7 @@ function removeColor() {
                   :step="1"
                   class="flex-1"
                 />
-                
+
                 <!-- Percentage display -->
                 <span class="min-w-max text-sm font-medium w-10 text-right">
                   {{ Math.round(configColorPercentages[idx]?.[0] || 0) }}%
