@@ -9,6 +9,13 @@ import ConfigGroup from "@/src/docs/components/ui/configurations/ConfigGroup.vue
 // Shadcn
 import { Slider } from "@/src/docs/components/shadcn/ui/slider";
 import { Input } from "@/src/docs/components/shadcn/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/src/docs/components/shadcn/ui/select";
 
 // Components
 import GradientText from "@/src/components/text-animations/gradient-text/GradientText.vue";
@@ -21,6 +28,7 @@ const configColorPercentages = ref([[0], [50], [100]]);
 // --- Fix: make slider value an array, use [0] for value ---
 const configAnimationSpeed = ref([3]); // <-- array!
 const configDegree = ref([90]); // <-- array for slider!
+const configGradientType = ref<"linear" | "radial">("linear"); // linear or radial
 const configShowBorder = ref(false);
 
 const gradientBarStyle = computed(() => {
@@ -28,9 +36,16 @@ const gradientBarStyle = computed(() => {
     const percentage = configColorPercentages.value[index]?.[0] || 0;
     return `${color} ${percentage}%`;
   });
-  return {
-    background: `linear-gradient(${configDegree.value[0]}deg, ${colorStops.join(", ")})`,
-  };
+
+  if (configGradientType.value === "radial") {
+    return {
+      background: `radial-gradient(circle, ${colorStops.join(", ")})`,
+    };
+  } else {
+    return {
+      background: `linear-gradient(${configDegree.value[0]}deg, ${colorStops.join(", ")})`,
+    };
+  }
 });
 
 const gradientColorsWithPercentages = computed(() => {
@@ -74,11 +89,17 @@ function updateDegree(value: string | number) {
 
 // Drag functionality for circular degree controller
 function startDragDegree(event: MouseEvent | TouchEvent) {
-  const handleMove = (e: MouseEvent | TouchEvent) => {
-    const target = (event.target as HTMLElement).closest(".relative");
-    if (!target) return;
+  // Only allow interaction in linear mode
+  if (configGradientType.value !== "linear") return;
 
-    const rect = target.getBoundingClientRect();
+  // Find the circular controller container at the start
+  const clickableArea = event.target as HTMLElement;
+  const containerDiv = clickableArea.parentElement; // The div with relative w-16 h-16
+
+  if (!containerDiv) return;
+
+  const handleMove = (e: MouseEvent | TouchEvent) => {
+    const rect = containerDiv.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
 
@@ -127,6 +148,7 @@ function startDragDegree(event: MouseEvent | TouchEvent) {
         :colors="gradientColorsWithPercentages"
         :animationSpeed="configAnimationSpeed[0]"
         :degree="configDegree[0]"
+        :gradientType="configGradientType"
         :showBorder="configShowBorder"
         class="text-8xl text-center"
       >
@@ -151,13 +173,34 @@ function startDragDegree(event: MouseEvent | TouchEvent) {
           </div>
         </ConfigItem>
 
+        <ConfigItem name="Gradient Type">
+          <Select v-model="configGradientType">
+            <SelectTrigger as="div">
+              <SelectValue placeholder="Select gradient type" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="linear">Linear</SelectItem>
+                <SelectItem value="radial">Radial</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </ConfigItem>
+
         <ConfigItem name="Gradient Degree">
           <div class="flex items-center gap-4 w-full">
             <!-- Circular degree controller -->
-            <div class="relative w-16 h-16 flex-shrink-0">
+            <div
+              :class="[
+                'relative w-16 h-16 flex-shrink-0 transition-opacity duration-200',
+                configGradientType === 'radial'
+                  ? 'opacity-40 pointer-events-none'
+                  : '',
+              ]"
+            >
               <!-- Circle background -->
               <div
-                class="w-full h-full rounded-full border-2 border-border bg-background shadow-sm"
+                class="w-full h-full rounded-full border-2 border-input bg-background shadow-sm transition-shadow pointer-events-none"
               >
                 <!-- Degree line indicator -->
                 <div
@@ -176,7 +219,12 @@ function startDragDegree(event: MouseEvent | TouchEvent) {
               </div>
               <!-- Invisible clickable area for interaction -->
               <div
-                class="absolute inset-0 rounded-full cursor-pointer"
+                :class="[
+                  'absolute inset-0 rounded-full transition-all duration-200',
+                  configGradientType === 'linear'
+                    ? 'cursor-pointer hover:shadow-md'
+                    : 'cursor-not-allowed',
+                ]"
                 @mousedown="startDragDegree"
                 @touchstart="startDragDegree"
               ></div>
@@ -186,11 +234,14 @@ function startDragDegree(event: MouseEvent | TouchEvent) {
             <Input
               :model-value="configDegree[0]"
               @update:model-value="updateDegree"
+              :disabled="configGradientType === 'radial'"
               type="number"
               min="0"
               max="360"
-              class="w-16 text-xs text-center"
+              class="w-20 text-sm text-center transition-opacity duration-200"
+              :class="{ 'opacity-40': configGradientType === 'radial' }"
             />
+            <span class="text-sm text-muted-foreground">°</span>
           </div>
         </ConfigItem>
 
@@ -207,11 +258,10 @@ function startDragDegree(event: MouseEvent | TouchEvent) {
                       'border-red-400': !isValidHex(configColors[idx]),
                     }"
                   />
-                  <!-- Color preview with click to open color picker -->
                   <div class="relative">
                     <button
                       type="button"
-                      class="inline-block w-5 h-5 rounded-full border border-border shadow-sm hover:shadow-md transition-shadow cursor-pointer focus:outline-none"
+                      class="inline-block w-6 h-6 rounded-full border-2 border-input shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
                       :style="{ background: configColors[idx] }"
                       @click="$refs[`colorInput${idx}`][0].click()"
                       :aria-label="`Pick color, current color is ${configColors[idx]}`"
@@ -234,20 +284,20 @@ function startDragDegree(event: MouseEvent | TouchEvent) {
               <!-- Add color button -->
               <button
                 v-if="configColors.length < 8"
-                class="rounded border border-muted px-2 py-1 text-xs ml-2 hover:bg-background/30"
+                class="rounded-md border border-dashed border-input px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:border-primary transition-all duration-200"
                 @click="addColor"
                 type="button"
               >
-                + Add
+                + Add Color
               </button>
               <!-- Remove color button -->
               <button
                 v-if="configColors.length > 2"
-                class="rounded border border-muted px-2 py-1 text-xs ml-2 hover:bg-background/30"
+                class="rounded-md border border-input px-3 py-1.5 text-sm text-muted-foreground hover:border-destructive hover:text-destructive transition-all duration-200"
                 @click="removeColor"
                 type="button"
               >
-                - Remove
+                − Remove
               </button>
             </div>
 

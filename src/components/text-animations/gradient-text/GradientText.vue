@@ -7,6 +7,7 @@ interface GradientTextProps {
   animationSpeed?: number;
   showBorder?: boolean;
   degree?: number;
+  gradientType?: "linear" | "radial";
 }
 
 const props = defineProps<GradientTextProps>();
@@ -16,35 +17,60 @@ const gradientColors = computed(
 );
 const animationDuration = computed(() => (props.animationSpeed ?? 8) + "s");
 const gradientDegree = computed(() => props.degree ?? 90);
+const gradientType = computed(() => props.gradientType ?? "linear");
 
 const gradientStyle = computed(() => {
-  // Adjust background size based on degree for better animation
-  const isVertical =
-    Math.abs(gradientDegree.value % 180) < 45 ||
-    Math.abs(gradientDegree.value % 180) > 135;
-  const backgroundSize = isVertical ? "100% 300%" : "300% 100%";
+  if (gradientType.value === "radial") {
+    // For radial gradients, use a simple approach
+    const backgroundImage = `radial-gradient(circle, ${gradientColors.value.join(", ")})`;
+    return {
+      backgroundImage,
+      backgroundClip: "text",
+      WebkitBackgroundClip: "text",
+      backgroundSize: "200% 200%",
+      animation: `radial-gradient-move ${animationDuration.value} ease-in-out infinite`,
+    };
+  } else {
+    // For linear gradients, use the existing approach
+    const isVertical =
+      Math.abs(gradientDegree.value % 180) < 45 ||
+      Math.abs(gradientDegree.value % 180) > 135;
+    const backgroundSize = isVertical ? "100% 300%" : "300% 100%";
+    const backgroundImage = `linear-gradient(${gradientDegree.value}deg, ${gradientColors.value.join(", ")})`;
 
-  return {
-    backgroundImage: `linear-gradient(${gradientDegree.value}deg, ${gradientColors.value.join(", ")})`,
-    backgroundClip: "text",
-    WebkitBackgroundClip: "text",
-    backgroundSize,
-    animation: `gradient-move ${animationDuration.value} linear infinite`,
-  };
+    return {
+      backgroundImage,
+      backgroundClip: "text",
+      WebkitBackgroundClip: "text",
+      backgroundSize,
+      animation: `gradient-move ${animationDuration.value} linear infinite`,
+    };
+  }
 });
 
 const borderGradientStyle = computed(() => {
-  // Adjust background size based on degree for better animation
-  const isVertical =
-    Math.abs(gradientDegree.value % 180) < 45 ||
-    Math.abs(gradientDegree.value % 180) > 135;
-  const backgroundSize = isVertical ? "100% 300%" : "300% 100%";
+  if (gradientType.value === "radial") {
+    // For radial gradients, use a simple approach
+    const backgroundImage = `radial-gradient(circle, ${gradientColors.value.join(", ")})`;
+    return {
+      backgroundImage,
+      backgroundSize: "200% 200%",
+      animation: `radial-gradient-move ${animationDuration.value} ease-in-out infinite`,
+    };
+  } else {
+    // For linear gradients, use the existing approach
+    const isVertical =
+      Math.abs(gradientDegree.value % 180) < 45 ||
+      Math.abs(gradientDegree.value % 180) > 135;
+    const backgroundSize = isVertical ? "100% 300%" : "300% 100%";
+    const backgroundImage = `linear-gradient(${gradientDegree.value}deg, ${gradientColors.value.join(", ")})`;
 
-  return {
-    backgroundImage: `linear-gradient(${gradientDegree.value}deg, ${gradientColors.value.join(", ")})`,
-    backgroundSize,
-    animation: `gradient-move ${animationDuration.value} linear infinite`,
-  };
+    return {
+      backgroundImage,
+      backgroundSize,
+      animation: `gradient-move ${animationDuration.value} linear infinite`,
+    };
+  }
 });
 
 const borderInnerStyle = {
@@ -90,6 +116,25 @@ const borderInnerStyle = {
     background-position: 0% 0%;
   }
 }
+
+@keyframes radial-gradient-move {
+  0% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 100% 50%;
+  }
+  50% {
+    background-position: 50% 100%;
+  }
+  75% {
+    background-position: 50% 0%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .gradient-animate {
   /* fallback in case JS fails */
   animation: gradient-move 8s linear infinite;
