@@ -20,6 +20,7 @@ const configColorPercentages = ref([[0], [50], [100]]);
 
 // --- Fix: make slider value an array, use [0] for value ---
 const configAnimationSpeed = ref([3]); // <-- array!
+const configDegree = ref([90]); // <-- array for slider!
 const configShowBorder = ref(false);
 
 const gradientBarStyle = computed(() => {
@@ -28,7 +29,7 @@ const gradientBarStyle = computed(() => {
     return `${color} ${percentage}%`;
   });
   return {
-    background: `linear-gradient(90deg, ${colorStops.join(", ")})`,
+    background: `linear-gradient(${configDegree.value[0]}deg, ${colorStops.join(", ")})`,
   };
 });
 
@@ -62,6 +63,59 @@ function removeColor() {
     configColorPercentages.value.pop();
   }
 }
+
+// Update degree from input
+function updateDegree(value: string | number) {
+  const numValue = typeof value === "string" ? parseInt(value) : value;
+  if (!isNaN(numValue)) {
+    configDegree.value[0] = Math.max(0, Math.min(360, numValue));
+  }
+}
+
+// Drag functionality for circular degree controller
+function startDragDegree(event: MouseEvent | TouchEvent) {
+  const handleMove = (e: MouseEvent | TouchEvent) => {
+    const target = (event.target as HTMLElement).closest(".relative");
+    if (!target) return;
+
+    const rect = target.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
+    const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
+
+    // Calculate angle from center
+    const deltaX = clientX - centerX;
+    const deltaY = clientY - centerY;
+
+    // Convert to angle in radians (atan2 gives -π to π)
+    const angleRad = Math.atan2(deltaY, deltaX);
+
+    // Convert to degrees and adjust:
+    // - atan2 gives 0° at right (3 o'clock)
+    // - We want 0° at top (12 o'clock)
+    // - So we add 90° and normalize to 0-360
+    let degree = ((angleRad * 180) / Math.PI + 90 + 360) % 360;
+
+    configDegree.value[0] = Math.round(degree);
+  };
+
+  const handleEnd = () => {
+    document.removeEventListener("mousemove", handleMove);
+    document.removeEventListener("mouseup", handleEnd);
+    document.removeEventListener("touchmove", handleMove);
+    document.removeEventListener("touchend", handleEnd);
+  };
+
+  document.addEventListener("mousemove", handleMove);
+  document.addEventListener("mouseup", handleEnd);
+  document.addEventListener("touchmove", handleMove);
+  document.addEventListener("touchend", handleEnd);
+
+  // Handle initial click/touch
+  handleMove(event);
+}
 </script>
 
 <template>
@@ -72,6 +126,7 @@ function removeColor() {
       <GradientText
         :colors="gradientColorsWithPercentages"
         :animationSpeed="configAnimationSpeed[0]"
+        :degree="configDegree[0]"
         :showBorder="configShowBorder"
         class="text-8xl text-center"
       >
@@ -93,6 +148,49 @@ function removeColor() {
             <span class="min-w-max text-base font-medium">
               {{ configAnimationSpeed[0] }}s
             </span>
+          </div>
+        </ConfigItem>
+
+        <ConfigItem name="Gradient Degree">
+          <div class="flex items-center gap-4 w-full">
+            <!-- Circular degree controller -->
+            <div class="relative w-16 h-16 flex-shrink-0">
+              <!-- Circle background -->
+              <div
+                class="w-full h-full rounded-full border-2 border-border bg-background shadow-sm"
+              >
+                <!-- Degree line indicator -->
+                <div
+                  class="absolute w-0.5 h-6 bg-primary rounded-full origin-bottom"
+                  :style="{
+                    left: '50%',
+                    bottom: '50%',
+                    transform: `translateX(-50%) rotate(${configDegree[0]}deg)`,
+                    transformOrigin: 'center bottom',
+                  }"
+                ></div>
+                <!-- Center dot -->
+                <div
+                  class="absolute w-2 h-2 bg-primary rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                ></div>
+              </div>
+              <!-- Invisible clickable area for interaction -->
+              <div
+                class="absolute inset-0 rounded-full cursor-pointer"
+                @mousedown="startDragDegree"
+                @touchstart="startDragDegree"
+              ></div>
+            </div>
+
+            <!-- Input box for manual entry -->
+            <Input
+              :model-value="configDegree[0]"
+              @update:model-value="updateDegree"
+              type="number"
+              min="0"
+              max="360"
+              class="w-16 text-xs text-center"
+            />
           </div>
         </ConfigItem>
 

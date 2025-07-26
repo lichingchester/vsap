@@ -6,6 +6,7 @@ interface GradientTextProps {
   colors?: string[];
   animationSpeed?: number;
   showBorder?: boolean;
+  degree?: number;
 }
 
 const props = defineProps<GradientTextProps>();
@@ -14,20 +15,37 @@ const gradientColors = computed(
   () => props.colors ?? ["#ffaa40", "#9c40ff", "#ffaa40"],
 );
 const animationDuration = computed(() => (props.animationSpeed ?? 8) + "s");
+const gradientDegree = computed(() => props.degree ?? 90);
 
-const gradientStyle = computed(() => ({
-  backgroundImage: `linear-gradient(to right, ${gradientColors.value.join(", ")})`,
-  backgroundClip: "text",
-  WebkitBackgroundClip: "text",
-  backgroundSize: "300% 100%",
-  animation: `gradient-move ${animationDuration.value} linear infinite`,
-}));
+const gradientStyle = computed(() => {
+  // Adjust background size based on degree for better animation
+  const isVertical =
+    Math.abs(gradientDegree.value % 180) < 45 ||
+    Math.abs(gradientDegree.value % 180) > 135;
+  const backgroundSize = isVertical ? "100% 300%" : "300% 100%";
 
-const borderGradientStyle = computed(() => ({
-  backgroundImage: `linear-gradient(to right, ${gradientColors.value.join(", ")})`,
-  backgroundSize: "300% 100%",
-  animation: `gradient-move ${animationDuration.value} linear infinite`,
-}));
+  return {
+    backgroundImage: `linear-gradient(${gradientDegree.value}deg, ${gradientColors.value.join(", ")})`,
+    backgroundClip: "text",
+    WebkitBackgroundClip: "text",
+    backgroundSize,
+    animation: `gradient-move ${animationDuration.value} linear infinite`,
+  };
+});
+
+const borderGradientStyle = computed(() => {
+  // Adjust background size based on degree for better animation
+  const isVertical =
+    Math.abs(gradientDegree.value % 180) < 45 ||
+    Math.abs(gradientDegree.value % 180) > 135;
+  const backgroundSize = isVertical ? "100% 300%" : "300% 100%";
+
+  return {
+    backgroundImage: `linear-gradient(${gradientDegree.value}deg, ${gradientColors.value.join(", ")})`,
+    backgroundSize,
+    animation: `gradient-move ${animationDuration.value} linear infinite`,
+  };
+});
 
 const borderInnerStyle = {
   width: "calc(100% - 2px)",
@@ -57,13 +75,19 @@ const borderInnerStyle = {
 <style>
 @keyframes gradient-move {
   0% {
-    background-position: 0% 50%;
+    background-position: 0% 0%;
+  }
+  25% {
+    background-position: 100% 0%;
   }
   50% {
-    background-position: 100% 50%;
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
   }
   100% {
-    background-position: 0% 50%;
+    background-position: 0% 0%;
   }
 }
 .gradient-animate {
