@@ -149,7 +149,9 @@ npx jsrepo add https://github.com/lichingchester/vsap/tree/main/text-animations/
 
 :::
 
-## Props
+## API Reference
+
+### Props
 
 | Prop             | Type                   | Default                             | Description                                                    |
 | ---------------- | ---------------------- | ----------------------------------- | -------------------------------------------------------------- |
@@ -160,9 +162,25 @@ npx jsrepo add https://github.com/lichingchester/vsap/tree/main/text-animations/
 | `showBorder`     | `boolean`              | `false`                             | Whether to show animated border (not yet implemented)          |
 | `class`          | `string`               | `undefined`                         | Additional CSS classes                                         |
 
-## Usage
+## Key Features
 
-The GradientText component creates animated gradient text effects with customizable colors, speeds, and directions.
+### Animated Gradient Effects
+
+Creates smooth, animated gradient text effects with customizable colors and speeds.
+
+### Multiple Gradient Types
+
+Supports both linear gradients (with adjustable angles) and radial gradients for different visual effects.
+
+### Seamless Color Transitions
+
+Optimized color arrays ensure smooth animation loops without jarring transitions.
+
+### Easy Integration
+
+Simple Vue component that accepts text content through slots and styling through props.
+
+## Usage Examples
 
 ### Basic Usage
 
