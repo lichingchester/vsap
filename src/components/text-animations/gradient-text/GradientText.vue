@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { computed, defineProps } from "vue";
 
+/**
+ * Gradient Text Component
+ * 
+ * Creates animated gradient text effects with customizable colors and directions.
+ * This implementation is inspired by and references: https://reactbits.dev/text-animations/gradient-text
+ */
+
 // Define the props interface for type safety
 interface GradientTextProps {
   class?: string;

@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 
+/**
+ * Gradient Text Preview Component
+ *
+ * Interactive configuration interface for the gradient text component.
+ * This implementation is inspired by and references: https://reactbits.dev/text-animations/gradient-text
+ */
+
 // Docs UI
 import PreviewBlock from "@/src/docs/components/ui/PreviewBlock.vue";
 import ConfigItem from "@/src/docs/components/ui/configurations/ConfigItem.vue";
@@ -238,10 +245,10 @@ function startDragDegree(event: MouseEvent | TouchEvent) {
               type="number"
               min="0"
               max="360"
-              class="w-20 text-sm text-center transition-opacity duration-200"
+              class="w-20 text-sm text-center ring-2 transition-opacity duration-200"
               :class="{ 'opacity-40': configGradientType === 'radial' }"
             />
-            <span class="text-sm text-muted-foreground">°</span>
+            <span>°</span>
           </div>
         </ConfigItem>
 
@@ -253,32 +260,30 @@ function startDragDegree(event: MouseEvent | TouchEvent) {
                   <Input
                     v-model="configColors[idx]"
                     type="text"
-                    class="w-24 text-xs border border-primary bg-background rounded px-2 py-1 focus:border-primary transition-colors"
+                    class="w-24 text-xs ring-2 border border-primary bg-background rounded text-center"
                     :class="{
                       'border-red-400': !isValidHex(configColors[idx]),
                     }"
                   />
-                  <div class="relative">
-                    <button
-                      type="button"
-                      class="inline-block w-6 h-6 rounded-full border-2 border-input shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
-                      :style="{ background: configColors[idx] }"
-                      @click="$refs[`colorInput${idx}`][0].click()"
-                      :aria-label="`Pick color, current color is ${configColors[idx]}`"
-                    ></button>
-                    <input
-                      :ref="`colorInput${idx}`"
-                      type="color"
-                      :value="configColors[idx]"
-                      @input="
-                        configColors[idx] = (
-                          $event.target as HTMLInputElement
-                        ).value
-                      "
-                      class="absolute opacity-0 pointer-events-none"
-                      tabindex="-1"
-                    />
-                  </div>
+                  <button
+                    type="button"
+                    class="inline-block w-6 h-6 rounded-full border-2 border-input shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
+                    :style="{ background: configColors[idx] }"
+                    @click="$refs[`colorInput${idx}`][0].click()"
+                    :aria-label="`Pick color, current color is ${configColors[idx]}`"
+                  ></button>
+                  <input
+                    :ref="`colorInput${idx}`"
+                    type="color"
+                    :value="configColors[idx]"
+                    @input="
+                      configColors[idx] = (
+                        $event.target as HTMLInputElement
+                      ).value
+                    "
+                    class="absolute opacity-0 pointer-events-none"
+                    tabindex="-1"
+                  />
                 </div>
               </template>
               <!-- Add color button -->
