@@ -357,6 +357,23 @@ function startDragDegree(event: MouseEvent | TouchEvent) {
         For a smoother animation, the gradient should start and end with the
         same color.
       </div>
+
+      <!-- Reference -->
+      <div class="flex items-center gap-2 text-sm text-zinc-400 mt-1">
+        <svg width="18" height="18" fill="none" class="inline-block mr-1">
+          <circle cx="9" cy="9" r="8" stroke="#40ffaa" stroke-width="2" />
+          <rect x="8" y="5" width="2" height="5" rx="1" fill="#40ffaa" />
+          <rect x="8" y="12" width="2" height="2" rx="1" fill="#40ffaa" />
+        </svg>
+        This component is inspired by
+        <a
+          href="https://reactbits.dev/text-animations/gradient-text"
+          target="_blank"
+          class="text-primary hover:underline"
+        >
+          reactbits.dev/text-animations/gradient-text
+        </a>
+      </div>
     </div>
   </div>
 </template>

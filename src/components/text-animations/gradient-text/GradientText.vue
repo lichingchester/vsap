@@ -3,7 +3,7 @@ import { computed, defineProps } from "vue";
 
 /**
  * Gradient Text Component
- * 
+ *
  * Creates animated gradient text effects with customizable colors and directions.
  * This implementation is inspired by and references: https://reactbits.dev/text-animations/gradient-text
  */
@@ -47,7 +47,7 @@ const gradientStyle = computed(() => {
     const isVertical =
       Math.abs(gradientDegree.value % 180) < 45 ||
       Math.abs(gradientDegree.value % 180) > 135;
-    
+
     // For vertical gradients, extend height; for horizontal, extend width
     const backgroundSize = isVertical ? "100% 300%" : "300% 100%";
     const backgroundImage = `linear-gradient(${gradientDegree.value}deg, ${gradientColors.value.join(", ")})`;
