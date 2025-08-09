@@ -42,6 +42,10 @@ export default defineConfig({
             text: "Split Text",
             link: "/components/text-animations/split-text",
           },
+          {
+            text: "Gradient Text",
+            link: "/components/text-animations/gradient-text",
+          },
         ],
       },
       {
