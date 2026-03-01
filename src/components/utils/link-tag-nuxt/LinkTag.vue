@@ -37,9 +37,9 @@ const props = withDefaults(defineProps<LinkTagProps>(), {
 });
 
 // Get the component type based on props
-const is = computed<"a" | "div" | typeof NuxtLink>(() => {
-  if (props.noLink) return "div";
-  if (props.external) return "a";
+const is = computed(() => {
+  if (props.noLink) return "div" as const;
+  if (props.external) return "a" as const;
   return NuxtLink;
 });
 
