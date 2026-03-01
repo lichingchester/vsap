@@ -4,5 +4,6 @@
 // }
 
 declare module "#components" {
-  const NuxtLink: any;
+  import type { Component } from "vue";
+  const NuxtLink: Component;
 }

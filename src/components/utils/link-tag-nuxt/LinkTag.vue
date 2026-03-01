@@ -26,7 +26,7 @@ interface LinkTagProps {
   /**
    * Additional attributes to pass to the element
    */
-  attributes?: Record<string, any>;
+  attributes?: Record<string, unknown>;
 }
 
 const props = withDefaults(defineProps<LinkTagProps>(), {
@@ -55,7 +55,12 @@ const link = computed(() => {
 
   // For external links
   if (props.external) {
-    return { href: props.href, target: target.value, ...props.attributes };
+    return {
+      href: props.href,
+      target: target.value,
+      ...(props.newTab ? { rel: "noopener noreferrer" } : {}),
+      ...props.attributes,
+    };
   }
 
   // For NuxtLink

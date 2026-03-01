@@ -1,13 +1,15 @@
 <script setup lang="ts">
+import { ref, useTemplateRef, onMounted, onBeforeUnmount, watch } from "vue";
 import {
-  ref,
-  useTemplateRef,
-  onMounted,
-  onBeforeUnmount,
-  watch,
-  Ref,
-} from "vue";
-import * as THREE from "three";
+  WebGLRenderer,
+  Scene,
+  OrthographicCamera,
+  ShaderMaterial,
+  PlaneGeometry,
+  Mesh,
+  Color,
+  Vector2,
+} from "three";
 
 interface AuroraProps {
   // Color properties
@@ -40,18 +42,16 @@ const props = withDefaults(defineProps<AuroraProps>(), {
   resolution: 1.0, // 1.0 = full resolution, lower for performance
 });
 
-const containerRef = useTemplateRef(
-  "containerRef",
-) as Ref<HTMLDivElement | null>;
-let renderer: THREE.WebGLRenderer;
-let scene: THREE.Scene;
-let camera: THREE.OrthographicCamera;
+const containerRef = useTemplateRef<HTMLDivElement>("containerRef");
+let renderer: WebGLRenderer;
+let scene: Scene;
+let camera: OrthographicCamera;
 let auroraUniforms: {
   uTime: { value: number };
-  uResolution: { value: THREE.Vector2 };
-  uBaseColor: { value: THREE.Color };
-  uAuroraColor1: { value: THREE.Color };
-  uAuroraColor2: { value: THREE.Color };
+  uResolution: { value: Vector2 };
+  uBaseColor: { value: Color };
+  uAuroraColor1: { value: Color };
+  uAuroraColor2: { value: Color };
   uSpeed: { value: number };
   uIntensity: { value: number };
   uDensityX: { value: number };
@@ -72,7 +72,7 @@ const init = (): void => {
 
   try {
     // Create renderer
-    renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer = new WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(
       containerRef.value.clientWidth,
       containerRef.value.clientHeight,
@@ -81,21 +81,21 @@ const init = (): void => {
     containerRef.value.appendChild(renderer.domElement);
 
     // Create scene and camera
-    scene = new THREE.Scene();
-    camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    scene = new Scene();
+    camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
     // Create aurora shader material
     auroraUniforms = {
       uTime: { value: 0 },
       uResolution: {
-        value: new THREE.Vector2(
+        value: new Vector2(
           containerRef.value.clientWidth,
           containerRef.value.clientHeight,
         ),
       },
-      uBaseColor: { value: new THREE.Color(props.baseColor) },
-      uAuroraColor1: { value: new THREE.Color(props.auroraColor1) },
-      uAuroraColor2: { value: new THREE.Color(props.auroraColor2) },
+      uBaseColor: { value: new Color(props.baseColor) },
+      uAuroraColor1: { value: new Color(props.auroraColor1) },
+      uAuroraColor2: { value: new Color(props.auroraColor2) },
       uSpeed: { value: props.speed },
       uIntensity: { value: props.intensity },
       uDensityX: { value: props.densityX },
@@ -105,7 +105,7 @@ const init = (): void => {
       uNoiseAmplitude: { value: props.noiseAmplitude },
     };
 
-    const auroraShader = new THREE.ShaderMaterial({
+    const auroraShader = new ShaderMaterial({
       uniforms: auroraUniforms,
       vertexShader: `
       varying vec2 vUv;
@@ -278,8 +278,8 @@ const init = (): void => {
     });
 
     // Create a full-screen quad
-    const geometry = new THREE.PlaneGeometry(2, 2);
-    const auroraPlane = new THREE.Mesh(geometry, auroraShader);
+    const geometry = new PlaneGeometry(2, 2);
+    const auroraPlane = new Mesh(geometry, auroraShader);
     scene.add(auroraPlane);
 
     // Handle window resize
@@ -320,24 +320,21 @@ const onResize = (): void => {
 watch(
   () => props.baseColor,
   (newVal) => {
-    if (auroraUniforms)
-      auroraUniforms.uBaseColor.value = new THREE.Color(newVal);
+    if (auroraUniforms) auroraUniforms.uBaseColor.value = new Color(newVal);
   },
 );
 
 watch(
   () => props.auroraColor1,
   (newVal) => {
-    if (auroraUniforms)
-      auroraUniforms.uAuroraColor1.value = new THREE.Color(newVal);
+    if (auroraUniforms) auroraUniforms.uAuroraColor1.value = new Color(newVal);
   },
 );
 
 watch(
   () => props.auroraColor2,
   (newVal) => {
-    if (auroraUniforms)
-      auroraUniforms.uAuroraColor2.value = new THREE.Color(newVal);
+    if (auroraUniforms) auroraUniforms.uAuroraColor2.value = new Color(newVal);
   },
 );
 
@@ -406,7 +403,7 @@ onBeforeUnmount(() => {
   // Clean up Three.js resources
   if (scene) {
     scene.traverse((object) => {
-      if (object instanceof THREE.Mesh) {
+      if (object instanceof Mesh) {
         if (object.geometry) object.geometry.dispose();
 
         if (object.material) {

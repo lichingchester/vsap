@@ -6,11 +6,15 @@ import Showcases from "@/src/docs/components/text-animations/split-text/Showcase
 
 # Split Text
 
-<Preview>
-  <template v-slot:usage> ```bash npx ``` </template>
-</Preview>
+<Preview />
 
 ## Installation
+
+### Dependencies
+
+```bash
+npm install gsap
+```
 
 ### jsrepo
 

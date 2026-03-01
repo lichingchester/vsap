@@ -54,9 +54,7 @@ const animationStyle = computed(() => {
 </script>
 
 <template>
-  <div
-    role="button"
-    tabindex="0"
+  <button
     class="cursor-pointer rounded-lg inline-flex items-center justify-center gap-2 whitespace-nowrap"
     :class="[
       borderStyle,
@@ -67,5 +65,5 @@ const animationStyle = computed(() => {
     ]"
   >
     <slot />
-  </div>
+  </button>
 </template>

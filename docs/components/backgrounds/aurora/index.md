@@ -6,11 +6,15 @@ import Showcases from "@/src/docs/components/backgrounds/aurora/Showcases.vue";
 
 # Aurora
 
-<Preview>
-  <template v-slot:usage> ```bash npx ``` </template>
-</Preview>
+<Preview />
 
 ## Installation
+
+### Dependencies
+
+```bash
+npm install three
+```
 
 ### jsrepo
 
@@ -91,8 +95,8 @@ npx jsrepo add https://github.com/lichingchester/vsap/tree/main/backgrounds/auro
 | Prop            | Type     | Default     | Description                                                                                    |
 | --------------- | -------- | ----------- | ---------------------------------------------------------------------------------------------- |
 | baseColor       | `string` | `"#1b1b1b"` | Background color behind the aurora effect.                                                     |
-| auroraColor1    | `string` | `"#00ff00"` | Primary color of the aurora.                                                                   |
-| auroraColor2    | `string` | `"#0000ff"` | Secondary color of the aurora, blended with the primary.                                       |
+| auroraColor1    | `string` | `"#00aaff"` | Primary color of the aurora.                                                                   |
+| auroraColor2    | `string` | `"#ff00aa"` | Secondary color of the aurora, blended with the primary.                                       |
 | speed           | `number` | `1.0`       | Animation speed multiplier. Higher values create faster movement.                              |
 | intensity       | `number` | `3.0`       | Intensity of the aurora effect. Higher values create more vibrant, pronounced colors.          |
 | densityX        | `number` | `2.5`       | Horizontal density. Higher values create more detailed horizontal patterns.                    |

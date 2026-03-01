@@ -15,10 +15,10 @@
 						"Aurora.vue"
 					],
 					"localDependencies": [],
-					"dependencies": [
+					"dependencies": [],
+					"devDependencies": [
 						"three@^0.178.0"
 					],
-					"devDependencies": [],
 					"_imports_": {}
 				}
 			]
@@ -55,10 +55,10 @@
 						"SplitText.vue"
 					],
 					"localDependencies": [],
-					"dependencies": [
+					"dependencies": [],
+					"devDependencies": [
 						"gsap@^3.13.0"
 					],
-					"devDependencies": [],
 					"_imports_": {}
 				}
 			]

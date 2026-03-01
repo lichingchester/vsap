@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import IconVue from "@/src/docs/components/ui/icons/IconVue.vue";
 import IconNuxt from "@/src/docs/components/ui/icons/IconNuxt.vue";
+import Preview from "@/src/docs/components/utils/link-tag/Preview.vue";
+import Showcases from "@/src/docs/components/utils/link-tag/Showcases.vue";
 </script>
 
 # Link Tag
+
+<Preview />
 
 This is a versatile link component designed to ensure consistent link handling across both Vue and Nuxt applications.
 
@@ -142,13 +146,13 @@ npx jsrepo add https://github.com/lichingchester/vsap/tree/main/utils/link-tag-n
 
 ### Props
 
-| Prop       | Type                  | Default | Description                                                                                                         |
-| ---------- | --------------------- | ------- | ------------------------------------------------------------------------------------------------------------------- |
-| href       | `string`              | `""`    | URL or path to navigate to                                                                                          |
-| noLink     | `boolean`             | `false` | When true, renders as `<div>` instead of a link                                                                     |
-| external   | `boolean`             | `false` | When true, uses href directly instead of router; When false, renders as `<RouterLink>` in Vue; `<NuxtLink>` in Nuxt |
-| newTab     | `boolean`             | `false` | When true, opens link in new tab                                                                                    |
-| attributes | `Record<string, any>` | `{}`    | Additional attributes to pass to the element                                                                        |
+| Prop       | Type                      | Default | Description                                                                                                         |
+| ---------- | ------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------- |
+| href       | `string`                  | `""`    | URL or path to navigate to                                                                                          |
+| noLink     | `boolean`                 | `false` | When true, renders as `<div>` instead of a link                                                                     |
+| external   | `boolean`                 | `false` | When true, uses href directly instead of router; When false, renders as `<RouterLink>` in Vue; `<NuxtLink>` in Nuxt |
+| newTab     | `boolean`                 | `false` | When true, opens link in new tab                                                                                    |
+| attributes | `Record<string, unknown>` | `{}`    | Additional attributes to pass to the element                                                                        |
 
 ## Framework-Specific Implementation
 

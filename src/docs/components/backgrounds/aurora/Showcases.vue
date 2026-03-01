@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useTemplateRef } from "vue";
+import { ref } from "vue";
 import { RotateCcw } from "lucide-vue-next";
 
 // Docs UI

@@ -3,7 +3,7 @@
 layout: home
 
 hero:
-  name: "VSAP (TBC)"
+  name: "VSAP"
   text: "Creative components for your beautiful websites"
   tagline: An open-source library featuring animated and practical Vue components designed for website development
   actions:

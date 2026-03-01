@@ -83,7 +83,12 @@ const link = computed(() => {
 
   // For external links
   if (props.external) {
-    return { href: props.href, target: target.value, ...props.attributes };
+    return {
+      href: props.href,
+      target: target.value,
+      ...(props.newTab ? { rel: "noopener noreferrer" } : {}),
+      ...props.attributes,
+    };
   }
 
   // For RouterLink

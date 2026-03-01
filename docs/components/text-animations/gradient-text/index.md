@@ -6,9 +6,7 @@ import Showcases from "@/src/docs/components/text-animations/gradient-text/Showc
 
 # Gradient Text
 
-<Preview>
-  <template v-slot:usage> ```bash npx ``` </template>
-</Preview>
+<Preview />
 
 ## Installation
 

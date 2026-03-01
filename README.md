@@ -1,10 +1,32 @@
-# VSAP (TBC)
+# VSAP
 
-This is an open-source library of effects and UI components that I built out of my passion for web development. It’s designed to make website enhancement super easy—just copy, pick, and use (or quickly tweak) ready-made visual effects and components in your own projects.
+Open-source collection of fancy, animated and useful Vue components for website building. Copy, pick, and use ready-made visual effects and components in your own projects — powered by [jsrepo](https://jsrepo.dev).
 
-It’s perfect for developers who want quick, cool solutions with minimal effort—whether you’re feeling creative or just want something done fast.
+## Quick Start
+
+```bash
+# Install a component directly into your project
+npx jsrepo add text-animations/split-text
+```
+
+## Available Components
+
+| Category        | Component     | Description                                          |
+| --------------- | ------------- | ---------------------------------------------------- |
+| Text Animations | Split Text    | Scroll-triggered text splitting animation using GSAP |
+| Text Animations | Gradient Text | Animated gradient text effects                       |
+| Backgrounds     | Aurora        | WebGL aurora borealis background effect              |
+| Utilities       | Link Tag      | Versatile link component for Vue & Nuxt              |
+
+## Documentation
+
+Visit the [docs site](https://github.com/lichingchester/vsap) for live previews, API references, and usage examples.
+
+## License
+
+[MIT](LICENSE)
 
 ## Maintainers
 
-[lichingchester](https://github.com/lichingchester)  
+[lichingchester](https://github.com/lichingchester)
 [JustinPong](https://github.com/JustinPong)

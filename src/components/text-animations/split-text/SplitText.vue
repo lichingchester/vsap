@@ -53,7 +53,7 @@ const emit = defineEmits<{
 const splitTextRef = ref<HTMLElement | null>(null); // Reference to the DOM element
 const isAnimationCompleted = ref<boolean>(false); // Track animation completion state
 let timeline: gsap.core.Timeline | null = null; // GSAP timeline for animation
-let textSplitter: any = null; // GSAP SplitText instance
+let textSplitter: InstanceType<typeof SplitText> | null = null; // GSAP SplitText instance
 
 /**
  * Sets up the animation for the split text elements

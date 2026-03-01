@@ -63,7 +63,7 @@ const gradientColorsWithPercentages = computed(() => {
 });
 
 // Optional: Validate hex code (returns true/false)
-function isValidHex(str) {
+function isValidHex(str: string) {
   return /^#[0-9a-fA-F]{6}$/.test(str);
 }
 
