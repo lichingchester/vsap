@@ -1,21 +1,5 @@
 {
-  "include": [
-    "docs/**/*.ts",
-    "docs/**/*.vue",
-    "docs/**/*.md",
-    "src/**/*.ts",
-    "src/**/*.md",
-    "src/**/*.vue",
-    "*.md"
-  ],
-  "vueCompilerOptions": {
-    "vitePressExtensions": [".md"]
-  },
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./*"]
-    }
-  },
-  "exclude": ["src/components/**/*-nuxt/*.vue"]
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist", "archive"]
 }

@@ -1,0 +1,7 @@
+/*
+ * Tailwind v4 entry. We import the explicit `/index.css` subpath rather than
+ * the bare `@import "tailwindcss"` because Astro 7's Rolldown Vite doesn't
+ * honor the package's `style` export condition for the bare specifier.
+ * `@tailwindcss/postcss` (see postcss.config.mjs) compiles it.
+ */
+@import "tailwindcss/index.css";

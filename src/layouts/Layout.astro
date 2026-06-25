@@ -1,0 +1,39 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title} — tskr/ui</title>
+    {description && <meta name="description" content={description} />}
+  </head>
+  <body class="min-h-screen bg-neutral-950 text-neutral-100 antialiased">
+    <header class="border-b border-neutral-800">
+      <nav class="mx-auto flex max-w-4xl items-center justify-between px-6 py-4">
+        <a href="/" class="font-semibold tracking-tight">
+          tskr<span class="text-neutral-500">/ui</span>
+        </a>
+        <a
+          href="https://github.com/lichingchester/vsap"
+          class="text-sm text-neutral-400 hover:text-neutral-100"
+        >
+          GitHub
+        </a>
+      </nav>
+    </header>
+    <main class="mx-auto max-w-4xl px-6 py-12">
+      <slot />
+    </main>
+  </body>
+</html>
