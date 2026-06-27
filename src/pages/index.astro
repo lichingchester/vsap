@@ -1,9 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import linkTagMeta from "../snippets/utils/link-tag/meta";
+import gradientTextMeta from "../snippets/text-animations/gradient-text/meta";
 
 // Hand-listed for the scaffold. Next step: discover via import.meta.glob("../snippets/**/meta.ts").
-const snippets = [linkTagMeta];
+const snippets = [linkTagMeta, gradientTextMeta];
 ---
 
 <Layout

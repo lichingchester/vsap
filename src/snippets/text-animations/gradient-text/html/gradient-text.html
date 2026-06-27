@@ -1,0 +1,29 @@
+<!--
+  GradientText — animated linear gradient clipped to text.
+
+  Edit the gradient colors and direction in `background-image`, and the loop
+  length in `animation-duration` (or the `8s` below). The oversized
+  `background-size` is what gives the gradient room to travel; use "100% 300%"
+  for a near-vertical direction and "300% 100%" for a near-horizontal one.
+-->
+<style>
+  .gradient-text {
+    display: inline-block;
+    background-image: linear-gradient(90deg, #ffaa40, #9c40ff, #ffaa40);
+    background-size: 100% 300%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: gradient-text-move 8s linear infinite;
+  }
+
+  @keyframes gradient-text-move {
+    0%   { background-position: 0% 0%; }
+    25%  { background-position: 100% 0%; }
+    50%  { background-position: 100% 100%; }
+    75%  { background-position: 0% 100%; }
+    100% { background-position: 0% 0%; }
+  }
+</style>
+
+<span class="gradient-text">Gradient Text</span>
