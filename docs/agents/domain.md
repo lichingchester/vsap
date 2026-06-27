@@ -4,26 +4,30 @@ How the engineering skills should consume this repo's domain documentation when 
 
 ## Before exploring, read these
 
-- **`CONTEXT.md`** at the repo root, or
-- **`CONTEXT-MAP.md`** at the repo root if it exists — it points at one `CONTEXT.md` per context. Read each one relevant to the topic.
-- **`docs/adr/`** — read ADRs that touch the area you're about to work in. In multi-context repos, also check `src/<context>/docs/adr/` for context-scoped decisions.
+All project documentation lives in the **Obsidian vault at `tskr-ui-vault/`**. A root **`CONTEXT-MAP.md`** redirects there:
+
+- **`CONTEXT-MAP.md`** at the repo root — read it first; it points at the canonical `CONTEXT.md` in the vault.
+- **`tskr-ui-vault/CONTEXT.md`** — the glossary / ubiquitous language.
+- **`tskr-ui-vault/adr/`** — read ADRs that touch the area you're about to work in. **New ADRs go here**, not `docs/adr/`.
 
 If any of these files don't exist, **proceed silently**. Don't flag their absence; don't suggest creating them upfront. The `/domain-modeling` skill (reached via `/grill-with-docs` and `/improve-codebase-architecture`) creates them lazily when terms or decisions actually get resolved.
 
 ## File structure
 
-This repo uses a **single-context** layout:
+Single context, but the docs live in the Obsidian vault (browsable in Obsidian), with a root map redirecting to it:
 
 ```
 /
-├── CONTEXT.md
-├── docs/adr/
-│   ├── 0001-example-decision.md
-│   └── 0002-another-decision.md
+├── CONTEXT-MAP.md            ← redirect for skills
+├── tskr-ui-vault/            ← the Obsidian vault (all docs)
+│   ├── CONTEXT.md            ← glossary
+│   ├── adr/
+│   │   ├── 0001-….md
+│   │   └── …
+│   ├── Home.md               ← vault index (MOC)
+│   └── log/                  ← process write-ups
 └── src/
 ```
-
-(For reference, a multi-context repo would carry a `CONTEXT-MAP.md` at the root pointing at per-context `CONTEXT.md` files under `src/<context>/`, each with its own `docs/adr/`.)
 
 ## Use the glossary's vocabulary
 

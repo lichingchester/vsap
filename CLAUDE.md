@@ -64,4 +64,4 @@ Default canonical vocabulary — `needs-triage`, `needs-info`, `ready-for-agent`
 
 ### Domain docs
 
-Single-context layout — one `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agents/domain.md`.
+All documentation lives in the Obsidian vault `tskr-ui-vault/` (glossary `CONTEXT.md`, ADRs in `adr/`, process logs in `log/`). A root `CONTEXT-MAP.md` redirects skills to it. See `docs/agents/domain.md`.

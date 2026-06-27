@@ -5,6 +5,10 @@ node_modules
 # Astro
 .astro/
 
+# Obsidian (per-user UI state; shared vault config stays tracked)
+tskr-ui-vault/.obsidian/workspace*.json
+tskr-ui-vault/.obsidian/cache
+
 # local env files
 .env.local
 .env.*.local
