@@ -11,6 +11,8 @@ Map-of-content for the **tskr/ui** vault — all project documentation lives her
 - [[0003-astro-over-vitepress]]
 - [[0004-single-source-snippet-structure]]
 - [[0005-two-tier-pages-preview-renders-reference]]
+- [[0006-effect-port-matrix-and-nuxt-next-exemption]]
+- [[0007-lean-playground-is-the-live-preview]]
 
 ## Process logs
 - [[2026-06-27 tskr-ui rewrite (Astro 7)]]
