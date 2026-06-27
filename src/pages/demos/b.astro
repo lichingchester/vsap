@@ -1,0 +1,167 @@
+---
+/*
+ * Direction B demo (ADR-0008) — warm amber on charcoal.
+ * Renders the two judged surfaces (home + a real snippet detail page) under the
+ * `data-direction="b"` token set. Uses real snippet metas and real ?raw source,
+ * so what you judge is the chrome, not placeholder content.
+ */
+import DemoLayout from "../../layouts/DemoLayout.astro";
+import linkTagMeta from "../../snippets/utils/link-tag/meta";
+import gradientTextMeta from "../../snippets/text-animations/gradient-text/meta";
+
+// Real source for the detail surface's variant tabs (same files the real page
+// ?raw-imports — no drift).
+import vueTwSrc from "../../snippets/text-animations/gradient-text/vue-tailwind/GradientText.vue?raw";
+import vueCssSrc from "../../snippets/text-animations/gradient-text/vue-css/GradientText.vue?raw";
+import reactTwSrc from "../../snippets/text-animations/gradient-text/react-tailwind/GradientText.tsx?raw";
+import htmlSrc from "../../snippets/text-animations/gradient-text/html/gradient-text.html?raw";
+
+const cards = [gradientTextMeta, linkTagMeta];
+
+const detail = gradientTextMeta;
+const codeById: Record<string, string> = {
+  "vue-tailwind": vueTwSrc,
+  "vue-css": vueCssSrc,
+  "react-tailwind": reactTwSrc,
+  html: htmlSrc,
+};
+// Only the variants we have real source for, in meta order.
+const tabs = detail.variants.filter((v) => codeById[v.id]);
+const firstPrereq = tabs[0]?.prerequisites?.[0];
+---
+
+<DemoLayout title="Direction B" direction="b">
+  <!-- Harness-only direction switcher (not part of any direction) -->
+  <nav class="d-switch" aria-label="Design direction">
+    <span class="d-switch__label">direction</span>
+    <a class="d-switch__link" href="/demos/b" aria-current="true">B · amber</a>
+    <a class="d-switch__link" href="/demos/c" aria-disabled="true">C · (todo)</a>
+    <span class="d-switch__label" style="margin-left:auto">
+      variance 3 · motion 4 · density 5
+    </span>
+  </nav>
+
+  <div class="d-shell">
+    <!-- Shared chrome: nav -->
+    <header class="d-nav">
+      <a class="d-brand" href="/demos/b">tskr<span>/ui</span></a>
+      <div class="d-nav__links">
+        <a href="/demos/b">Snippets</a>
+        <a href="https://github.com/lichingchester/vsap">GitHub</a>
+      </div>
+    </header>
+
+    <!-- ============ SURFACE 1: HOME ============ -->
+    <section class="d-hero">
+      <span class="d-eyebrow">copy · paste · ship</span>
+      <h1>Components you <em>own</em>, not install.</h1>
+      <p>
+        A copy-paste collection of components, effects, and layouts for the web.
+        No CLI, no package. The source goes straight into your project.
+      </p>
+      <div class="d-cta">
+        <a class="d-btn d-btn--primary" href="/demos/b">Browse snippets</a>
+        <a
+          class="d-btn d-btn--ghost"
+          href="https://github.com/lichingchester/vsap">GitHub</a
+        >
+      </div>
+    </section>
+
+    <p class="d-section-label">Snippets</p>
+    <div class="d-grid">
+      {
+        cards.map((s) => (
+          <a class="d-card" href="/demos/b">
+            <span class="d-card__kind">
+              {s.kind} · {s.category}
+            </span>
+            <h2 class="d-card__title">{s.title}</h2>
+            <p class="d-card__desc">{s.description.slice(0, 116).trimEnd()}…</p>
+          </a>
+        ))
+      }
+    </div>
+
+    <!-- ============ SURFACE 2: SNIPPET DETAIL ============ -->
+    <div class="d-divider">
+      <span>↓ snippet detail page · same chrome, same tokens</span>
+    </div>
+
+    <article class="d-detail">
+      <p class="d-detail__kind">{detail.kind} · {detail.category}</p>
+      <h2>{detail.title}</h2>
+      <p class="d-detail__desc">{detail.description}</p>
+
+      <!-- Preview stage: warm chrome framing a cool, glowy snippet. The whole
+           thesis of Direction B is visible right here. -->
+      <div class="d-stage">
+        <span class="d-gradient-text">The quick brown fox</span>
+      </div>
+
+      <p class="d-section-label d-source-label">Source</p>
+      <div class="d-source" data-source>
+        <div class="d-tabbar" role="tablist">
+          {
+            tabs.map((v, i) => (
+              <button
+                class="d-tab"
+                role="tab"
+                data-tab={v.id}
+                aria-selected={i === 0 ? "true" : "false"}
+              >
+                {v.label}
+              </button>
+            ))
+          }
+          <button class="d-copy" data-copy>Copy</button>
+        </div>
+
+        {
+          firstPrereq && (
+            <div class="d-prereq">
+              <strong>Before you paste:</strong>{" "}
+              {firstPrereq.npm && <code>npm i {firstPrereq.npm}</code>}
+              {firstPrereq.npm ? " " : ""}
+              {firstPrereq.note}
+            </div>
+          )
+        }
+
+        {
+          tabs.map((v, i) => (
+            <pre class="d-code" data-code={v.id} hidden={i !== 0}><code>{codeById[v.id]}</code></pre>
+          ))
+        }
+      </div>
+    </article>
+
+    <footer class="d-foot">
+      tskr/ui · Direction B demo · {tabs.length} variants shown
+    </footer>
+  </div>
+
+  <script is:inline>
+    // Token-agnostic tab + copy behaviour for the demo source block.
+    const block = document.querySelector("[data-source]");
+    if (block) {
+      const tabs = [...block.querySelectorAll("[data-tab]")];
+      const panes = [...block.querySelectorAll("[data-code]")];
+      const copyBtn = block.querySelector("[data-copy]");
+      const select = (id) => {
+        tabs.forEach((t) =>
+          t.setAttribute("aria-selected", String(t.dataset.tab === id)),
+        );
+        panes.forEach((p) => (p.hidden = p.dataset.code !== id));
+      };
+      tabs.forEach((t) => t.addEventListener("click", () => select(t.dataset.tab)));
+      copyBtn?.addEventListener("click", async () => {
+        const active = panes.find((p) => !p.hidden);
+        if (!active) return;
+        await navigator.clipboard.writeText(active.textContent || "");
+        copyBtn.textContent = "Copied!";
+        setTimeout(() => (copyBtn.textContent = "Copy"), 1500);
+      });
+    }
+  </script>
+</DemoLayout>

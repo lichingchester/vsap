@@ -1,0 +1,39 @@
+---
+/*
+ * DemoLayout — token-driven shell for the design-direction demos (ADR-0008).
+ *
+ * Deliberately does NOT use the real site's `Layout.astro` (whose chrome is the
+ * generic neutral scaffold we're replacing). It loads the candidate type and
+ * sets `data-direction`, under which `demos.css` resolves every token.
+ *
+ * Throwaway scaffolding — removed when a direction is promoted.
+ */
+import "../styles/global.css"; // Tailwind preflight reset only
+import "../styles/demos.css";
+
+interface Props {
+  title: string;
+  direction: string;
+}
+
+const { title, direction } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>{title} — tskr/ui demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="d-root" data-direction={direction}>
+    <slot />
+  </body>
+</html>

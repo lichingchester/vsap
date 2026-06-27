@@ -1,0 +1,64 @@
+---
+/*
+ * /demos index (ADR-0008) — entry point for the design-direction exploration.
+ * Throwaway scaffolding; removed when a direction is promoted.
+ */
+import DemoLayout from "../../layouts/DemoLayout.astro";
+
+const directions = [
+  {
+    id: "b",
+    href: "/demos/b",
+    title: "Direction B · amber on charcoal",
+    note: "React Bits' UX, our own identity. Warm accent, tight radii, calm motion.",
+    ready: true,
+  },
+  {
+    id: "c",
+    href: "/demos/c",
+    title: "Direction C · deliberate contrast",
+    note: "Planned. A high-variance alternative to compare against B.",
+    ready: false,
+  },
+];
+---
+
+<DemoLayout title="Design directions" direction="b">
+  <div class="d-shell">
+    <header class="d-nav">
+      <a class="d-brand" href="/demos">tskr<span>/ui</span> · demos</a>
+      <div class="d-nav__links">
+        <a href="https://github.com/lichingchester/vsap">GitHub</a>
+      </div>
+    </header>
+
+    <section class="d-hero" style="padding-bottom:2rem">
+      <span class="d-eyebrow">design system · exploration</span>
+      <h1>Design directions.</h1>
+      <p>
+        Each direction is one token set rendered through the same chrome, judged
+        on both the home and a snippet detail page. Pick the winner; its tokens
+        get promoted into the real site.
+      </p>
+    </section>
+
+    <p class="d-section-label">Directions</p>
+    <div class="d-grid" style="grid-template-columns:1fr">
+      {
+        directions.map((d) => (
+          <a
+            class="d-card"
+            href={d.ready ? d.href : "/demos"}
+            style={d.ready ? "" : "opacity:.5;pointer-events:none"}
+          >
+            <span class="d-card__kind">
+              direction {d.id} {d.ready ? "" : "· todo"}
+            </span>
+            <h2 class="d-card__title">{d.title}</h2>
+            <p class="d-card__desc">{d.note}</p>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</DemoLayout>

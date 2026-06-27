@@ -44,3 +44,13 @@ Any non-reference variant of a visual snippet (component, effect, layout), produ
 
 **Native variant**:
 A variant of a `utility` snippet that is a genuinely independent, idiomatic implementation per framework (e.g. LinkTag uses `vue-router` in Vue, `next/link` or react-router in React, a plain `<a>` in HTML) rather than a translation of a reference. Utility snippets are exempt from the reference/port model because there is no single canonical source to translate from.
+
+### Site design
+
+**Design direction**:
+A complete candidate look for the site, expressed as one **token set** (canvas, accent, type, radii, spacing, shadow, motion) filling a fixed set of CSS variables — not a mockup. Directions are explored before one is adopted; the first is "B" (warm amber on charcoal), the second "C". The winning direction's tokens are promoted into the real `@theme`. See [[0008-design-directions-via-token-demo-harness]].
+_Avoid_: theme, skin, mockup
+
+**Demo**:
+A throwaway page under `/demos` that renders the shared, token-driven site chrome under one design direction, across both judged surfaces (home + a snippet detail page), so directions can be compared in context. Demos exist only to choose a direction and are deleted on promotion.
+_Avoid_: preview (reserved for a snippet's live render), playground
