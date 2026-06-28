@@ -14,6 +14,7 @@ Map-of-content for the **tskr/ui** vault — all project documentation lives her
 - [[0006-effect-port-matrix-and-nuxt-next-exemption]]
 - [[0007-lean-playground-is-the-live-preview]]
 - [[0008-design-directions-via-token-demo-harness]]
+- [[0009-adopt-impeccable-as-installed-design-gate]]
 
 ## Tooling
 - [[Impeccable (design tooling)]] — design-detector skill + how contributors use it

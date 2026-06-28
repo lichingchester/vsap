@@ -8,6 +8,7 @@ We decided:
 - **Directions are judged on two real surfaces, not a swatch board.** Each direction renders the home page (hero + snippet grid) *and* a real snippet **detail** page (live preview + code tabs). The detail page carries the binding constraint that an ordinary marketing site doesn't have: **the chrome must recede so the snippet previews are the loud thing.** A direction can ace a hero and still drown a glowy preview; only the detail surface exposes that.
 - **`/demos` is throwaway scaffolding.** When a direction wins, its tokens are promoted into the real `global.css @theme` and `Layout.astro`, and `/demos` is deleted before merge. The shipped site stays lean (project ethos).
 - **The anti-slop gate is external and on-demand.** We install neither [impeccable](https://github.com/pbakaus/impeccable) nor [taste-skill](https://github.com/Leonxlnx/taste-skill) into the lean repo. We run `npx impeccable detect` against each demo *build* as an objective slop-gate, and borrow taste-skill's three dials (variance / motion / density) purely as vocabulary to spec a direction.
+  - **Superseded by [[0009-adopt-impeccable-as-installed-design-gate]].** This "install nothing" stance was right *while the design was unconfirmed*. Now that the design is confirmed and promoted, impeccable is installed as a committed skill + always-on advisory hook, with `PRODUCT.md` / `DESIGN.md` as committed design context. The rest of this ADR stands.
 
 ## Considered options
 
