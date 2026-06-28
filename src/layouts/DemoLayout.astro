@@ -18,10 +18,12 @@ interface Props {
   title: string;
   direction: string;
   active?: string;
+  /** Where sidebar snippet links point (defaults to the direction's page). */
+  snippetHref?: string;
 }
 
-const { title, direction, active } = Astro.props;
-const here = `/demos/${direction}`;
+const { title, direction, active, snippetHref } = Astro.props;
+const here = snippetHref ?? `/demos/${direction}`;
 const nav = groupedCatalog();
 ---
 
@@ -55,6 +57,9 @@ const nav = groupedCatalog();
             >
             <a href="/demos/d" aria-current={direction === "d" ? "true" : "false"}
               >D</a
+            >
+            <a href="/demos/e" aria-current={direction === "e" ? "true" : "false"}
+              >E</a
             >
           </nav>
           <a class="d-headerlink" href="https://github.com/lichingchester/vsap"
