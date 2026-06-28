@@ -15,12 +15,13 @@ interface Props {
 }
 const { current, active } = Astro.props;
 
+// Detail is stacked (confirmed); the switcher now varies the props-control style.
 const options = [
-  { id: "stacked", label: "Stacked", href: "/demos/detail/stacked" },
-  { id: "workbench", label: "Workbench", href: "/demos/detail/workbench" },
-  { id: "panels", label: "Panels", href: "/demos/detail/panels" },
+  { id: "panel", label: "Panel", href: "/demos/detail/panel" },
+  { id: "inline", label: "Inline", href: "/demos/detail/inline" },
+  { id: "table", label: "Table", href: "/demos/detail/table" },
 ];
-const here = options.find((o) => o.id === current)?.href ?? "/demos/detail/stacked";
+const here = options.find((o) => o.id === current)?.href ?? "/demos/detail/panel";
 const nav = groupedCatalog();
 ---
 
@@ -43,8 +44,8 @@ const nav = groupedCatalog();
       <header class="d-header">
         <a class="d-brand" href="/demos/home">tskr<span>/ui</span></a>
         <div class="d-header__right">
-          <nav class="d-dirswitch" aria-label="Detail arrangement">
-            <span>detail</span>
+          <nav class="d-dirswitch" aria-label="Props control style">
+            <span>props</span>
             {
               options.map((o) => (
                 <a href={o.href} aria-current={o.id === current ? "true" : "false"}>
@@ -70,14 +71,10 @@ const nav = groupedCatalog();
                       href={here}
                       aria-current={it.name === active ? "true" : "false"}
                     >
-                      <em>{group.category}/</em>
                       {it.name}
                     </a>
                   ) : (
-                    <span class="dt-link" aria-disabled="true">
-                      <em>{group.category}/</em>
-                      {it.name}
-                    </span>
+                    <span class="dt-link" aria-disabled="true">{it.name}</span>
                   ),
                 )}
               </div>
@@ -86,7 +83,7 @@ const nav = groupedCatalog();
         </aside>
 
         <main class="d-main">
-          <div class="d-container">
+          <div class="dt-wrap">
             <slot />
           </div>
         </main>

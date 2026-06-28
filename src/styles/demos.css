@@ -104,8 +104,10 @@
   --border-strong: #34343f;
 
   --text: #f4f4f5;
-  --text-muted: #9a9aa2;
-  --text-dim: #6e6e78;
+  /* Contrast raised for WCAG AA on the near-black canvas (was #9a9aa2/#6e6e78,
+     too faint in the sidebar). muted ~9:1, dim ~5.6:1 on --canvas. */
+  --text-muted: #b4b4bc;
+  --text-dim: #8a8a93;
 
   --accent: #f5b544;
   --accent-strong: #ffc65a;
@@ -1264,18 +1266,15 @@
  * arrangement of preview / props / code. Reuses the shared `.d-app`
  * sidebar shell; only the sidebar links + arrangement grids are new.
  * ================================================================== */
+/* Sidebar: snippet NAME only (no category prefix), readable contrast. */
 .dt-link {
   display: block;
-  padding: 0.35rem 0.6rem;
+  padding: 0.38rem 0.6rem;
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.83rem;
   color: var(--text-muted);
   text-decoration: none;
-}
-.dt-link em {
-  font-style: normal;
-  color: var(--text-dim);
 }
 .dt-link:hover {
   background: var(--surface);
@@ -1287,16 +1286,36 @@
 }
 .dt-link[aria-disabled="true"] {
   color: var(--text-dim);
-  opacity: 0.55;
   pointer-events: none;
 }
-.dt-breadcrumb {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  color: var(--text-dim);
+
+/* Wide doc wrapper + content | right-TOC grid */
+.dt-wrap {
+  max-width: 62rem;
+  margin: 0 auto;
+  padding: 1.75rem 1.5rem 5rem;
 }
-.dt-breadcrumb em {
-  font-style: normal;
+.dt-doc {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 11rem;
+  gap: 2.5rem;
+  align-items: start;
+}
+@media (max-width: 1000px) {
+  .dt-doc {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Breadcrumb: group muted, snippet name accent */
+.dt-bc {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+.dt-bc__group {
+  color: var(--text-muted);
+}
+.dt-bc__name {
   color: var(--accent);
 }
 .dt-title {
@@ -1304,30 +1323,123 @@
   font-weight: 500;
   font-size: clamp(1.6rem, 3.5vw, 2.1rem);
   letter-spacing: -0.02em;
-  margin: 0.5rem 0 0;
+  margin: 0.5rem 0 1.75rem;
 }
-.dt-desc {
-  margin: 0.8rem 0 1.5rem;
-  max-width: 56ch;
+
+/* Sections + headings */
+.dt-section {
+  scroll-margin-top: 4.5rem;
+}
+.dt-h2 {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  color: var(--text);
+  margin: 2.75rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.dt-section:first-of-type .dt-h2 {
+  margin-top: 0.5rem;
+}
+
+/* API reference table */
+.dt-api {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+}
+.dt-api th {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--border-strong);
+}
+.dt-api td {
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
   color: var(--text-muted);
-  line-height: 1.6;
+  line-height: 1.5;
 }
-.dt-grid {
-  display: grid;
-  gap: 1rem;
-  align-items: start;
+.dt-api__name {
+  font-family: var(--font-mono);
+  color: var(--accent);
+  white-space: nowrap;
 }
-.dt-grid--workbench {
-  grid-template-columns: 1.35fr 1fr;
+.dt-api__type {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text);
+  white-space: nowrap;
 }
-.dt-grid--panels {
-  grid-template-columns: 1fr 1fr;
+.dt-api__def {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  white-space: nowrap;
 }
-@media (max-width: 880px) {
-  .dt-grid--workbench,
-  .dt-grid--panels {
-    grid-template-columns: 1fr;
-  }
+
+/* Props control field styles ------------------------------------ */
+/* (1) inline — borderless, compact chips */
+.dt-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 0.25rem 0 0.5rem;
+}
+.dt-inline__item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.dt-inline__label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* (2) table — interactive API: control merged with type/default/desc */
+.dt-ctrl-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Right "On this page" TOC */
+.dt-toc {
+  position: sticky;
+  top: 4.5rem;
+  align-self: start;
+}
+.dt-toc__title {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 0 0 0.6rem;
+}
+.dt-toc a {
+  display: block;
+  padding: 0.28rem 0 0.28rem 0.75rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-left: 2px solid var(--border);
+  transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.dt-toc a:hover {
+  color: var(--text);
+}
+.dt-toc a[aria-current="true"] {
+  color: var(--accent);
+  border-left-color: var(--accent);
 }
 
 /* --- Homepage hub: pick a layout --- */

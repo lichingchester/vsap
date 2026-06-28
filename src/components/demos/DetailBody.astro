@@ -1,68 +1,207 @@
 ---
 /*
- * DetailBody — the snippet detail content, arranged per `layout` (ADR-0008):
- *   stacked   — preview → props → code (linear)
- *   workbench — [preview | props] side by side, code full-width below
- *   panels    — [preview + props] | [code] two columns
- * Terminal aesthetic. Shared live-gradient + tabs script lives here once.
+ * DetailBody — snippet detail as a docs page (ADR-0008), modelled on shadcn /
+ * React Bits: breadcrumb (snippet name in accent), no prose description, and
+ * sections Preview → Props → [API] → Usage with a right-hand "On this page" TOC.
+ * The `controls` prop varies the props-control field style:
+ *   panel  — bordered control panel + a static API table
+ *   inline — compact borderless control chips + a static API table
+ *   table  — one interactive API table (controls merged with type/default/desc)
+ * Stacked arrangement (confirmed). Shared live + tabs + scroll-spy script.
  */
 import gradientTextMeta from "../../snippets/text-animations/gradient-text/meta";
+import { gradientProps } from "./gradientProps";
 import DetailStage from "./DetailStage.astro";
-import DetailControls from "./DetailControls.astro";
 import DetailSource from "./DetailSource.astro";
 
 interface Props {
-  layout: "stacked" | "workbench" | "panels";
+  controls: "panel" | "inline" | "table";
 }
-const { layout } = Astro.props;
+const { controls } = Astro.props;
 const meta = gradientTextMeta;
+
+const toc =
+  controls === "table"
+    ? [
+        { id: "preview", label: "Preview" },
+        { id: "props", label: "Props" },
+        { id: "usage", label: "Usage" },
+      ]
+    : [
+        { id: "preview", label: "Preview" },
+        { id: "props", label: "Props" },
+        { id: "api", label: "API" },
+        { id: "usage", label: "Usage" },
+      ];
 ---
 
-<article class="d-detail">
-  <p class="dt-breadcrumb"><em>{meta.category}/</em>{meta.name}</p>
-  <h1 class="dt-title">{meta.title}</h1>
-  <p class="dt-desc">{meta.description}</p>
+<div class="dt-doc">
+  <div>
+    <p class="dt-bc">
+      <span class="dt-bc__group">{meta.category} /</span>
+      <span class="dt-bc__name">{meta.name}</span>
+    </p>
+    <h1 class="dt-title">{meta.title}</h1>
 
-  {
-    layout === "stacked" && (
-      <>
-        <DetailStage />
-        <DetailControls />
-        <p class="d-section-label d-source-label">Source</p>
-        <DetailSource />
-      </>
-    )
-  }
+    <!-- Preview -->
+    <section id="preview" class="dt-section">
+      <h2 class="dt-h2">Preview</h2>
+      <DetailStage />
+    </section>
 
-  {
-    layout === "workbench" && (
-      <>
-        <div class="dt-grid dt-grid--workbench">
-          <DetailStage />
-          <DetailControls />
-        </div>
-        <p class="d-section-label d-source-label">Source</p>
-        <DetailSource />
-      </>
-    )
-  }
+    <!-- Props (control field style varies) -->
+    <section id="props" class="dt-section">
+      <h2 class="dt-h2">Props</h2>
 
-  {
-    layout === "panels" && (
-      <div class="dt-grid dt-grid--panels">
-        <div>
-          <DetailStage />
-          <DetailControls />
-        </div>
-        <DetailSource />
-      </div>
-    )
-  }
+      {
+        controls === "panel" && (
+          <div class="d-controls" data-controls>
+            <p class="d-controls__title">Props</p>
+            <div class="d-control">
+              <span class="d-control__label"><code>colors</code></span>
+              <div class="d-control__field d-swatches">
+                <input class="d-swatch" type="color" data-c value="#5eead4" aria-label="color 1" />
+                <input class="d-swatch" type="color" data-c value="#38bdf8" aria-label="color 2" />
+                <input class="d-swatch" type="color" data-c value="#818cf8" aria-label="color 3" />
+              </div>
+            </div>
+            <div class="d-control">
+              <span class="d-control__label"><code>direction</code></span>
+              <div class="d-control__field">
+                <input type="range" id="d-angle" min="0" max="360" value="100" />
+                <span class="d-control__val" data-angle-val>100°</span>
+              </div>
+            </div>
+            <div class="d-control">
+              <span class="d-control__label"><code>speed</code></span>
+              <div class="d-control__field">
+                <input type="range" id="d-speed" min="1" max="12" step="0.5" value="5" />
+                <span class="d-control__val" data-speed-val>5s</span>
+              </div>
+            </div>
+          </div>
+        )
+      }
 
-  <footer class="d-foot">tskr/ui · detail candidate · {layout}</footer>
-</article>
+      {
+        controls === "inline" && (
+          <div class="dt-inline" data-controls>
+            <div class="dt-inline__item">
+              <span class="dt-inline__label">colors</span>
+              <div class="d-swatches">
+                <input class="d-swatch" type="color" data-c value="#5eead4" aria-label="color 1" />
+                <input class="d-swatch" type="color" data-c value="#38bdf8" aria-label="color 2" />
+                <input class="d-swatch" type="color" data-c value="#818cf8" aria-label="color 3" />
+              </div>
+            </div>
+            <div class="dt-inline__item">
+              <span class="dt-inline__label">direction</span>
+              <input type="range" id="d-angle" min="0" max="360" value="100" />
+              <span class="d-control__val" data-angle-val>100°</span>
+            </div>
+            <div class="dt-inline__item">
+              <span class="dt-inline__label">speed</span>
+              <input type="range" id="d-speed" min="1" max="12" step="0.5" value="5" />
+              <span class="d-control__val" data-speed-val>5s</span>
+            </div>
+          </div>
+        )
+      }
+
+      {
+        controls === "table" && (
+          <table class="dt-api" data-controls>
+            <thead>
+              <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Value</th>
+                <th>Default</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              {gradientProps.map((p) => (
+                <tr>
+                  <td class="dt-api__name">{p.name}</td>
+                  <td class="dt-api__type">{p.type}</td>
+                  <td>
+                    {p.control === "colors" && (
+                      <div class="d-swatches">
+                        <input class="d-swatch" type="color" data-c value="#5eead4" aria-label="color 1" />
+                        <input class="d-swatch" type="color" data-c value="#38bdf8" aria-label="color 2" />
+                        <input class="d-swatch" type="color" data-c value="#818cf8" aria-label="color 3" />
+                      </div>
+                    )}
+                    {p.control === "angle" && (
+                      <div class="dt-ctrl-cell">
+                        <input type="range" id="d-angle" min="0" max="360" value="100" />
+                        <span class="d-control__val" data-angle-val>100°</span>
+                      </div>
+                    )}
+                    {p.control === "speed" && (
+                      <div class="dt-ctrl-cell">
+                        <input type="range" id="d-speed" min="1" max="12" step="0.5" value="5" />
+                        <span class="d-control__val" data-speed-val>5s</span>
+                      </div>
+                    )}
+                    {!p.control && <span class="dt-api__def">—</span>}
+                  </td>
+                  <td class="dt-api__def">{p.def}</td>
+                  <td>{p.desc}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )
+      }
+    </section>
+
+    <!-- API reference (omitted for the merged interactive table) -->
+    {
+      controls !== "table" && (
+        <section id="api" class="dt-section">
+          <h2 class="dt-h2">API</h2>
+          <table class="dt-api">
+            <thead>
+              <tr>
+                <th>Prop</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              {gradientProps.map((p) => (
+                <tr>
+                  <td class="dt-api__name">{p.name}</td>
+                  <td class="dt-api__type">{p.type}</td>
+                  <td class="dt-api__def">{p.def}</td>
+                  <td>{p.desc}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+      )
+    }
+
+    <!-- Usage -->
+    <section id="usage" class="dt-section">
+      <h2 class="dt-h2">Usage</h2>
+      <DetailSource />
+    </section>
+  </div>
+
+  <!-- Right "On this page" TOC -->
+  <nav class="dt-toc" aria-label="On this page">
+    <p class="dt-toc__title">On this page</p>
+    {toc.map((t) => <a href={`#${t.id}`} data-toc={t.id}>{t.label}</a>)}
+  </nav>
+</div>
 
 <script is:inline>
+  // Live props controls → gradient preview.
   const grad = document.getElementById("d-grad");
   const panel = document.querySelector("[data-controls]");
   if (grad && panel) {
@@ -80,23 +219,20 @@ const meta = gradientTextMeta;
       grad.style.backgroundClip = "text";
       grad.style.color = "transparent";
       grad.style.animationDuration = `${speed.value}s`;
-      angleVal.textContent = `${angle.value}°`;
-      speedVal.textContent = `${speed.value}s`;
+      if (angleVal) angleVal.textContent = `${angle.value}°`;
+      if (speedVal) speedVal.textContent = `${speed.value}s`;
     };
-    [...colors, angle, speed].forEach((el) =>
-      el.addEventListener("input", apply),
-    );
+    [...colors, angle, speed].forEach((el) => el && el.addEventListener("input", apply));
     apply();
   }
 
+  // Code tabs + copy.
   document.querySelectorAll("[data-source]").forEach((block) => {
     const tabs = [...block.querySelectorAll("[data-tab]")];
     const panes = [...block.querySelectorAll("[data-code]")];
     const copyBtn = block.querySelector("[data-copy]");
     const select = (id) => {
-      tabs.forEach((t) =>
-        t.setAttribute("aria-selected", String(t.dataset.tab === id)),
-      );
+      tabs.forEach((t) => t.setAttribute("aria-selected", String(t.dataset.tab === id)));
       panes.forEach((p) => (p.hidden = p.dataset.code !== id));
     };
     tabs.forEach((t) => t.addEventListener("click", () => select(t.dataset.tab)));
@@ -108,4 +244,21 @@ const meta = gradientTextMeta;
       setTimeout(() => (copyBtn.textContent = "Copy"), 1500);
     });
   });
+
+  // Scroll-spy: highlight the current section in the TOC.
+  const links = new Map(
+    [...document.querySelectorAll("[data-toc]")].map((a) => [a.dataset.toc, a]),
+  );
+  const obs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          links.forEach((a) => a.setAttribute("aria-current", "false"));
+          links.get(e.target.id)?.setAttribute("aria-current", "true");
+        }
+      });
+    },
+    { rootMargin: "-20% 0px -70% 0px" },
+  );
+  document.querySelectorAll(".dt-section").forEach((s) => obs.observe(s));
 </script>
