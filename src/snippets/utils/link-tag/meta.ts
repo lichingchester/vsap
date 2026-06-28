@@ -12,6 +12,18 @@ export const meta: SnippetMeta = {
   category: "utils",
   // Behavioural snippet — no Tailwind vs CSS distinction.
   hasStylingAxis: false,
+  // Utility — static preview, no playground controls.
+  previewProps: {
+    href: "https://example.com",
+    external: true,
+    newTab: true,
+    attributes: { class: "text-lg underline underline-offset-4" },
+  },
+  usage: {
+    tag: "LinkTag",
+    children: "Visit example.com →",
+    props: ["href", "external", "newTab"],
+  },
   props: [
     {
       name: "href",

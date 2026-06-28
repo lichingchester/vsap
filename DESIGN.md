@@ -267,11 +267,27 @@ amber appears only where it must guide the eye. Tight radii throughout (4/6/8px)
   header underline. Column heads are Dim uppercase mono micro-labels. Prop names
   are Filament Amber mono; types are Ink mono; defaults are Dim mono.
 
-### On-This-Page TOC (detail)
-- **Style:** Sticky right rail, mono micro-label title, links with a `line`
-  left-border that turns Filament Amber on the active item. This is the *one*
-  sanctioned use of a left border — it is a 2px rail on inert text links, a
-  reading-position indicator, not a colored accent stripe on a card.
+### On-This-Page TOC (detail — Console layout)
+- **Style:** Sticky right rail. A thin (3px) vertical `line` track with a
+  Filament Amber **fill** that grows with scroll position (a reading-progress
+  indicator, animated via `transform: scaleY`, never `height`), beside mono
+  links; the active section's link turns amber. The progress fill is a
+  functional indicator, not a decorative stripe.
+
+### Code Block (detail — signature component)
+- **Style:** A framed block with a `surface` top bar (mono filename tab + a Dim
+  uppercase `source`/`usage`/`install` kind micro-label) and an Inset body of
+  Shiki-highlighted code. Actions sit right: a `wrap` toggle and a Copy button
+  that turns Filament Amber on "Copied ✓". Optional gutter line numbers (Dim,
+  via a CSS counter). Syntax colour is *content* (the lit-cutout artwork), so it
+  is exempt from the One-Filament Rule that governs chrome.
+
+### Variant Selector (detail)
+- **Style:** Two compact segmented controls — Framework (Vue/React/HTML) and
+  Styling (Tailwind/CSS) — mono, on a `surface` track with a `line` hairline; the
+  active segment gets the Amber-Soft wash + Filament Amber text (the same active
+  treatment as the sidebar link). HTML collapses the styling axis. Lives in the
+  docs header (global, persisted) and at the code block — never the page head.
 
 ## 6. Do's and Don'ts
 
@@ -299,8 +315,8 @@ amber appears only where it must guide the eye. Tight radii throughout (4/6/8px)
 - **Don't** add drop shadows to site chrome. Glow belongs to snippet previews,
   never to the frame around them.
 - **Don't** use a colored left/right border as a stripe accent on cards, list
-  items, or callouts. The only sanctioned left border is the inert 2px TOC reading
-  rail.
+  items, or callouts. (The detail TOC uses a separate vertical progress *track*,
+  not a colored border on the links.)
 - **Don't** let amber decorate. If it isn't pointing at an active state, a name, a
   brand mark, or a primary action, it doesn't belong.
 - **Don't** make headings dramatically large to signal hierarchy. Mono weight + a

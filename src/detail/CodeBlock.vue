@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /*
- * THROWAWAY (detail-page /demos harness). One copy artifact rendered as a code
+ * Detail page. One copy artifact rendered as a code
  * block: a mono filename tab, Shiki-highlighted body, and a keyboard-operable
  * Copy button with a "Copied" state and visible focus ring (point 4: filename +
  * copy feedback, WCAG 2.2 AA). Reactive — re-highlights when `code` changes, so
@@ -53,16 +53,16 @@ watch(() => [props.code, props.lang], render);
 </script>
 
 <template>
-  <figure class="demo-code" :class="{ 'demo-code--ln': lineNumbers, 'demo-code--wrap': wrap }">
-    <figcaption class="demo-code__bar">
-      <span class="demo-code__name">
-        <span v-if="kind" class="demo-code__kind">{{ kind }}</span>
+  <figure class="sd-code" :class="{ 'sd-code--ln': lineNumbers, 'sd-code--wrap': wrap }">
+    <figcaption class="sd-code__bar">
+      <span class="sd-code__name">
+        <span v-if="kind" class="sd-code__kind">{{ kind }}</span>
         {{ filename }}
       </span>
-      <span class="demo-code__actions">
+      <span class="sd-code__actions">
         <button
           v-if="wrappable"
-          class="demo-code__wrap"
+          class="sd-code__wrap"
           type="button"
           :aria-pressed="wrap"
           @click="wrap = !wrap"
@@ -70,7 +70,7 @@ watch(() => [props.code, props.lang], render);
           wrap
         </button>
         <button
-          class="demo-code__copy"
+          class="sd-code__copy"
           type="button"
           :data-copied="copied"
           @click="copy"
@@ -79,6 +79,6 @@ watch(() => [props.code, props.lang], render);
         </button>
       </span>
     </figcaption>
-    <div class="demo-code__body" v-html="html"></div>
+    <div class="sd-code__body" v-html="html"></div>
   </figure>
 </template>

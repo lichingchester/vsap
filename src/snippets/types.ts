@@ -52,7 +52,41 @@ export interface SnippetMeta {
   playground?: boolean;
   /** Public props of the snippet's component, for the detail page's API table. */
   props?: PropDoc[];
+  /**
+   * Descriptor the detail page uses to GENERATE the Usage copy artifact (the
+   * call-site example) for each variant. Combined with prop values, so the
+   * playground controls drive the copied code (props→code).
+   */
+  usage?: UsageDescriptor;
+  /** Interactive controls for the live preview (flagship snippets). */
+  controls?: ControlSpec[];
+  /** Initial prop values used for the live preview and the generated Usage. */
+  previewProps?: Record<string, unknown>;
+  /** Class applied to the previewed component (sizing within the stage). */
+  previewClass?: string;
   variants: Variant[];
+}
+
+/** Descriptor for generating a snippet's Usage example on the detail page. */
+export interface UsageDescriptor {
+  /** Component tag, e.g. "GradientText". */
+  tag: string;
+  /** Slot / children example; omit for a self-closing element. */
+  children?: string;
+  /** Props to surface in the usage example, in order. */
+  props: string[];
+}
+
+/** One live-preview control on the detail page, bound to a prop. */
+export interface ControlSpec {
+  /** Prop this control drives — must match a usage prop + a `props` entry. */
+  prop: string;
+  label: string;
+  kind: "colors" | "range" | "toggle" | "text";
+  min?: number;
+  max?: number;
+  step?: number;
+  unit?: string;
 }
 
 /** One row of a snippet's API reference table on the detail page. */

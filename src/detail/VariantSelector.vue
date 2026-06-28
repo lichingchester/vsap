@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /*
- * THROWAWAY (detail-page /demos harness). The two-axis variant control —
+ * Detail page. The two-axis variant control —
  * Framework (Vue/React/HTML) + Styling (Tailwind/CSS) — bound to the persisted
  * global preference. Rendered compact in the header and full-size above the
  * code region; both write the one source of truth. HTML collapses the styling

@@ -1,81 +1,27 @@
 ---
 /*
- * Link Tag — detail page (ADR-0008 docs layout). A utility, so the preview is a
- * static live LinkTag (no playground); Props = the API table; Usage = the
- * native variant tabs. No-drift (ADR-0004): the Vue file mounted for the preview
- * is the same one ?raw-imported for the tab.
+ * Link Tag — detail page (Console layout). A utility: native per-framework
+ * variants, a static live preview (no controls). The page ?raw-imports each
+ * variant and hands meta + sources to the SnippetDetail island (no-drift,
+ * ADR-0004/0005).
  */
 import SnippetLayout from "../../../layouts/SnippetLayout.astro";
 import meta from "../../../snippets/utils/link-tag/meta";
-import SnippetTabs from "../../../components/SnippetTabs.vue";
-import LinkTag from "../../../snippets/utils/link-tag/vue/LinkTag.vue";
-import ApiTable from "../../../components/ApiTable.astro";
-import OnThisPage from "../../../components/OnThisPage.astro";
+import SnippetDetail from "../../../detail/SnippetDetail.vue";
 
 import vueSrc from "../../../snippets/utils/link-tag/vue/LinkTag.vue?raw";
 import nuxtSrc from "../../../snippets/utils/link-tag/vue-nuxt/LinkTag.vue?raw";
 import reactSrc from "../../../snippets/utils/link-tag/react-next/LinkTag.tsx?raw";
 import htmlSrc from "../../../snippets/utils/link-tag/html/link-tag.html?raw";
 
-const codeById: Record<string, string> = {
-  vue: vueSrc,
-  "vue-nuxt": nuxtSrc,
-  "react-next": reactSrc,
-  html: htmlSrc,
+const sources = {
+  vue: { source: vueSrc },
+  "vue-nuxt": { source: nuxtSrc },
+  "react-next": { source: reactSrc },
+  html: { source: htmlSrc },
 };
-const variants = meta.variants.map((v) => ({
-  id: v.id,
-  label: v.label,
-  native: v.native,
-  reference: v.reference,
-  prerequisites: v.prerequisites,
-  code: codeById[v.id] ?? "",
-}));
 ---
 
 <SnippetLayout title={meta.title} description={meta.description} active={meta.name}>
-  <div class="docs-doc">
-    <div>
-      <p class="s-bc">
-        <span class="s-bc__group">{meta.category} /</span>
-        <span class="s-bc__name">{meta.name}</span>
-      </p>
-      <h1 class="s-title">{meta.title}</h1>
-
-      <section id="preview" class="s-section">
-        <h2 class="s-h2">Preview</h2>
-        <div class="s-stage">
-          <LinkTag
-            client:load
-            href="https://example.com"
-            external={true}
-            newTab={true}
-            attributes={{
-              class: "text-lg underline underline-offset-4 hover:text-[var(--color-accent)]",
-            }}
-          >
-            Visit example.com →
-          </LinkTag>
-        </div>
-      </section>
-
-      <section id="props" class="s-section">
-        <h2 class="s-h2">Props</h2>
-        <ApiTable props={meta.props ?? []} />
-      </section>
-
-      <section id="usage" class="s-section">
-        <h2 class="s-h2">Usage</h2>
-        <SnippetTabs client:load variants={variants} />
-      </section>
-    </div>
-
-    <OnThisPage
-      items={[
-        { id: "preview", label: "Preview" },
-        { id: "props", label: "Props" },
-        { id: "usage", label: "Usage" },
-      ]}
-    />
-  </div>
+  <SnippetDetail meta={meta} sources={sources} client:load />
 </SnippetLayout>

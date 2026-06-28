@@ -1,6 +1,6 @@
 <script setup lang="ts">
-/* THROWAWAY (detail-page /demos harness). The props API table, in Vue so it can
- * live inside the demo island. Mirrors the real ApiTable.astro styling. */
+/* Detail page — the props API table, in Vue so it can live inside the detail
+ * island. Borderless except hairline row dividers; prop names in amber mono. */
 import type { PropDoc } from "../snippets/types";
 defineProps<{ rows: PropDoc[] }>();
 </script>

@@ -1,57 +1,81 @@
 <script setup lang="ts">
 /*
- * THROWAWAY (detail-page /demos harness) — Stacked variation S3 "Console".
- * Section design: tight rhythm, sticky mini-headers (a section heading sticks
- * under the top nav while its section is in view) with a leading accent tick.
- * Heading: compact. TOC: a right rail with a scroll-PROGRESS fill plus links,
- * active section marked. Code block: IDE treatment — gutter line numbers + a
- * wrap toggle, with a sticky code toolbar holding the variant selector.
+ * Detail page (Console layout, promoted from the S3 demo). The single island
+ * that owns detail-page state: the persisted variant preference, and the live
+ * prop values that drive BOTH the preview and the generated Usage (props→code).
+ *
+ * Layout: sticky mini-headers with an accent tick, a scroll-progress TOC rail,
+ * and IDE code blocks (line numbers + wrap). Copy artifacts: Install · Source ·
+ * Usage (conditional; the self-contained HTML variant collapses Source+Usage).
+ * No-drift (ADR-0004/0005): the preview mounts the live reference component the
+ * code blocks ?raw-show.
  */
-import { computed } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import LivePreview from "./LivePreview.vue";
 import Controls from "./Controls.vue";
 import CodeBlock from "./CodeBlock.vue";
 import InstallBlock from "./InstallBlock.vue";
-import ApiTableVue from "./ApiTableVue.vue";
+import ApiTable from "./ApiTable.vue";
 import VariantSelector from "./VariantSelector.vue";
-import { sectionList } from "./view";
+import { buildView, sectionList } from "./view";
+import { buildSnippetData, type VariantSource } from "./snippetData";
+import { previews } from "./previews";
+import { pref, initPref } from "./variantPref";
 import { useScrollSpy, useScrollProgress } from "./scroll";
-import type { DemoSnippet } from "./catalog";
-import type { DetailView } from "./view";
+import type { SnippetMeta } from "../snippets/types";
 
+// meta + raw sources are serialisable Astro island props; the live preview
+// component is resolved here from the registry (it can't cross the JSON island
+// boundary).
 const props = defineProps<{
-  snippet: DemoSnippet;
-  view: DetailView;
-  propValues: Record<string, unknown>;
-}>();
-defineEmits<{
-  (e: "update", v: Record<string, unknown>): void;
-  (e: "reset"): void;
+  meta: SnippetMeta;
+  sources: Record<string, VariantSource>;
 }>();
 
-const sections = computed(() => sectionList(props.view));
+const data = computed(() =>
+  buildSnippetData(props.meta, previews[props.meta.name], props.sources),
+);
+
+const clone = <T,>(v: T): T => JSON.parse(JSON.stringify(v));
+const propValues = ref<Record<string, unknown>>(clone(data.value.defaultProps));
+
+watch(
+  () => props.meta,
+  () => (propValues.value = clone(data.value.defaultProps)),
+);
+function reset() {
+  propValues.value = clone(data.value.defaultProps);
+}
+function update(v: Record<string, unknown>) {
+  propValues.value = v;
+}
+
+const view = computed(() => buildView(data.value, pref, propValues.value));
+const sections = computed(() => sectionList(view.value));
 const active = useScrollSpy();
 const progress = useScrollProgress();
+
+onMounted(initPref);
 </script>
 
 <template>
-  <div class="doc-grid lay-s3">
+  <div class="doc-grid sd-console">
     <div class="doc-main">
       <p class="con-bc">
-        <span class="s-bc__group">{{ snippet.category }}/</span><span class="s-bc__name">{{ snippet.name }}</span>
+        <span class="s-bc__group">{{ data.category }}/</span><span class="s-bc__name">{{ data.name }}</span>
       </p>
-      <h1 class="con-title">{{ snippet.title }}</h1>
+      <h1 class="con-title">{{ data.title }}</h1>
 
       <section id="preview" class="s-section con-sec">
         <h2 class="con-h"><span class="con-h__tick"></span>Preview</h2>
-        <LivePreview :snippet="snippet" :view="view" :prop-values="propValues" />
+        <LivePreview :snippet="data" :view="view" :prop-values="propValues" />
         <Controls
-          v-if="snippet.controls.length"
+          v-if="data.controls.length"
           class="con-controls"
-          :controls="snippet.controls"
+          :controls="data.controls"
           :values="propValues"
-          @update="$emit('update', $event)"
-          @reset="$emit('reset')"
+          @update="update"
+          @reset="reset"
         />
       </section>
 
@@ -91,7 +115,7 @@ const progress = useScrollProgress();
 
       <section id="api" class="s-section con-sec">
         <h2 class="con-h"><span class="con-h__tick"></span>API</h2>
-        <ApiTableVue :rows="snippet.props" />
+        <ApiTable :rows="data.props" />
       </section>
     </div>
 

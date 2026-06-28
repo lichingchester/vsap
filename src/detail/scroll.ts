@@ -1,5 +1,5 @@
 /*
- * THROWAWAY (detail-page /demos harness). Scroll helpers for the right-sidebar
+ * Detail page. Scroll helpers for the right-sidebar
  * (TOC) explorations: scroll-spy (which section is active) and a 0–1 page
  * progress value for the progress-rail TOC. Re-scans on DOM changes so a
  * conditional section (Install/Usage) appearing or vanishing stays tracked.

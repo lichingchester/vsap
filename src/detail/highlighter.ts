@@ -1,5 +1,5 @@
 /*
- * THROWAWAY (detail-page /demos harness). A single shared Shiki highlighter so
+ * Detail page. A single shared Shiki highlighter so
  * every CodeBlock (static Source and the live-updating Usage) gets real syntax
  * highlighting client-side. Fine-grained langs/theme keep the bundle bounded.
  * Code tokens are *content* (the lit-cutout artwork), so multi-colour syntax is

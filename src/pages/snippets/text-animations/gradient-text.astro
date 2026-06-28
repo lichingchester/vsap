@@ -1,16 +1,13 @@
 ---
 /*
- * Gradient Text — detail page (ADR-0008 docs layout). Sidebar + content + TOC.
- * Preview = the flagship playground (live preview + controls, ADR-0007); Props
- * = the API table from meta; Usage = the variant code tabs. No-drift (ADR-0004):
- * the playground mounts the same vue-tailwind file the tabs ?raw-import.
+ * Gradient Text — detail page (Console layout). The page ?raw-imports every
+ * variant's source (no-drift, ADR-0004) and hands meta + sources to the
+ * SnippetDetail island, which generates the Install · Source · Usage copy
+ * artifacts and mounts the live reference for the preview (ADR-0005).
  */
 import SnippetLayout from "../../../layouts/SnippetLayout.astro";
 import meta from "../../../snippets/text-animations/gradient-text/meta";
-import SnippetTabs from "../../../components/SnippetTabs.vue";
-import GradientTextPlayground from "../../../components/GradientTextPlayground.vue";
-import ApiTable from "../../../components/ApiTable.astro";
-import OnThisPage from "../../../components/OnThisPage.astro";
+import SnippetDetail from "../../../detail/SnippetDetail.vue";
 
 import vueTwSrc from "../../../snippets/text-animations/gradient-text/vue-tailwind/GradientText.vue?raw";
 import vueCssSrc from "../../../snippets/text-animations/gradient-text/vue-css/GradientText.vue?raw";
@@ -19,55 +16,18 @@ import reactCssSrc from "../../../snippets/text-animations/gradient-text/react-c
 import reactCssStyleSrc from "../../../snippets/text-animations/gradient-text/react-css/GradientText.css?raw";
 import htmlSrc from "../../../snippets/text-animations/gradient-text/html/gradient-text.html?raw";
 
-const reactCssCombined = `${reactCssSrc}\n\n/* GradientText.css */\n${reactCssStyleSrc}`;
-const codeById: Record<string, string> = {
-  "vue-tailwind": vueTwSrc,
-  "vue-css": vueCssSrc,
-  "react-tailwind": reactTwSrc,
-  "react-css": reactCssCombined,
-  html: htmlSrc,
+const sources = {
+  "vue-tailwind": { source: vueTwSrc },
+  "vue-css": { source: vueCssSrc },
+  "react-tailwind": { source: reactTwSrc },
+  "react-css": {
+    source: reactCssSrc,
+    extra: { filename: "GradientText.css", lang: "css", source: reactCssStyleSrc },
+  },
+  html: { source: htmlSrc },
 };
-const variants = meta.variants.map((v) => ({
-  id: v.id,
-  label: v.label,
-  native: v.native,
-  reference: v.reference,
-  prerequisites: v.prerequisites,
-  code: codeById[v.id] ?? "",
-}));
 ---
 
 <SnippetLayout title={meta.title} description={meta.description} active={meta.name}>
-  <div class="docs-doc">
-    <div>
-      <p class="s-bc">
-        <span class="s-bc__group">{meta.category} /</span>
-        <span class="s-bc__name">{meta.name}</span>
-      </p>
-      <h1 class="s-title">{meta.title}</h1>
-
-      <section id="preview" class="s-section">
-        <h2 class="s-h2">Preview</h2>
-        <GradientTextPlayground client:load />
-      </section>
-
-      <section id="props" class="s-section">
-        <h2 class="s-h2">Props</h2>
-        <ApiTable props={meta.props ?? []} />
-      </section>
-
-      <section id="usage" class="s-section">
-        <h2 class="s-h2">Usage</h2>
-        <SnippetTabs client:load variants={variants} />
-      </section>
-    </div>
-
-    <OnThisPage
-      items={[
-        { id: "preview", label: "Preview" },
-        { id: "props", label: "Props" },
-        { id: "usage", label: "Usage" },
-      ]}
-    />
-  </div>
+  <SnippetDetail meta={meta} sources={sources} client:load />
 </SnippetLayout>

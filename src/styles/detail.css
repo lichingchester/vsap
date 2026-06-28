@@ -1,0 +1,498 @@
+/*
+ * Snippet detail page — the Console layout (promoted from the S3 demo).
+ * Docs-only chrome on the confirmed amber-on-charcoal tokens (global.css);
+ * never copied into a user's project. Reuses shared site.css classes (.api,
+ * .s-section, .s-bc__*). Owns: the two-axis variant selector, the lit-cutout
+ * preview stage, the props controls, the Shiki code blocks (Install · Source ·
+ * Usage), sticky section headers, and the scroll-progress TOC rail.
+ */
+
+/* ---- doc grid (main column + right TOC) ---- */
+.doc-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 12rem;
+  gap: 2.5rem;
+  align-items: start;
+}
+.doc-main {
+  min-width: 0;
+}
+@media (max-width: 1000px) {
+  .doc-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* header: selector + nav grouped on the right */
+.docs-header__right {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+/* ---- variant selector (two-axis segmented control) ---- */
+.vsel {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+.vsel--compact {
+  gap: 0.6rem;
+}
+.vsel__axis {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.vsel__axis[data-disabled="true"] {
+  opacity: 0.4;
+}
+.vsel__label {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-dim);
+}
+.vseg {
+  display: inline-flex;
+  padding: 2px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+.vseg__btn {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  padding: 0.3rem 0.6rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
+}
+.vsel--compact .vseg__btn {
+  padding: 0.22rem 0.5rem;
+  font-size: 0.72rem;
+}
+.vseg__btn:hover:not([aria-pressed="true"]):not(:disabled) {
+  color: var(--color-fg);
+}
+.vseg__btn[aria-pressed="true"] {
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+.vseg__btn:disabled {
+  cursor: not-allowed;
+}
+
+/* ---- live preview stage (lit cutout) ---- */
+.sd-stage-wrap {
+  display: grid;
+  gap: 0.5rem;
+}
+.sd-stage {
+  display: grid;
+  place-items: center;
+  min-height: 12rem;
+  padding: 2.5rem 1.5rem;
+  background: var(--color-inset);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(255, 255, 255, 0.05) 1px,
+    transparent 0
+  );
+  background-size: 22px 22px;
+}
+.sd-stage__meta {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-dim);
+}
+.sd-stage__meta b {
+  color: var(--color-muted);
+  font-weight: 500;
+}
+.sd-stage__live {
+  color: var(--color-accent);
+  margin-right: 0.4rem;
+}
+.sd-stage__fallback {
+  color: var(--color-accent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .sd-stage *,
+  .sd-stage *::before,
+  .sd-stage *::after {
+    animation-play-state: paused !important;
+    transition: none !important;
+  }
+}
+
+/* ---- props controls ---- */
+.sd-controls {
+  display: grid;
+  gap: 1.1rem;
+  padding: 1rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+.con-controls {
+  margin-top: 0.75rem;
+}
+.sd-controls__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.sd-controls__title {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-dim);
+}
+.sd-controls__reset {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--color-line2);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+}
+.sd-controls__reset:hover {
+  color: var(--color-fg);
+}
+.sd-ctl__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+.sd-ctl__label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-fg);
+}
+.sd-ctl__val {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-dim);
+}
+.sd-ctl__add {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.2rem 0.5rem;
+  border: 1px dashed var(--color-line2);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+}
+.sd-ctl__add:hover:not(:disabled) {
+  border-color: var(--color-accent);
+  color: var(--color-fg);
+}
+.sd-ctl__add:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.sd-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.sd-swatch {
+  position: relative;
+}
+.sd-swatch input[type="color"] {
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 1px solid var(--color-line2);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  cursor: pointer;
+}
+.sd-swatch__rm {
+  position: absolute;
+  top: -0.35rem;
+  right: -0.35rem;
+  width: 1rem;
+  height: 1rem;
+  display: none;
+  place-items: center;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface2);
+  color: var(--color-fg);
+  font-size: 0.7rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.sd-swatch:hover .sd-swatch__rm {
+  display: grid;
+}
+.sd-range {
+  width: 100%;
+  accent-color: var(--color-accent);
+}
+.sd-text {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--color-line2);
+  border-radius: var(--radius-sm);
+  background: var(--color-inset);
+  color: var(--color-fg);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+
+/* ---- code block (Shiki) ---- */
+.sd-code {
+  margin: 0 0 0.75rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.sd-code__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0.4rem 0.4rem 0.75rem;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-line);
+}
+.sd-code__name {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--color-muted);
+}
+.sd-code__kind {
+  color: var(--color-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.62rem;
+  margin-right: 0.5rem;
+}
+.sd-code__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.sd-code__wrap {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--color-line2);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+}
+.sd-code__wrap[aria-pressed="true"] {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+.sd-code__copy {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--color-line2);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+.sd-code__copy:hover {
+  color: var(--color-fg);
+  border-color: var(--color-fg);
+}
+.sd-code__copy[data-copied="true"] {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+.sd-code__body pre.shiki {
+  margin: 0;
+  padding: 1rem;
+  background: var(--color-inset) !important;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+.sd-code__body code {
+  font-family: inherit;
+}
+.sd-code--ln .sd-code__body code {
+  counter-reset: ln;
+}
+.sd-code--ln .sd-code__body .line {
+  counter-increment: ln;
+}
+.sd-code--ln .sd-code__body .line::before {
+  content: counter(ln);
+  display: inline-block;
+  width: 2ch;
+  margin-right: 1.25rem;
+  text-align: right;
+  color: var(--color-dim);
+  user-select: none;
+}
+.sd-code--wrap .sd-code__body pre.shiki,
+.sd-code--wrap .sd-code__body pre.shiki code {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* focus visibility on the dark canvas (WCAG 2.2) */
+.sd-code__copy:focus-visible,
+.sd-code__wrap:focus-visible,
+.vseg__btn:focus-visible,
+.sd-controls__reset:focus-visible,
+.sd-ctl__add:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ---- install block ---- */
+.sd-install {
+  display: grid;
+  gap: 0.6rem;
+}
+.sd-notes {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--color-muted);
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
+/* ============================================================= */
+/* Console layout — sticky headers, IDE blocks, progress TOC     */
+/* ============================================================= */
+.con-bc {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+.con-title {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  /* DESIGN.md Title token — the snippet name at the top of a detail page. */
+  font-size: clamp(1.6rem, 3.5vw, 2.1rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  margin: 0.4rem 0 1.75rem;
+}
+.con-sec {
+  margin-bottom: 2rem;
+}
+.con-h {
+  position: sticky;
+  top: var(--header-h, 3.5rem);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  /* DESIGN.md Heading token + the Mono-Heading Rule: size 1rem carried by a
+     hairline underline, not by being large. */
+  font-size: 1rem;
+  line-height: 1.4;
+  color: var(--color-fg);
+  margin: 0 0 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--color-line);
+  background: color-mix(in srgb, var(--color-canvas) 88%, transparent);
+  backdrop-filter: blur(8px);
+}
+.con-h__tick {
+  width: 3px;
+  height: 0.95rem;
+  background: var(--color-accent);
+}
+.con-toolbar {
+  position: sticky;
+  top: calc(var(--header-h, 3.5rem) + 2.4rem);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.4rem 0.6rem;
+  margin-bottom: 0.6rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+.con-toolbar__label {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-dim);
+}
+
+/* ---- scroll-progress TOC rail ---- */
+.toc-prog {
+  position: sticky;
+  top: 4.5rem;
+}
+.toc-prog__title {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-dim);
+  margin: 0 0 0.6rem;
+}
+.toc-prog__body {
+  display: grid;
+  grid-template-columns: 3px 1fr;
+  gap: 0.85rem;
+}
+.toc-prog__track {
+  position: relative;
+  background: var(--color-line);
+  overflow: hidden;
+}
+.toc-prog__fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: top;
+  background: var(--color-accent);
+  transition: transform 0.1s linear;
+}
+.toc-prog__links {
+  display: grid;
+  gap: 0.1rem;
+}
+.toc-prog__links a {
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  text-decoration: none;
+  padding: 0.18rem 0;
+}
+.toc-prog__links a:hover {
+  color: var(--color-fg);
+}
+.toc-prog__links a[aria-current="true"] {
+  color: var(--color-accent);
+}

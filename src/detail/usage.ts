@@ -1,12 +1,12 @@
 /*
- * THROWAWAY (detail-page /demos harness). The props->code engine behind the
+ * Detail page. The props->code engine behind the
  * confirmed model: the Usage copy artifact is *generated* from a snippet's
  * `usage` descriptor + the current prop values, rendered into each framework's
  * syntax. Because it takes plain prop values, the playground controls drive it
  * live and copying reflects the chosen props. Deleted on promotion (the chosen
  * layout's generator moves into the real site).
  */
-import type { DemoSnippet, DemoVariant } from "./catalog";
+import type { SnippetData, DetailVariant } from "./types";
 
 export type FrameworkAxis = "vue" | "react" | "html";
 export type StylingAxis = "tailwind" | "css";
@@ -53,8 +53,8 @@ function importLine(framework: FrameworkAxis, tag: string): string | null {
  * collapse the two — this returns the markup unchanged in that case.
  */
 export function renderUsage(
-  snippet: DemoSnippet,
-  variant: DemoVariant,
+  snippet: SnippetData,
+  variant: DetailVariant,
   propValues: Record<string, unknown>,
 ): string {
   const framework = variant.framework.startsWith("react")
@@ -85,7 +85,7 @@ export function renderUsage(
 }
 
 /** The Install artifact: npm deps for a variant, or null when there are none. */
-export function renderInstall(variant: DemoVariant): string | null {
+export function renderInstall(variant: DetailVariant): string | null {
   const pkgs = (variant.prerequisites ?? [])
     .map((p) => p.npm)
     .filter((x): x is string => Boolean(x));
@@ -93,7 +93,7 @@ export function renderInstall(variant: DemoVariant): string | null {
 }
 
 /** Tooling / CSS prerequisite notes (everything that isn't an npm install). */
-export function noteLines(variant: DemoVariant): string[] {
+export function noteLines(variant: DetailVariant): string[] {
   return (variant.prerequisites ?? [])
     .filter((p) => p.note)
     .map((p) => (p.npm ? `${p.npm} — ${p.note}` : (p.note as string)));
@@ -105,9 +105,9 @@ export function noteLines(variant: DemoVariant): string[] {
  * absent. Utilities (no styling axis) match on framework family only.
  */
 export function resolveVariant(
-  snippet: DemoSnippet,
+  snippet: SnippetData,
   pref: VariantPref,
-): { variant: DemoVariant; fellBack: boolean } {
+): { variant: DetailVariant; fellBack: boolean } {
   const fam = (f: string): FrameworkAxis =>
     f.startsWith("react") ? "react" : f.startsWith("vue") ? "vue" : "html";
 

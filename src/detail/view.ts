@@ -1,10 +1,10 @@
 /*
- * THROWAWAY (detail-page /demos harness). Pure assembly of a detail page's copy
+ * Detail page. Pure assembly of a detail page's copy
  * artifacts (Install / Source / Usage) from a snippet + the variant preference
  * + current prop values. All three layouts (A/B/C) render the same view, so the
  * model lives here and only the arrangement differs per layout.
  */
-import type { DemoSnippet, DemoVariant } from "./catalog";
+import type { SnippetData, DetailVariant } from "./types";
 import {
   renderUsage,
   renderInstall,
@@ -21,7 +21,7 @@ export interface CodeArtifact {
 }
 
 export interface DetailView {
-  variant: DemoVariant;
+  variant: DetailVariant;
   fellBack: boolean;
   fallbackNote: string | null;
   install: string | null;
@@ -56,7 +56,7 @@ const FW_LABEL: Record<string, string> = { vue: "Vue", react: "React", html: "HT
 const ST_LABEL: Record<string, string> = { tailwind: "Tailwind", css: "CSS" };
 
 export function buildView(
-  snippet: DemoSnippet,
+  snippet: SnippetData,
   pref: VariantPref,
   propValues: Record<string, unknown>,
 ): DetailView {

@@ -36,3 +36,5 @@ pnpm-debug.log*
 # Vitepress
 docs/.vitepress/dist
 docs/.vitepress/cache
+# nested impeccable per-dev cache (from component moves)
+**/.impeccable/

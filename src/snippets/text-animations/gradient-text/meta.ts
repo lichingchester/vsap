@@ -14,6 +14,22 @@ export const meta: SnippetMeta = {
   hasStylingAxis: true,
   // Flagship: ships the opt-in interactive playground (color / degree / speed).
   playground: true,
+  previewClass: "text-5xl font-semibold sm:text-6xl",
+  previewProps: {
+    colors: ["#ffaa40", "#9c40ff", "#ffaa40"],
+    degree: 90,
+    animationSpeed: 8,
+  },
+  controls: [
+    { prop: "colors", label: "Colors", kind: "colors" },
+    { prop: "degree", label: "Direction", kind: "range", min: 0, max: 360, step: 1, unit: "°" },
+    { prop: "animationSpeed", label: "Loop", kind: "range", min: 1, max: 10, step: 0.1, unit: "s" },
+  ],
+  usage: {
+    tag: "GradientText",
+    children: "Gradient Text",
+    props: ["colors", "degree", "animationSpeed"],
+  },
   props: [
     {
       name: "colors",

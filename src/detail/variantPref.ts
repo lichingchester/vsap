@@ -1,5 +1,5 @@
 /*
- * THROWAWAY (detail-page /demos harness). The persisted, global variant
+ * Detail page. The persisted, global variant
  * preference: one {framework, styling} the visitor sets once and every detail
  * page honours. Source of truth is this reactive singleton, mirrored to
  * localStorage and the URL (?fw=&style=) so a shared link opens the right
@@ -9,7 +9,7 @@
 import { reactive } from "vue";
 import type { VariantPref, FrameworkAxis, StylingAxis } from "./usage";
 
-const KEY = "tskr-demo-variant-pref";
+const KEY = "tskr-variant-pref";
 
 export const pref = reactive<VariantPref>({
   framework: "vue",
