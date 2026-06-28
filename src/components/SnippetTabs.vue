@@ -32,26 +32,24 @@ async function copy() {
 </script>
 
 <template>
-  <div class="overflow-hidden rounded-xl border border-neutral-800">
+  <div class="overflow-hidden rounded-[8px] border border-line">
     <!-- Variant tabs: switching a tab changes the code shown, not the preview above. -->
-    <div
-      class="flex items-center gap-1 border-b border-neutral-800 bg-neutral-900 px-2"
-    >
+    <div class="flex items-center gap-1 border-b border-line bg-surface px-2">
       <button
         v-for="v in variants"
         :key="v.id"
         class="px-3 py-2 text-sm transition-colors"
         :class="
           v.id === activeId
-            ? 'border-b-2 border-neutral-100 text-neutral-100'
-            : 'text-neutral-400 hover:text-neutral-200'
+            ? 'border-b-2 border-accent text-fg'
+            : 'text-muted hover:text-fg'
         "
         @click="activeId = v.id"
       >
         {{ v.label }}
       </button>
       <button
-        class="my-1 ml-auto rounded-md bg-neutral-800 px-3 py-1.5 text-xs text-neutral-100 hover:bg-neutral-700"
+        class="my-1 ml-auto rounded-[4px] bg-surface2 px-3 py-1.5 font-mono text-xs text-fg hover:bg-line"
         @click="copy"
       >
         {{ copied ? "Copied!" : "Copy" }}
@@ -61,14 +59,14 @@ async function copy() {
     <!-- Per-variant prerequisites — the honest replacement for "no setup". -->
     <div
       v-if="active?.prerequisites?.length"
-      class="border-b border-neutral-800 bg-neutral-900/50 px-4 py-3 text-sm"
+      class="border-b border-line bg-surface px-4 py-3 text-sm"
     >
-      <p class="mb-1 font-medium text-neutral-300">Before you paste</p>
-      <ul class="space-y-1 text-neutral-400">
+      <p class="mb-1 font-medium text-fg">Before you paste</p>
+      <ul class="space-y-1 text-muted">
         <li v-for="(p, i) in active.prerequisites" :key="i">
           <code
             v-if="p.npm"
-            class="rounded bg-neutral-800 px-1.5 py-0.5 text-neutral-200"
+            class="rounded-[4px] bg-surface2 px-1.5 py-0.5 font-mono text-fg"
             >npm i {{ p.npm }}</code
           ><span v-if="p.note">{{ p.npm ? " — " : "" }}{{ p.note }}</span>
         </li>
@@ -76,7 +74,7 @@ async function copy() {
     </div>
 
     <pre
-      class="overflow-x-auto bg-neutral-950 p-4 text-sm leading-relaxed"
+      class="overflow-x-auto bg-inset p-4 font-mono text-sm leading-relaxed text-fg"
     ><code>{{ active?.code }}</code></pre>
   </div>
 </template>

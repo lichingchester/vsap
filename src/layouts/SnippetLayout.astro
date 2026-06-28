@@ -1,0 +1,58 @@
+---
+/*
+ * SnippetLayout — the docs shell for snippet detail pages (ADR-0008):
+ * full-width header, a left sidebar listing every snippet (name only, mono),
+ * and a contained main column. The page supplies the detail content + its own
+ * right-hand "On this page" TOC.
+ */
+import Layout from "./Layout.astro";
+import { groupedSnippets, snippetHref } from "../lib/snippets";
+
+interface Props {
+  title: string;
+  description?: string;
+  /** name of the active snippet, for sidebar highlighting */
+  active: string;
+}
+const { title, description, active } = Astro.props;
+const groups = groupedSnippets();
+---
+
+<Layout title={title} description={description}>
+  <div class="docs-app">
+    <header class="docs-header">
+      <a class="s-brand" href="/">tskr<span>/ui</span></a>
+      <nav class="s-navlinks">
+        <a href="/">Home</a>
+        <a href="https://github.com/lichingchester/vsap">GitHub</a>
+      </nav>
+    </header>
+
+    <div class="docs-body">
+      <aside class="docs-side" aria-label="Snippets">
+        {
+          groups.map((g) => (
+            <div class="docs-side__group">
+              <p class="docs-side__cat">{g.category}</p>
+              {g.items.map((s) => (
+                <a
+                  class="docs-link"
+                  href={snippetHref(s)}
+                  aria-current={s.name === active ? "true" : "false"}
+                >
+                  {s.name}
+                </a>
+              ))}
+            </div>
+          ))
+        }
+      </aside>
+
+      <main class="docs-main">
+        <div class="docs-wrap">
+          <slot />
+        </div>
+      </main>
+    </div>
+  </div>
+</Layout>

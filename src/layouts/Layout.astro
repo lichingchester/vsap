@@ -1,5 +1,11 @@
 ---
+/*
+ * Base layout — html/head/fonts/body shell shared by every page. Page chrome
+ * (the home masthead, the docs sidebar) is composed by the pages/SnippetLayout
+ * on top of this. Applies the design system (global.css + site.css).
+ */
 import "../styles/global.css";
+import "../styles/site.css";
 
 interface Props {
   title: string;
@@ -17,23 +23,14 @@ const { title, description } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title} — tskr/ui</title>
     {description && <meta name="description" content={description} />}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  <body class="min-h-screen bg-neutral-950 text-neutral-100 antialiased">
-    <header class="border-b border-neutral-800">
-      <nav class="mx-auto flex max-w-4xl items-center justify-between px-6 py-4">
-        <a href="/" class="font-semibold tracking-tight">
-          tskr<span class="text-neutral-500">/ui</span>
-        </a>
-        <a
-          href="https://github.com/lichingchester/vsap"
-          class="text-sm text-neutral-400 hover:text-neutral-100"
-        >
-          GitHub
-        </a>
-      </nav>
-    </header>
-    <main class="mx-auto max-w-4xl px-6 py-12">
-      <slot />
-    </main>
+  <body class="s-root">
+    <slot />
   </body>
 </html>

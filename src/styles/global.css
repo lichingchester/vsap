@@ -1,7 +1,41 @@
 /*
- * Tailwind v4 entry. We import the explicit `/index.css` subpath rather than
- * the bare `@import "tailwindcss"` because Astro 7's Rolldown Vite doesn't
- * honor the package's `style` export condition for the bare specifier.
- * `@tailwindcss/postcss` (see postcss.config.mjs) compiles it.
+ * Tailwind v4 entry + the tskr/ui design system.
+ *
+ * We import the explicit `/index.css` subpath rather than the bare
+ * `@import "tailwindcss"` because Astro 7's Rolldown Vite doesn't honor the
+ * package's `style` export condition for the bare specifier.
  */
 @import "tailwindcss/index.css";
+
+/*
+ * Design tokens (ADR-0008). The confirmed system: warm amber on charcoal,
+ * Bricolage / Hanken / JetBrains type, tight radii. Defined in `@theme` so they
+ * are the documented tokens AND available as utilities (bg-canvas, text-accent,
+ * border-line, …). Contrast on muted/dim is tuned for WCAG AA on the canvas.
+ */
+@theme {
+  --color-canvas: #0e0e11;
+  --color-surface: #151519;
+  --color-surface2: #1b1b21;
+  --color-inset: #0a0a0c;
+
+  --color-line: #26262e;
+  --color-line2: #34343f;
+
+  --color-fg: #f4f4f5;
+  --color-muted: #b4b4bc;
+  --color-dim: #8a8a93;
+
+  --color-accent: #f5b544;
+  --color-accent2: #ffc65a;
+  --color-accent-ink: #1a1206;
+  --color-accent-soft: rgba(245, 181, 68, 0.12);
+
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-ui: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+}

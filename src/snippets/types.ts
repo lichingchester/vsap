@@ -50,5 +50,19 @@ export interface SnippetMeta {
   hasStylingAxis: boolean;
   /** Opt-in interactive playground — flagship snippets only. */
   playground?: boolean;
+  /** Public props of the snippet's component, for the detail page's API table. */
+  props?: PropDoc[];
   variants: Variant[];
+}
+
+/** One row of a snippet's API reference table on the detail page. */
+export interface PropDoc {
+  /** Prop name, e.g. "colors". */
+  name: string;
+  /** Type, written as it appears in the source, e.g. "string[]" or "number". */
+  type: string;
+  /** Default value as source text; omit for required/no-default props. */
+  default?: string;
+  /** One-line description of what the prop does. */
+  description: string;
 }

@@ -12,6 +12,37 @@ export const meta: SnippetMeta = {
   category: "utils",
   // Behavioural snippet — no Tailwind vs CSS distinction.
   hasStylingAxis: false,
+  props: [
+    {
+      name: "href",
+      type: "string",
+      default: "''",
+      description: "URL or path to navigate to.",
+    },
+    {
+      name: "noLink",
+      type: "boolean",
+      default: "false",
+      description: "Render a <div> instead of a link.",
+    },
+    {
+      name: "external",
+      type: "boolean",
+      default: "false",
+      description: "Treat href as an external URL — always a plain <a>.",
+    },
+    {
+      name: "newTab",
+      type: "boolean",
+      default: "false",
+      description: 'Open in a new tab (sets target="_blank").',
+    },
+    {
+      name: "attributes",
+      type: "Record<string, unknown>",
+      description: "Extra attributes forwarded to the rendered element.",
+    },
+  ],
   variants: [
     {
       id: "vue",

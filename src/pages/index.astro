@@ -1,42 +1,73 @@
 ---
+/*
+ * Home — Terminal · Masthead (ADR-0008). No sidebar: wordmark, tagline, CTA,
+ * a mono stats row, "Why tskr/ui" as # comment lines, then a typographic index
+ * of every snippet (discovered from disk via the registry).
+ */
 import Layout from "../layouts/Layout.astro";
-import linkTagMeta from "../snippets/utils/link-tag/meta";
-import gradientTextMeta from "../snippets/text-animations/gradient-text/meta";
+import { allSnippets, groupedSnippets, snippetHref } from "../lib/snippets";
 
-// Hand-listed for the scaffold. Next step: discover via import.meta.glob("../snippets/**/meta.ts").
-const snippets = [linkTagMeta, gradientTextMeta];
+const groups = groupedSnippets();
+const total = allSnippets.length;
+const browseHref = allSnippets[0] ? snippetHref(allSnippets[0]) : "/";
 ---
 
 <Layout
   title="Copy-paste UI"
-  description="A copy-paste collection of UI components, effects, and layouts for the web."
+  description="A copy-paste collection of components, effects, and layouts for the web."
 >
-  <h1 class="text-3xl font-semibold tracking-tight">tskr/ui</h1>
-  <p class="mt-3 max-w-2xl text-neutral-400">
-    A copy-paste collection of components, effects, and layouts. No install, no
-    CLI — copy the source straight into your project.
-  </p>
+  <nav class="s-nav">
+    <a class="s-brand" href="/">tskr<span>/ui</span></a>
+    <nav class="s-navlinks">
+      <a href={browseHref}>Snippets</a>
+      <a href="https://github.com/lichingchester/vsap">GitHub</a>
+    </nav>
+  </nav>
 
-  <h2
-    class="mt-10 mb-4 text-sm font-medium tracking-wide text-neutral-500 uppercase"
-  >
-    Snippets
-  </h2>
-  <ul class="grid gap-3 sm:grid-cols-2">
-    {
-      snippets.map((s) => (
-        <li>
-          <a
-            href={`/snippets/${s.category}/${s.name}`}
-            class="block rounded-xl border border-neutral-800 p-4 transition-colors hover:border-neutral-600"
-          >
-            <span class="block font-medium">{s.title}</span>
-            <span class="mt-1 block text-sm text-neutral-400">
-              {s.kind} · {s.category}
-            </span>
-          </a>
-        </li>
-      ))
-    }
-  </ul>
+  <div class="home">
+    <header class="home-head">
+      <h1 class="home-word">tskr<span>/ui</span></h1>
+      <p class="home-tag">
+        A copy-paste collection of components, effects, and layouts. Pick one,
+        copy the source, paste it in. No CLI, no package.
+      </p>
+
+      <div class="home-cta">
+        <a class="s-btn s-btn--primary" href={browseHref}>Browse snippets</a>
+        <a class="s-btn s-btn--ghost" href="https://github.com/lichingchester/vsap">GitHub</a>
+      </div>
+
+      <div class="home-stats">
+        <span><b>{total}</b> snippets</span>
+        <span><b>{groups.length}</b> categories</span>
+        <span><b>vue · react · html</b></span>
+        <span><b>tailwind / css</b></span>
+      </div>
+
+      <div class="home-why">
+        <p><b># </b><strong>copy, don't install</strong> — the source lives in your repo, no version churn</p>
+        <p><b># </b><strong>any stack</strong> — Vue, React, or plain HTML; Tailwind or native CSS</p>
+        <p><b># </b><strong>prerequisites, not magic</strong> — each snippet states exactly what it needs</p>
+      </div>
+    </header>
+
+    <div class="home-index">
+      {
+        groups.map((g) => (
+          <section>
+            <p class="home-cat">{g.category}</p>
+            {g.items.map((s) => (
+              <a class="home-item" href={snippetHref(s)}>
+                <span class="home-item__path">
+                  <em>{s.category}/</em>
+                  {s.name}
+                </span>
+                <span class="home-item__kind">{s.kind}</span>
+              </a>
+            ))}
+          </section>
+        ))
+      }
+    </div>
+  </div>
 </Layout>

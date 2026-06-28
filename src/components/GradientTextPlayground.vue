@@ -19,10 +19,10 @@ function removeColor(index: number) {
 </script>
 
 <template>
-  <div class="overflow-hidden rounded-xl border border-neutral-800">
+  <div class="overflow-hidden rounded-[8px] border border-line">
     <!-- Live preview: the reference variant, driven by the controls below. -->
     <div
-      class="flex min-h-44 items-center justify-center bg-neutral-900 px-6 py-10"
+      class="flex min-h-44 items-center justify-center bg-inset px-6 py-10"
     >
       <GradientText
         :colors="colors"
@@ -34,14 +34,14 @@ function removeColor(index: number) {
       </GradientText>
     </div>
 
-    <!-- Controls -->
-    <div class="space-y-5 border-t border-neutral-800 bg-neutral-950 p-4">
+    <!-- Controls (Panel props style) -->
+    <div class="space-y-5 border-t border-line bg-surface p-4">
       <!-- Colors -->
       <div>
         <div class="mb-2 flex items-center justify-between">
-          <label class="text-sm font-medium text-neutral-300">Colors</label>
+          <label class="text-sm font-medium text-fg">Colors</label>
           <button
-            class="rounded-md border border-dashed border-neutral-700 px-2 py-1 text-xs text-neutral-400 transition-colors hover:border-neutral-500 hover:text-neutral-200 disabled:opacity-40"
+            class="rounded-[4px] border border-dashed border-line2 px-2 py-1 font-mono text-xs text-muted transition-colors hover:border-accent hover:text-fg disabled:opacity-40"
             :disabled="colors.length >= 8"
             @click="addColor"
           >
@@ -57,12 +57,12 @@ function removeColor(index: number) {
             <input
               v-model="colors[i]"
               type="color"
-              class="h-9 w-9 cursor-pointer rounded-md border border-neutral-700 bg-transparent"
+              class="h-9 w-9 cursor-pointer rounded-[4px] border border-line2 bg-transparent"
               :aria-label="`Color ${i + 1}`"
             />
             <button
               v-if="colors.length > 2"
-              class="absolute -right-1 -top-1 hidden h-4 w-4 items-center justify-center rounded-full bg-neutral-700 text-[10px] leading-none text-neutral-100 group-hover:flex hover:bg-neutral-600"
+              class="absolute -right-1 -top-1 hidden h-4 w-4 items-center justify-center rounded-full bg-surface2 text-[10px] leading-none text-fg group-hover:flex hover:bg-line"
               :aria-label="`Remove color ${i + 1}`"
               @click="removeColor(i)"
             >
@@ -75,8 +75,8 @@ function removeColor(index: number) {
       <!-- Degree -->
       <div>
         <div class="mb-1 flex items-center justify-between">
-          <label class="text-sm font-medium text-neutral-300">Direction</label>
-          <span class="text-sm tabular-nums text-neutral-400"
+          <label class="text-sm font-medium text-fg">Direction</label>
+          <span class="text-sm tabular-nums font-mono text-dim"
             >{{ degree }}°</span
           >
         </div>
@@ -86,15 +86,15 @@ function removeColor(index: number) {
           min="0"
           max="360"
           step="1"
-          class="w-full accent-neutral-200"
+          class="w-full accent-[var(--color-accent)]"
         />
       </div>
 
       <!-- Speed -->
       <div>
         <div class="mb-1 flex items-center justify-between">
-          <label class="text-sm font-medium text-neutral-300">Loop</label>
-          <span class="text-sm tabular-nums text-neutral-400"
+          <label class="text-sm font-medium text-fg">Loop</label>
+          <span class="text-sm tabular-nums font-mono text-dim"
             >{{ animationSpeed.toFixed(1) }}s</span
           >
         </div>
@@ -104,11 +104,11 @@ function removeColor(index: number) {
           min="1"
           max="10"
           step="0.1"
-          class="w-full accent-neutral-200"
+          class="w-full accent-[var(--color-accent)]"
         />
       </div>
 
-      <p class="text-xs text-neutral-500">
+      <p class="text-xs text-dim">
         Tip: repeat the first color as the last stop for a seamless loop.
       </p>
     </div>

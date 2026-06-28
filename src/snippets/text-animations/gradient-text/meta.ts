@@ -14,6 +14,27 @@ export const meta: SnippetMeta = {
   hasStylingAxis: true,
   // Flagship: ships the opt-in interactive playground (color / degree / speed).
   playground: true,
+  props: [
+    {
+      name: "colors",
+      type: "string[]",
+      default: "['#ffaa40', '#9c40ff', '#ffaa40']",
+      description:
+        "Gradient colours, in order. Repeat the first colour last for a seamless loop.",
+    },
+    {
+      name: "degree",
+      type: "number",
+      default: "90",
+      description: "Gradient direction, in degrees (0–360).",
+    },
+    {
+      name: "animationSpeed",
+      type: "number",
+      default: "8",
+      description: "One full loop, in seconds. Higher is slower.",
+    },
+  ],
   variants: [
     {
       id: "vue-tailwind",
