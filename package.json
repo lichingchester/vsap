@@ -4,7 +4,7 @@
   "description": "Copy-paste collection of UI components, effects, and layouts for the web.",
   "type": "module",
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=24.0.0"
   },
   "scripts": {
     "dev": "astro dev",

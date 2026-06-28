@@ -44,10 +44,9 @@ If `.claude/settings.local.json` is missing for you (it's gitignored), re-enable
 the hook with `/impeccable hooks on`, or reinstall locally with
 `npx impeccable install --providers=claude --scope=project`.
 
-> [!warning] Node version
-> Impeccable wants **Node ≥ 24**; this repo targets **Node ≥ 22**. Everything
-> tested fine on 22, but if an `/impeccable` command misbehaves, check your Node
-> version first.
+> [!info] Node version
+> Impeccable wants **Node ≥ 24**; this repo targets **Node ≥ 24** (LTS
+> "Krypton"), so the requirement is satisfied.
 
 ## How to use it
 

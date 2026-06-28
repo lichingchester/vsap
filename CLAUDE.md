@@ -21,7 +21,7 @@ npm run check    # astro check (type-check)
 ```
 
 Notes:
-- Requires **Node >= 22**.
+- Requires **Node >= 24** (LTS "Krypton"); pinned via `.nvmrc` / `.node-version`.
 - No lint script; formatting is Prettier-on-save via `.vscode/settings.json`.
 - `astro check` reports a few **pre-existing** errors in legacy/raw files (`src/docs/lib/utils.ts`, the `link-tag/react-next` variant referencing `next/link`). Those variants are shipped as raw source, never compiled here.
 

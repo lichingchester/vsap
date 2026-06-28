@@ -28,7 +28,7 @@ Two rules drive everything:
 | `npm run preview` | Preview the production build     |
 | `npm run check`   | `astro check` (type-check)       |
 
-Node >= 22. No lint script; Prettier-on-save.
+Node >= 24. No lint script; Prettier-on-save.
 
 ## Adding a Snippet
 

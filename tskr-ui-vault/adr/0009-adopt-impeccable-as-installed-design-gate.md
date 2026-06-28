@@ -59,6 +59,5 @@ We decided:
   about that snippet's own quality, not conformance to the site theme.
 - Contributor usage and the tracked-vs-gitignored split are documented in
   [[Impeccable (design tooling)]] (linked from [[Home]]).
-- **Node caveat:** Impeccable targets Node ≥ 24; this repo targets Node ≥ 22.
-  Verified working on 22, but version-sensitive command failures should check Node
-  first.
+- **Node:** Impeccable targets Node ≥ 24; this repo now targets Node ≥ 24 (LTS
+  "Krypton"), so the two are aligned.
