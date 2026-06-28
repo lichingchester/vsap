@@ -44,10 +44,10 @@ src/snippets/<category>/<name>/
 ## The site
 
 - **`src/pages/index.astro`** — the home: a Terminal · Masthead landing (no sidebar) listing every snippet, discovered from disk.
-- **`src/pages/snippets/<category>/<name>.astro`** — a snippet detail page: a docs layout (sidebar + Preview / Props / Usage + an "On this page" TOC).
+- **`src/pages/snippets/<category>/<name>.astro`** — a snippet detail page: the **Console** layout (ADR-0011), a thin Astro page that hands `meta` + `?raw` sources to the `SnippetDetail` island. Sections **Preview → Install → Source → Usage → API** with copy artifacts and a scroll-progress "On this page" rail.
 - **`src/lib/snippets.ts`** — `import.meta.glob` registry over `src/snippets/**/meta.ts`; powers the home index and the sidebar.
 - **`src/layouts/`** — `Layout.astro` (base shell + fonts) and `SnippetLayout.astro` (docs shell: header + name-only sidebar + main).
-- **Docs-only components** (never copied): `SnippetTabs.vue`, `GradientTextPlayground.vue`, `ApiTable.astro`, `OnThisPage.astro`.
+- **Detail components** (`src/detail/`, docs-only, never copied, ADR-0011): the `SnippetDetail` island + `CodeBlock` (Shiki), `Controls`, `PreviewStage`, `VariantSelector`, `InstallBlock`, `ApiTable`, and the `usage`/`view`/`variantPref`/`scroll` modules.
 - **Control kit** (`src/controls/`, ADR-0010): the custom "Terminal" prop controls (`Slider`, `Toggle`, `Segmented`, `Select`, `TextField`, `ColorPicker`, `ColorList`) that interactive playgrounds use instead of native inputs. Docs-only site chrome — fully custom, zero deps (lucide icons only), self-styled via `controls.css`, never copied into a user's project. Top-level (NOT `src/components/<dir>/`, which the dev-scanner stub plugin would break). The `/demo` page (`src/demo/`) is the disposable six-skin exploration that chose this design.
 
 ## Design system (ADR-0008)
