@@ -1259,6 +1259,77 @@
   margin-top: 1.2rem;
 }
 
+/* ================================================================== *
+ * Detail page round (ADR-0008): terminal-styled detail, varying the
+ * arrangement of preview / props / code. Reuses the shared `.d-app`
+ * sidebar shell; only the sidebar links + arrangement grids are new.
+ * ================================================================== */
+.dt-link {
+  display: block;
+  padding: 0.35rem 0.6rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+.dt-link em {
+  font-style: normal;
+  color: var(--text-dim);
+}
+.dt-link:hover {
+  background: var(--surface);
+  color: var(--text);
+}
+.dt-link[aria-current="true"] {
+  color: var(--accent);
+  background: var(--accent-faint);
+}
+.dt-link[aria-disabled="true"] {
+  color: var(--text-dim);
+  opacity: 0.55;
+  pointer-events: none;
+}
+.dt-breadcrumb {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+.dt-breadcrumb em {
+  font-style: normal;
+  color: var(--accent);
+}
+.dt-title {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: clamp(1.6rem, 3.5vw, 2.1rem);
+  letter-spacing: -0.02em;
+  margin: 0.5rem 0 0;
+}
+.dt-desc {
+  margin: 0.8rem 0 1.5rem;
+  max-width: 56ch;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+.dt-grid {
+  display: grid;
+  gap: 1rem;
+  align-items: start;
+}
+.dt-grid--workbench {
+  grid-template-columns: 1.35fr 1fr;
+}
+.dt-grid--panels {
+  grid-template-columns: 1fr 1fr;
+}
+@media (max-width: 880px) {
+  .dt-grid--workbench,
+  .dt-grid--panels {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* --- Homepage hub: pick a layout --- */
 .hub {
   max-width: 60rem;

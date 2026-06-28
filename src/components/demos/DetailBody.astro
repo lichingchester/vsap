@@ -1,0 +1,111 @@
+---
+/*
+ * DetailBody — the snippet detail content, arranged per `layout` (ADR-0008):
+ *   stacked   — preview → props → code (linear)
+ *   workbench — [preview | props] side by side, code full-width below
+ *   panels    — [preview + props] | [code] two columns
+ * Terminal aesthetic. Shared live-gradient + tabs script lives here once.
+ */
+import gradientTextMeta from "../../snippets/text-animations/gradient-text/meta";
+import DetailStage from "./DetailStage.astro";
+import DetailControls from "./DetailControls.astro";
+import DetailSource from "./DetailSource.astro";
+
+interface Props {
+  layout: "stacked" | "workbench" | "panels";
+}
+const { layout } = Astro.props;
+const meta = gradientTextMeta;
+---
+
+<article class="d-detail">
+  <p class="dt-breadcrumb"><em>{meta.category}/</em>{meta.name}</p>
+  <h1 class="dt-title">{meta.title}</h1>
+  <p class="dt-desc">{meta.description}</p>
+
+  {
+    layout === "stacked" && (
+      <>
+        <DetailStage />
+        <DetailControls />
+        <p class="d-section-label d-source-label">Source</p>
+        <DetailSource />
+      </>
+    )
+  }
+
+  {
+    layout === "workbench" && (
+      <>
+        <div class="dt-grid dt-grid--workbench">
+          <DetailStage />
+          <DetailControls />
+        </div>
+        <p class="d-section-label d-source-label">Source</p>
+        <DetailSource />
+      </>
+    )
+  }
+
+  {
+    layout === "panels" && (
+      <div class="dt-grid dt-grid--panels">
+        <div>
+          <DetailStage />
+          <DetailControls />
+        </div>
+        <DetailSource />
+      </div>
+    )
+  }
+
+  <footer class="d-foot">tskr/ui · detail candidate · {layout}</footer>
+</article>
+
+<script is:inline>
+  const grad = document.getElementById("d-grad");
+  const panel = document.querySelector("[data-controls]");
+  if (grad && panel) {
+    const colors = [...panel.querySelectorAll("[data-c]")];
+    const angle = panel.querySelector("#d-angle");
+    const speed = panel.querySelector("#d-speed");
+    const angleVal = panel.querySelector("[data-angle-val]");
+    const speedVal = panel.querySelector("[data-speed-val]");
+    const apply = () => {
+      const cs = colors.map((c) => c.value);
+      const stops = [...cs, cs[1], cs[0]].join(", ");
+      grad.style.background = `linear-gradient(${angle.value}deg, ${stops})`;
+      grad.style.backgroundSize = "200% auto";
+      grad.style.webkitBackgroundClip = "text";
+      grad.style.backgroundClip = "text";
+      grad.style.color = "transparent";
+      grad.style.animationDuration = `${speed.value}s`;
+      angleVal.textContent = `${angle.value}°`;
+      speedVal.textContent = `${speed.value}s`;
+    };
+    [...colors, angle, speed].forEach((el) =>
+      el.addEventListener("input", apply),
+    );
+    apply();
+  }
+
+  document.querySelectorAll("[data-source]").forEach((block) => {
+    const tabs = [...block.querySelectorAll("[data-tab]")];
+    const panes = [...block.querySelectorAll("[data-code]")];
+    const copyBtn = block.querySelector("[data-copy]");
+    const select = (id) => {
+      tabs.forEach((t) =>
+        t.setAttribute("aria-selected", String(t.dataset.tab === id)),
+      );
+      panes.forEach((p) => (p.hidden = p.dataset.code !== id));
+    };
+    tabs.forEach((t) => t.addEventListener("click", () => select(t.dataset.tab)));
+    copyBtn?.addEventListener("click", async () => {
+      const active = panes.find((p) => !p.hidden);
+      if (!active) return;
+      await navigator.clipboard.writeText(active.textContent || "");
+      copyBtn.textContent = "Copied!";
+      setTimeout(() => (copyBtn.textContent = "Copy"), 1500);
+    });
+  });
+</script>

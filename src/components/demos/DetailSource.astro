@@ -1,0 +1,49 @@
+---
+/* Detail source — variant code tabs + copy + prerequisites. */
+import gradientTextMeta from "../../snippets/text-animations/gradient-text/meta";
+import vueTwSrc from "../../snippets/text-animations/gradient-text/vue-tailwind/GradientText.vue?raw";
+import vueCssSrc from "../../snippets/text-animations/gradient-text/vue-css/GradientText.vue?raw";
+import reactTwSrc from "../../snippets/text-animations/gradient-text/react-tailwind/GradientText.tsx?raw";
+import htmlSrc from "../../snippets/text-animations/gradient-text/html/gradient-text.html?raw";
+
+const codeById: Record<string, string> = {
+  "vue-tailwind": vueTwSrc,
+  "vue-css": vueCssSrc,
+  "react-tailwind": reactTwSrc,
+  html: htmlSrc,
+};
+const tabs = gradientTextMeta.variants.filter((v) => codeById[v.id]);
+const firstPrereq = tabs[0]?.prerequisites?.[0];
+---
+
+<div class="d-source" data-source>
+  <div class="d-tabbar" role="tablist">
+    {
+      tabs.map((v, i) => (
+        <button
+          class="d-tab"
+          role="tab"
+          data-tab={v.id}
+          aria-selected={i === 0 ? "true" : "false"}
+        >
+          {v.label}
+        </button>
+      ))
+    }
+    <button class="d-copy" data-copy>Copy</button>
+  </div>
+  {
+    firstPrereq && (
+      <div class="d-prereq">
+        <strong>Before you paste:</strong>{" "}
+        {firstPrereq.npm && <code>npm i {firstPrereq.npm}</code>}
+        {firstPrereq.note}
+      </div>
+    )
+  }
+  {
+    tabs.map((v, i) => (
+      <pre class="d-code" data-code={v.id} hidden={i !== 0}><code>{codeById[v.id]}</code></pre>
+    ))
+  }
+</div>
