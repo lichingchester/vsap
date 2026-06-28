@@ -26,6 +26,7 @@
     "@astrojs/react": "^6.0.0",
     "@astrojs/vue": "^7.0.0",
     "astro": "^7.0.2",
+    "lucide-vue-next": "^1.0.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "tailwindcss": "^4.3.1",

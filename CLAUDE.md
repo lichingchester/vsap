@@ -48,6 +48,7 @@ src/snippets/<category>/<name>/
 - **`src/lib/snippets.ts`** — `import.meta.glob` registry over `src/snippets/**/meta.ts`; powers the home index and the sidebar.
 - **`src/layouts/`** — `Layout.astro` (base shell + fonts) and `SnippetLayout.astro` (docs shell: header + name-only sidebar + main).
 - **Docs-only components** (never copied): `SnippetTabs.vue`, `GradientTextPlayground.vue`, `ApiTable.astro`, `OnThisPage.astro`.
+- **Control kit** (`src/controls/`, ADR-0010): the custom "Terminal" prop controls (`Slider`, `Toggle`, `Segmented`, `Select`, `TextField`, `ColorPicker`, `ColorList`) that interactive playgrounds use instead of native inputs. Docs-only site chrome — fully custom, zero deps (lucide icons only), self-styled via `controls.css`, never copied into a user's project. Top-level (NOT `src/components/<dir>/`, which the dev-scanner stub plugin would break). The `/demo` page (`src/demo/`) is the disposable six-skin exploration that chose this design.
 
 ## Design system (ADR-0008)
 

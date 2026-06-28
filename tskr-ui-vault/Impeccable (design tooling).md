@@ -82,6 +82,42 @@ system reminder — a fast, deterministic guard against the slop tells that
 > Tailwind and must not depend on the site tokens — so detector findings on a
 > snippet are about that snippet's own quality, not conformance to the site theme.
 
+## Design-exploration surfaces (the waiver flow)
+
+Some pages exist **to explore design space**, not to conform to the confirmed
+system — e.g. `/demo` (`src/pages/demo.astro` + `src/styles/demo.css`), which
+pits multiple control skins against each other and therefore *deliberately*
+varies radius (0 → pill), borders, and shadows across the documented scale. The
+detector will flag these off-scale values (`design-system-radius`,
+`design-system-color`). That is expected: the findings are real, but the
+divergence is the point.
+
+**Don't "fix" an exploration surface to satisfy the hook.** Instead waive the
+whole file once, in the tracked config (shared with every contributor):
+
+```bash
+node .claude/skills/impeccable/scripts/hook-admin.mjs ignore-file "<path>"
+# or, in-session:  /impeccable hooks ignore-file "<path>"
+```
+
+This appends to `detector.ignoreFiles` in **`.impeccable/config.json`** (tracked,
+so the waiver travels with the repo — unlike per-dev `config.local.json`). Commit
+that change alongside the exploration page.
+
+Two files are waived this way:
+
+- **`src/styles/demo.css`** — the `/demo` six-skin exploration ([[0010-prop-controls-kit]]).
+- **`src/controls/controls.css`** — the promoted control kit. Not exploration, but
+  the *same* intentional design: the chosen Terminal skin's tight radii, plus a
+  colour picker that necessarily renders the full spectrum (a hue-strip rainbow,
+  white/black saturation gradients). Those are functional, not slop — so the kit
+  file is waived too, on the same reasoning. A control kit with a real colour
+  picker will always carry off-palette spectrum colours; that's expected.
+
+Rule of thumb: waive a *file* when the whole surface is exploratory; waive a
+*value* (`ignore-value`) when one confirmed token legitimately sits off-scale;
+otherwise treat findings as defects and fix them.
+
 ## See also
 
 - [[0008-design-directions-via-token-demo-harness]] — the confirmed design system.

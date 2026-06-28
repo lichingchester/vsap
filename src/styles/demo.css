@@ -1,0 +1,904 @@
+/*
+ * /demo — prop-controls exploration (docs-only, never copied into a snippet).
+ *
+ * Strategy: every widget is styled ONCE against a per-panel variable contract
+ * (--p-*, --c-*, --label-*, …). A "skin" is just a `[data-skin]` block that
+ * redefines those vars (+ a few structural rules). Six skins, two axes:
+ *   A · Density      bare · carded · inset
+ *   B · Personality  terminal · refined · brutalist
+ * Whichever wins gets promoted to a real control kit — the var contract moves
+ * with it.
+ */
+
+/* ============================ Page layout ============================ */
+.demo {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 6rem;
+}
+.demo-axis + .demo-axis {
+  margin-top: 3.5rem;
+}
+.demo-axis__head {
+  margin-bottom: 1.25rem;
+}
+.demo-axis__title {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--color-fg);
+  margin: 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-line);
+}
+.demo-axis__sub {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  color: var(--color-dim);
+}
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+@media (max-width: 960px) {
+  .demo-grid {
+    grid-template-columns: 1fr;
+    max-width: 26rem;
+  }
+}
+
+/* ===================== Per-panel variable contract ===================== */
+.ctl-panel {
+  --p-bg: var(--color-surface);
+  --p-border: var(--color-line);
+  --radius: 8px;
+
+  --c-bg: var(--color-inset);
+  --c-border: var(--color-line2);
+  --c-fill: var(--color-accent);
+  --c-accent: var(--color-accent);
+  --c-knob: #ffffff;
+  --c-on-fill: var(--color-accent-ink);
+
+  --ring: color-mix(in srgb, var(--color-accent) 55%, transparent);
+  --gap: 1.15rem;
+
+  --label-font: var(--font-ui);
+  --label-size: 0.85rem;
+  --label-weight: 500;
+  --label-transform: none;
+  --label-spacing: 0;
+  --label-color: var(--color-fg);
+
+  --value-color: var(--color-dim);
+
+  background: var(--p-bg);
+  border: 1px solid var(--p-border);
+  border-radius: var(--radius);
+  overflow: visible;
+}
+.ctl-panel__head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.7rem 0.9rem;
+  border-bottom: 1px solid var(--p-border);
+}
+.ctl-panel__id {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--color-accent);
+}
+.ctl-panel__name {
+  font-family: var(--label-font);
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+.ctl-panel__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  padding: 1rem 0.9rem 1.15rem;
+}
+
+/* ===================== Shared control scaffolding ===================== */
+.ctl {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.ctl-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.ctl-label {
+  font-family: var(--label-font);
+  font-size: var(--label-size);
+  font-weight: var(--label-weight);
+  text-transform: var(--label-transform);
+  letter-spacing: var(--label-spacing);
+  color: var(--label-color);
+}
+.ctl-value {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--value-color);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Slider ----------
+   track = full-height transparent hit area (easy to grab); rail = thin visible
+   bar centered inside it. The thumb is positioned against the track, whose
+   width equals the rail's, so the drag math is unchanged. */
+.ctl-slider__track {
+  position: relative;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  touch-action: none;
+}
+.ctl-slider__rail {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--c-bg);
+  border: 1px solid var(--c-border);
+}
+.ctl-slider__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 999px;
+  background: var(--c-fill);
+}
+.ctl-slider__thumb {
+  position: absolute;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--c-knob);
+  border: 2px solid var(--c-fill);
+  transform: translate(-50%, -50%);
+  cursor: grab;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+}
+.ctl-slider__thumb:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ring);
+}
+.is-dragging .ctl-slider__thumb {
+  cursor: grabbing;
+}
+
+/* ---------- Toggle (button host + 4 variants) ---------- */
+.ctl-toggle__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  color: var(--color-fg);
+}
+.ctl-toggle__btn:focus-visible {
+  outline: none;
+  border-radius: 4px;
+  box-shadow: 0 0 0 3px var(--ring);
+}
+
+/* a · switch — slide track + knob (gallery default) */
+.ctl-toggle__switch {
+  position: relative;
+  width: 38px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--c-bg);
+  border: 1px solid var(--c-border);
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease;
+}
+.ctl-toggle__btn[aria-checked="true"] .ctl-toggle__switch {
+  background: var(--c-fill);
+  border-color: var(--c-fill);
+}
+.ctl-toggle__knob {
+  position: absolute;
+  top: 50%;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--c-knob);
+  transform: translateY(-50%);
+  transition: left 0.18s ease;
+}
+.ctl-toggle__btn[aria-checked="true"] .ctl-toggle__knob {
+  left: calc(100% - 18px);
+}
+
+/* b · bracket — [ ON ] / [ OFF ] */
+.ctl-toggle__bracket {
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  color: var(--color-dim);
+  transition: color 0.15s ease;
+}
+.ctl-toggle__btn[aria-checked="true"] .ctl-toggle__bracket {
+  color: var(--color-accent);
+}
+
+/* c · led — status dot + label */
+.ctl-toggle__led {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-line2);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.4);
+  transition:
+    background 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.ctl-toggle__btn[aria-checked="true"] .ctl-toggle__led {
+  background: var(--color-accent);
+  box-shadow: 0 0 8px 1px color-mix(in srgb, var(--color-accent) 60%, transparent);
+}
+.ctl-toggle__ledlabel {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* d · checkbox — [x] / [ ] */
+.ctl-toggle__cb {
+  font-size: 0.82rem;
+  color: var(--color-accent);
+  white-space: pre;
+}
+.ctl-toggle__cblabel {
+  font-size: 0.8rem;
+  color: var(--color-fg);
+}
+
+/* ---------- Segmented ---------- */
+.ctl-segmented__group {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  background: var(--c-bg);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+}
+.ctl-segmented__group.is-block {
+  display: flex;
+  width: 100%;
+}
+.ctl-segmented__group.is-block .ctl-segmented__seg {
+  flex: 1;
+}
+.ctl-segmented__seg {
+  min-width: 2.1rem;
+  padding: 0.3rem 0.7rem;
+  border: none;
+  background: transparent;
+  border-radius: calc(var(--radius) - 3px);
+  font-family: var(--label-font);
+  font-size: 0.78rem;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+.ctl-segmented__seg:hover {
+  color: var(--color-fg);
+}
+.ctl-segmented__seg.is-active {
+  background: var(--c-fill);
+  color: var(--c-on-fill);
+}
+.ctl-segmented__seg:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ring);
+}
+
+/* ---------- Select ---------- */
+.ctl-select__wrap {
+  position: relative;
+}
+.ctl-select__trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.5rem 0.7rem;
+  background: var(--c-bg);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  color: var(--color-fg);
+  font-family: var(--label-font);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+.ctl-select__trigger:hover,
+.ctl-select__trigger.is-open {
+  border-color: var(--c-accent);
+}
+.ctl-select__trigger:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ring);
+}
+.ctl-select__chevron {
+  color: var(--color-dim);
+  flex: none;
+  transition: transform 0.18s ease;
+}
+.ctl-select__trigger.is-open .ctl-select__chevron {
+  transform: rotate(180deg);
+}
+.ctl-select__list {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  background: var(--color-surface2);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  max-height: 220px;
+  overflow: auto;
+}
+.ctl-select__opt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.4rem 0.55rem;
+  border-radius: calc(var(--radius) - 2px);
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  cursor: pointer;
+}
+.ctl-select__opt.is-active {
+  background: var(--color-accent-soft);
+  color: var(--color-fg);
+}
+.ctl-select__opt[aria-selected="true"] {
+  color: var(--c-accent);
+}
+.ctl-select__tick {
+  color: var(--c-accent);
+  flex: none;
+}
+
+/* ---------- Color swatch + popover ---------- */
+.ctl-color__row,
+.ctl-colorlist__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+}
+.ctl-swatch {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+}
+.ctl-swatch__btn {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border-radius: calc(var(--radius) - 2px);
+  border: 1px solid var(--c-border);
+  background: var(--swatch);
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+.ctl-swatch__btn:hover,
+.ctl-swatch__btn.is-open {
+  border-color: var(--c-accent);
+}
+.ctl-swatch__btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ring);
+}
+.ctl-pop {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 172px;
+  padding: 0.6rem;
+  background: var(--color-surface2);
+  border: 1px solid var(--color-line2);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+.ctl-pop__grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 5px;
+}
+.ctl-pop__chip {
+  aspect-ratio: 1;
+  padding: 0;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--chip);
+  cursor: pointer;
+}
+.ctl-pop__chip.is-sel {
+  box-shadow:
+    0 0 0 2px var(--color-surface2),
+    0 0 0 3px var(--c-accent);
+}
+.ctl-pop__hex {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.55rem;
+}
+.ctl-pop__preview {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  border-radius: 4px;
+  border: 1px solid var(--color-line2);
+  background: var(--swatch);
+}
+.ctl-pop__hexin {
+  flex: 1;
+  min-width: 0;
+  padding: 0.3rem 0.45rem;
+  background: var(--color-inset);
+  border: 1px solid var(--color-line2);
+  border-radius: 4px;
+  color: var(--color-fg);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+.ctl-pop__hexin:focus {
+  outline: none;
+  border-color: var(--c-accent);
+}
+
+/* ---------- Color list ---------- */
+.ctl-colorlist__item {
+  position: relative;
+}
+.ctl-colorlist__rm {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 16px;
+  height: 16px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--color-surface2);
+  border: 1px solid var(--color-line2);
+  color: var(--color-fg);
+  cursor: pointer;
+}
+.ctl-colorlist__item:hover .ctl-colorlist__rm,
+.ctl-colorlist__rm:focus-visible {
+  display: flex;
+}
+.ctl-colorlist__add {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  border: 1px dashed var(--c-border);
+  border-radius: calc(var(--radius) - 2px);
+  color: var(--color-dim);
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+.ctl-colorlist__add:hover:not(:disabled) {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+}
+.ctl-colorlist__add:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---------- Text ---------- */
+.ctl-text__input {
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  background: var(--c-bg);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  color: var(--color-fg);
+  font-family: var(--label-font);
+  font-size: 0.82rem;
+  transition: border-color 0.15s ease;
+}
+.ctl-text__input::placeholder {
+  color: var(--color-dim);
+}
+.ctl-text__input:focus {
+  outline: none;
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 3px var(--ring);
+}
+
+/* ============================================================== */
+/*  A · DENSITY                                                    */
+/* ============================================================== */
+
+/* A1 · Bare — no panel chrome, hairline fields, generous breathing. */
+.ctl-panel[data-skin="bare"] {
+  --p-bg: transparent;
+  --p-border: transparent;
+  --c-bg: transparent;
+  --c-border: var(--color-line);
+  --gap: 1.4rem;
+}
+.ctl-panel[data-skin="bare"] .ctl-panel__head {
+  border-bottom: 1px dashed var(--color-line);
+  padding-left: 0.15rem;
+  padding-right: 0.15rem;
+}
+.ctl-panel[data-skin="bare"] .ctl-panel__body {
+  padding: 1.1rem 0.15rem 0.25rem;
+}
+.ctl-panel[data-skin="bare"] .ctl-slider__rail {
+  height: 4px;
+  border: none;
+  background: var(--color-line);
+}
+
+/* A2 · Carded — the base contract as-is (surface card, inset fields). */
+
+/* A3 · Inset — fields sunk into dark wells, tactile inner shadow. */
+.ctl-panel[data-skin="inset"] {
+  --p-bg: var(--color-surface2);
+  --c-bg: var(--color-canvas);
+  --c-border: #050507;
+  --radius: 6px;
+}
+.ctl-panel[data-skin="inset"] .ctl-slider__rail,
+.ctl-panel[data-skin="inset"] .ctl-text__input,
+.ctl-panel[data-skin="inset"] .ctl-select__trigger,
+.ctl-panel[data-skin="inset"] .ctl-segmented__group,
+.ctl-panel[data-skin="inset"] .ctl-toggle__switch {
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+/* ============================================================== */
+/*  B · PERSONALITY                                               */
+/* ============================================================== */
+
+/* B1 · Terminal — mono, uppercase, #-prefixed labels, near-black wells. */
+.ctl-panel[data-skin="terminal"] {
+  --p-bg: var(--color-inset);
+  --c-bg: #000000;
+  --c-border: var(--color-line2);
+  --radius: 3px;
+  --gap: 1rem;
+  --label-font: var(--font-mono);
+  --label-size: 0.72rem;
+  --label-weight: 500;
+  --label-transform: uppercase;
+  --label-spacing: 0.07em;
+  --label-color: var(--color-muted);
+}
+.ctl-panel[data-skin="terminal"] .ctl-panel__name {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-size: 0.72rem;
+}
+.ctl-panel[data-skin="terminal"] .ctl-label::before {
+  content: "# ";
+  color: var(--color-accent);
+}
+
+/* B2 · Refined — soft product UI: heavier labels, larger radii + thumb. */
+.ctl-panel[data-skin="refined"] {
+  --p-bg: var(--color-surface);
+  --c-bg: var(--color-surface2);
+  --c-border: var(--color-line);
+  --radius: 11px;
+  --gap: 1.3rem;
+  --label-weight: 600;
+}
+.ctl-panel[data-skin="refined"] .ctl-panel__head {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-accent) 7%, transparent),
+    transparent
+  );
+}
+.ctl-panel[data-skin="refined"] .ctl-slider__rail {
+  height: 8px;
+}
+.ctl-panel[data-skin="refined"] .ctl-slider__thumb {
+  width: 18px;
+  height: 18px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+.ctl-panel[data-skin="refined"] .ctl-select__opt.is-active,
+.ctl-panel[data-skin="refined"] .ctl-segmented__seg.is-active {
+  /* keep amber but slightly softer ink contrast already handled by tokens */
+}
+
+/* B3 · Brutalist — zero radius, 2px high-contrast borders, amber masthead. */
+.ctl-panel[data-skin="brutalist"] {
+  --p-bg: var(--color-canvas);
+  --p-border: var(--color-fg);
+  --c-bg: var(--color-canvas);
+  --c-border: var(--color-fg);
+  --c-knob: var(--color-fg);
+  --radius: 0px;
+  --gap: 1.1rem;
+  --label-font: var(--font-mono);
+  --label-weight: 700;
+  --label-transform: uppercase;
+  --label-spacing: 0.03em;
+}
+.ctl-panel[data-skin="brutalist"] * {
+  box-shadow: none !important;
+}
+.ctl-panel[data-skin="brutalist"] .ctl-panel__head {
+  background: var(--color-accent);
+  border-bottom: 2px solid var(--color-fg);
+}
+.ctl-panel[data-skin="brutalist"] .ctl-panel__id,
+.ctl-panel[data-skin="brutalist"] .ctl-panel__name {
+  color: var(--color-accent-ink);
+}
+.ctl-panel[data-skin="brutalist"] .ctl-panel__name {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+.ctl-panel[data-skin="brutalist"] .ctl-text__input,
+.ctl-panel[data-skin="brutalist"] .ctl-select__trigger,
+.ctl-panel[data-skin="brutalist"] .ctl-segmented__group,
+.ctl-panel[data-skin="brutalist"] .ctl-toggle__switch,
+.ctl-panel[data-skin="brutalist"] .ctl-swatch__btn,
+.ctl-panel[data-skin="brutalist"] .ctl-colorlist__add {
+  border-width: 2px;
+}
+.ctl-panel[data-skin="brutalist"] .ctl-slider__rail {
+  height: 10px;
+  border: 2px solid var(--color-fg);
+  background: var(--color-canvas);
+}
+.ctl-panel[data-skin="brutalist"] .ctl-slider__thumb {
+  border-radius: 0;
+  width: 14px;
+  height: 18px;
+  background: var(--color-accent);
+  border: 2px solid var(--color-fg);
+}
+.ctl-panel[data-skin="brutalist"] .ctl-toggle__knob {
+  border-radius: 0;
+}
+.ctl-panel[data-skin="brutalist"] .ctl-colorlist__add {
+  border-style: solid;
+}
+
+/* ============================================================== */
+/*  TERMINAL · LAB — focused iteration on the chosen skin          */
+/* ============================================================== */
+
+/* (1) Slider — fatter rail + blocky amber thumb; the tall hit area is in the
+   base rule, so the whole row is grab-able. */
+.ctl-panel[data-skin="terminal"] .ctl-slider__rail {
+  height: 8px;
+  border-radius: 2px;
+}
+.ctl-panel[data-skin="terminal"] .ctl-slider__fill {
+  border-radius: 1px;
+}
+.ctl-panel[data-skin="terminal"] .ctl-slider__thumb {
+  width: 12px;
+  height: 20px;
+  border-radius: 2px;
+  background: var(--color-accent);
+  border: 1px solid var(--color-canvas);
+  box-shadow: 0 0 0 1px var(--color-line2);
+}
+
+/* (3) Switch direction — squared track + knob for the Terminal feel. */
+.ctl-panel[data-skin="terminal"] .ctl-toggle__switch {
+  border-radius: 3px;
+}
+.ctl-panel[data-skin="terminal"] .ctl-toggle__knob {
+  border-radius: 2px;
+}
+
+/* (2) Color picker — full HSV field */
+.ctl-picker__row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.ctl-picker__hexlabel {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--color-muted);
+}
+.ctl-pop--picker {
+  width: 200px;
+}
+.ctl-pick__sv {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  border-radius: calc(var(--radius) - 1px);
+  background: var(--hue);
+  cursor: crosshair;
+  touch-action: none;
+  overflow: hidden;
+}
+.ctl-pick__sv-white,
+.ctl-pick__sv-black {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.ctl-pick__sv-white {
+  background: linear-gradient(to right, #fff, rgba(255, 255, 255, 0));
+}
+.ctl-pick__sv-black {
+  background: linear-gradient(to top, #000, rgba(0, 0, 0, 0));
+}
+.ctl-pick__sv-knob {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: var(--swatch);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+  transform: translate(-50%, -50%);
+  cursor: grab;
+}
+.ctl-pick__sv-knob:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--c-accent);
+}
+.ctl-pick__hue {
+  position: relative;
+  height: 12px;
+  margin-top: 0.55rem;
+  border-radius: 999px;
+  cursor: pointer;
+  touch-action: none;
+  background: linear-gradient(
+    to right,
+    #f00 0%,
+    #ff0 17%,
+    #0f0 33%,
+    #0ff 50%,
+    #00f 67%,
+    #f0f 83%,
+    #f00 100%
+  );
+}
+.ctl-pick__hue-knob {
+  position: absolute;
+  top: 50%;
+  width: 8px;
+  height: 16px;
+  border-radius: 2px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  transform: translate(-50%, -50%);
+  cursor: grab;
+}
+.ctl-pick__hue-knob:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--c-accent);
+}
+.ctl-pick__presets {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 4px;
+  margin-top: 0.55rem;
+}
+.ctl-pick__preset {
+  aspect-ratio: 1;
+  padding: 0;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--chip);
+  cursor: pointer;
+}
+.ctl-pick__preset.is-sel {
+  box-shadow:
+    0 0 0 2px var(--color-surface2),
+    0 0 0 3px var(--c-accent);
+}
+
+/* Lab section layout */
+.lab__head {
+  margin-bottom: 1.25rem;
+}
+.lab__title {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 1.05rem;
+  color: var(--color-fg);
+  margin: 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-accent);
+}
+.lab__sub {
+  margin: 0.5rem 0 0;
+  max-width: 60ch;
+  font-size: 0.85rem;
+  color: var(--color-dim);
+}
+.lab__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+@media (max-width: 760px) {
+  .lab__grid {
+    grid-template-columns: 1fr;
+  }
+}
+.lab__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px dashed var(--color-line);
+}
+.lab__toggle:last-child {
+  border-bottom: none;
+}
+.lab__toggle-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+.lab__toggle .ctl-toggle {
+  align-items: flex-end;
+}
+
+/* Divider before the reference gallery */
+.demo-axis--divider {
+  margin-top: 3.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-line);
+}
+.demo-axis--divider .demo-axis__title {
+  border-bottom: none;
+  color: var(--color-dim);
+}

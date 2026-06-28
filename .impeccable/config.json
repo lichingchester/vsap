@@ -1,0 +1,10 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [
+      "src/styles/demo.css",
+      "src/controls/controls.css"
+    ],
+    "ignoreValues": []
+  }
+}
