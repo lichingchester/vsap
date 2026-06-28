@@ -16,6 +16,7 @@ tskr-ui-vault/.obsidian/cache
 # Claude Code / Impeccable per-developer settings (skill files stay tracked)
 .claude/settings.local.json
 .impeccable/config.local.json
+.impeccable/*.cache.json
 
 # Log files
 npm-debug.log*
