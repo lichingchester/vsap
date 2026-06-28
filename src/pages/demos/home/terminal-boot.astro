@@ -1,16 +1,17 @@
 ---
 /*
- * Homepage candidate — "Terminal": minimal typographic index. Big wordmark, a
- * one-line tagline, a faux search, and a monospace directory of every snippet.
- * Dev-tool / README feel. No sidebar. (ADR-0008)
+ * Terminal homepage — "Boot": stats + Why rendered as a faux command/boot log
+ * (`$ npx tskr/ui` → `✓ …`), with CTA buttons and the snippet index below.
+ * (ADR-0008)
  */
 import "../../../styles/global.css";
 import "../../../styles/demos.css";
-import { groupedCatalog } from "../../../components/demos/catalog";
+import { catalog, groupedCatalog } from "../../../components/demos/catalog";
 import TermNav from "../../../components/demos/TermNav.astro";
 
 const detailHref = "/demos/e/detail";
 const groups = groupedCatalog();
+const total = catalog.length;
 ---
 
 <!doctype html>
@@ -19,7 +20,7 @@ const groups = groupedCatalog();
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex" />
-    <title>Homepage · Terminal — tskr/ui demo</title>
+    <title>Homepage · Terminal Boot — tskr/ui demo</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -29,16 +30,28 @@ const groups = groupedCatalog();
   </head>
   <body data-direction="e">
     <div class="e-shell">
-      <TermNav current="index" />
+      <TermNav current="boot" />
       <div class="ht-wrap">
         <header class="ht-head">
           <h1 class="ht-word">tskr<span>/ui</span></h1>
           <p class="ht-tag">
             A copy-paste collection of components, effects, and layouts. Pick one,
-            copy the source, paste it in. No CLI, no package.
+            copy the source, paste it in.
           </p>
-          <div class="ht-search">
-            <b>›</b> search {groups.reduce((n, g) => n + g.items.length, 0)} snippets…
+
+          <div class="ht-boot">
+            <div class="ht-boot__cmd"><b>$</b> npx tskr/ui</div>
+            <div class="ht-boot__ok"><i>✓</i> <b>{total}</b> snippets across <b>{groups.length}</b> categories</div>
+            <div class="ht-boot__ok"><i>✓</i> targets <b>vue · react · html</b></div>
+            <div class="ht-boot__ok"><i>✓</i> styling <b>tailwind / native css</b></div>
+            <div class="ht-boot__ok"><i>✓</i> copy, don't install — source lives in your repo</div>
+            <div class="ht-boot__ok"><i>✓</i> prerequisites declared per snippet, no magic</div>
+            <div class="ht-boot__arrow">→ copy. paste. ship.</div>
+          </div>
+
+          <div class="ht-cta">
+            <a class="d-btn d-btn--primary" href={detailHref}>Browse snippets</a>
+            <a class="d-btn d-btn--ghost" href="https://github.com/lichingchester/vsap">GitHub</a>
           </div>
         </header>
 
@@ -49,10 +62,7 @@ const groups = groupedCatalog();
                 <p class="ht-cat">{g.label}</p>
                 {g.items.map((s) => (
                   <a class="ht-item" href={detailHref}>
-                    <span class="ht-item__path">
-                      <em>{g.category}/</em>
-                      {s.name}
-                    </span>
+                    <span class="ht-item__path"><em>{g.category}/</em>{s.name}</span>
                     <span class="ht-item__kind">{s.kind}</span>
                   </a>
                 ))}
@@ -61,7 +71,7 @@ const groups = groupedCatalog();
           }
         </div>
 
-        <footer class="e-foot">tskr/ui · homepage candidate · terminal</footer>
+        <footer class="e-foot">tskr/ui · homepage candidate · terminal boot</footer>
       </div>
     </div>
   </body>

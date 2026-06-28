@@ -1,0 +1,84 @@
+---
+/*
+ * Terminal homepage — "Split": two-column terminal. Left = pitch (wordmark,
+ * tagline, CTA, stats, Why); right = the snippet index in a scroll panel.
+ * (ADR-0008)
+ */
+import "../../../styles/global.css";
+import "../../../styles/demos.css";
+import { catalog, groupedCatalog } from "../../../components/demos/catalog";
+import TermNav from "../../../components/demos/TermNav.astro";
+
+const detailHref = "/demos/e/detail";
+const groups = groupedCatalog();
+const total = catalog.length;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Homepage · Terminal Split — tskr/ui demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body data-direction="e">
+    <div class="e-shell">
+      <TermNav current="split" />
+      <div class="ht-wrap">
+        <div class="ht-2col" style="padding-top:4rem">
+          <!-- Left: pitch -->
+          <div>
+            <h1 class="ht-word">tskr<span>/ui</span></h1>
+            <p class="ht-tag">
+              A copy-paste collection of components, effects, and layouts. Copy
+              the source, paste it in. No CLI, no package.
+            </p>
+
+            <div class="ht-cta">
+              <a class="d-btn d-btn--primary" href={detailHref}>Browse snippets</a>
+              <a class="d-btn d-btn--ghost" href="https://github.com/lichingchester/vsap">GitHub</a>
+            </div>
+
+            <div class="ht-stats">
+              <span><b>{total}</b> snippets</span>
+              <span><b>{groups.length}</b> categories</span>
+              <span><b>3</b> frameworks</span>
+            </div>
+
+            <div class="ht-why">
+              <p class="ht-why__row"><b># </b><strong>copy, don't install</strong> — the source lives in your repo</p>
+              <p class="ht-why__row"><b># </b><strong>any stack</strong> — Vue · React · HTML, Tailwind or CSS</p>
+              <p class="ht-why__row"><b># </b><strong>prerequisites, not magic</strong> — stated per snippet</p>
+            </div>
+          </div>
+
+          <!-- Right: index panel -->
+          <div class="ht-panel">
+            {
+              groups.map((g) => (
+                <section>
+                  <p class="ht-cat">{g.label}</p>
+                  {g.items.map((s) => (
+                    <a class="ht-item" href={detailHref}>
+                      <span class="ht-item__path"><em>{g.category}/</em>{s.name}</span>
+                      <span class="ht-item__kind">{s.kind}</span>
+                    </a>
+                  ))}
+                </section>
+              ))
+            }
+          </div>
+        </div>
+
+        <footer class="e-foot">tskr/ui · homepage candidate · terminal split</footer>
+      </div>
+    </div>
+  </body>
+</html>

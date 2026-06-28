@@ -1,0 +1,36 @@
+---
+/*
+ * TermNav — nav + "term:" switcher for the terminal homepage family (ADR-0008).
+ * Flips between the terminal treatments (index / masthead / boot / split) while
+ * we settle the homepage. No sidebar. Throwaway scaffolding.
+ */
+interface Props {
+  current: string;
+}
+const { current } = Astro.props;
+
+const options = [
+  { id: "index", label: "Index", href: "/demos/home/terminal" },
+  { id: "masthead", label: "Masthead", href: "/demos/home/terminal-masthead" },
+  { id: "boot", label: "Boot", href: "/demos/home/terminal-boot" },
+  { id: "split", label: "Split", href: "/demos/home/terminal-split" },
+];
+---
+
+<nav class="e-nav">
+  <a class="e-brand" href="/demos/home">tskr<span>/ui</span></a>
+  <div class="e-nav__right">
+    <nav class="d-dirswitch" aria-label="Terminal homepage variant">
+      <span>term</span>
+      {
+        options.map((o) => (
+          <a href={o.href} aria-current={o.id === current ? "true" : "false"}>
+            {o.label}
+          </a>
+        ))
+      }
+    </nav>
+    <a class="e-navlink" href="/demos/home">All homepages</a>
+    <a class="e-navlink" href="https://github.com/lichingchester/vsap">GitHub</a>
+  </div>
+</nav>
