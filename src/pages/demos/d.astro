@@ -1,0 +1,13 @@
+---
+/*
+ * Direction D demo (ADR-0008) — the confirmed synthesis.
+ * Reuses the shared sidebar shell (DemoLayout) with B's amber tokens; the
+ * simple home + props-controls detail live in DemoMainD.
+ */
+import DemoLayout from "../../layouts/DemoLayout.astro";
+import DemoMainD from "../../components/demos/DemoMainD.astro";
+---
+
+<DemoLayout title="Direction D" direction="d" active="gradient-text">
+  <DemoMainD />
+</DemoLayout>

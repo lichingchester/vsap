@@ -53,6 +53,44 @@
 }
 
 /* ================================================================== *
+ * Direction D — the synthesis (confirmed): B's amber palette (the agreed
+ * main colour) on the shared sidebar shell, a simpler home, and a props
+ * controls panel on the detail page. Same tokens as B by design.
+ * ================================================================== */
+[data-direction="d"] {
+  --canvas: #0e0e11;
+  --surface: #151519;
+  --surface-2: #1b1b21;
+  --inset: #0a0a0c;
+  --border: #26262e;
+  --border-strong: #34343f;
+
+  --text: #f4f4f5;
+  --text-muted: #9a9aa2;
+  --text-dim: #6e6e78;
+
+  --accent: #f5b544;
+  --accent-strong: #ffc65a;
+  --accent-ink: #1a1206;
+  --accent-faint: rgba(245, 181, 68, 0.12);
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-ui: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --dur: 200ms;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.25);
+
+  --code-bg: #0a0a0c;
+  --code-text: #e8e8ea;
+}
+
+/* ================================================================== *
  * Direction C — gallery / "lab". A structurally different design, not a
  * recolour of B (escape hatch, ADR-0008): no sidebar, a top category-filter
  * bar, and an edge-to-edge bento gallery where the previews ARE the nav.
@@ -584,6 +622,79 @@
   color: var(--text-dim);
   font-size: 0.82rem;
   font-family: var(--font-mono);
+}
+
+/* --- Props controls (Direction D): live, token-driven prop fields --- */
+.d-controls {
+  margin-top: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  overflow: hidden;
+}
+.d-controls__title {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  padding: 0.7rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+}
+.d-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.65rem 0.9rem;
+}
+.d-control + .d-control {
+  border-top: 1px solid var(--border);
+}
+.d-control__label {
+  font-size: 0.86rem;
+  color: var(--text);
+}
+.d-control__label code {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+.d-control__field {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.d-control__val {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--text-dim);
+  min-width: 3.5ch;
+  text-align: right;
+}
+.d-controls input[type="range"] {
+  accent-color: var(--accent);
+  width: 9rem;
+}
+.d-swatches {
+  display: flex;
+  gap: 0.4rem;
+}
+.d-swatch {
+  width: 1.7rem;
+  height: 1.7rem;
+  padding: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: none;
+  cursor: pointer;
+}
+.d-swatch::-webkit-color-swatch-wrapper {
+  padding: 2px;
+}
+.d-swatch::-webkit-color-swatch {
+  border: none;
+  border-radius: 2px;
 }
 
 /* ================================================================== *
