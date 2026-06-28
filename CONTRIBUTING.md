@@ -1,12 +1,12 @@
-# Contributing to VSAP
+# Contributing to tskr/ui
 
-Thank you for your interest in contributing to the VSAP project!
+Thank you for your interest in contributing to the tskr/ui project!
 
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/lichingchester/vsap/pulls)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/lichingchester/tskr-ui/pulls)
 
 ## Table of Contents
 
-- [Contributing to VSAP](#contributing-to-vsap)
+- [Contributing to tskr/ui](#contributing-to-tskrui)
   - [Table of Contents](#table-of-contents)
   - [Project Overview](#project-overview)
   - [Getting Started](#getting-started)
@@ -22,7 +22,7 @@ Thank you for your interest in contributing to the VSAP project!
 
 ## Project Overview
 
-VSAP is an open-source library featuring animated and practical Vue components designed for website development. Built with VueJS, this project aims to provide developers with a comprehensive set of reusable code blocks.
+tskr/ui is an open-source library featuring animated and practical Vue components designed for website development. Built with VueJS, this project aims to provide developers with a comprehensive set of reusable code blocks.
 
 ## Getting Started
 
@@ -92,6 +92,6 @@ When participating in any form of communication, please follow our code of condu
 
 ## Contact [WIP]
 
-If you have questions about contributing, please [open an issue](https://github.com/lichingchester/vsap/issues) or start a [discussion](https://github.com/lichingchester/vsap/discussions).
+If you have questions about contributing, please [open an issue](https://github.com/lichingchester/tskr-ui/issues) or start a [discussion](https://github.com/lichingchester/tskr-ui/discussions).
 
-Thank you for contributing to make the VSAP better for everyone!
+Thank you for contributing to make the tskr/ui better for everyone!

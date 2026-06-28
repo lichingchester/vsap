@@ -21,7 +21,7 @@ npx jsrepo add text-animations/gradient-text
 ### Standalone
 
 ```bash
-npx jsrepo add https://github.com/lichingchester/vsap/tree/main/text-animations/gradient-text
+npx jsrepo add https://github.com/lichingchester/tskr-ui/tree/main/text-animations/gradient-text
 ```
 
 ### Manually

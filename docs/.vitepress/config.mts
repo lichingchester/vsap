@@ -82,7 +82,7 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: "github", link: "https://github.com/lichingchester/vsap" },
+      { icon: "github", link: "https://github.com/lichingchester/tskr-ui" },
     ],
 
     outline: [2, 3],

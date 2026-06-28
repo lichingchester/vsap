@@ -1,79 +1,52 @@
-# VSAP — Copilot Instructions
+# tskr/ui — Copilot Instructions
 
 ## Project Overview
 
-VSAP is a **copy-and-use Vue component registry** distributed via [jsrepo](https://jsrepo.dev). Users install individual components into their own projects (`npx jsrepo add <category>/<block>`), so each component must be **self-contained** with no cross-component imports. The docs site is a separate VitePress app used for previewing components.
+**tskr/ui** is a **copy-paste collection** of UI components, visual effects, and layouts for the web. Users copy a snippet's source straight into their project from the site — no install, no CLI, no package. It's an **Astro 7** site supporting Vue, React, and plain HTML (with Tailwind or native CSS). The earlier jsrepo + VitePress "VSAP" registry was retired.
+
+Two rules drive everything:
+
+1. **Snippets must be self-contained** — a distributable snippet may not import from another. External deps (gsap, three) are declared per-variant as **Prerequisites**.
+2. **The site is separate** — chrome, previews, and docs-only components are never copied.
 
 ## Repository Layout
 
-- `src/components/<category>/<name>/` — **Registry components** (the actual distributable). Each folder is a jsrepo "block" containing a single `.vue` file (+ optional `.spec.ts` and `README.md`). Categories: `backgrounds`, `text-animations`, `utils`.
-- `src/components/<category>/<name>-nuxt/` — **Nuxt variants** of components that need framework-specific code (e.g., `link-tag-nuxt/`). These are excluded from TypeScript checking via `tsconfig.json`.
-- `docs/` — VitePress documentation site. Each component page lives at `docs/components/<category>/<name>/index.md`.
-- `src/docs/` — Vue components used **only** in the docs site (previews, showcases, shadcn UI, etc.). These are NOT part of the registry.
-- `jsrepo-manifest.json` — Auto-generated manifest listing all registry blocks. Rebuilt with `npm run build:registry`.
-- `jsrepo-build-config.json` — Configuration for jsrepo build. `excludeDeps: ["vue", "vue-router"]` means these are peer deps.
+- `src/snippets/<category>/<name>/` — the distributable snippets. `meta.ts` (data model) + one folder per variant (`vue-tailwind/` is the reference, then `vue-css/`, `react-tailwind/`, `react-css/`, `html/`, …).
+- `src/pages/` — the Astro site: `index.astro` (Terminal · Masthead home) and `snippets/<category>/<name>.astro` (docs detail pages).
+- `src/lib/snippets.ts` — `import.meta.glob` registry over `meta.ts`; powers the home index + sidebar.
+- `src/layouts/` — `Layout.astro` (base + fonts), `SnippetLayout.astro` (docs shell).
+- `src/styles/` — `global.css` (Tailwind v4 `@theme` design tokens) + `site.css` (site chrome).
+- Docs-only components (never copied): `src/components/SnippetTabs.vue`, `GradientTextPlayground.vue`, `ApiTable.astro`, `OnThisPage.astro`.
+- **Legacy** (being phased out, don't build on): old `docs/` VitePress site, `src/docs/`, old `src/components/<category>/` blocks, `jsrepo-*.json`.
 
 ## Key Commands
 
-| Command                  | Purpose                                                |
-| ------------------------ | ------------------------------------------------------ |
-| `npm run docs:dev`       | Start VitePress dev server for docs                    |
-| `npm run docs:build`     | Build docs for production                              |
-| `npm run build:registry` | Rebuild jsrepo manifest (`jsrepo-manifest.json`)       |
-| `npm test`               | Run Vitest in watch mode (browser-mode via Playwright) |
-| `npm run test:run`       | Run tests once                                         |
+| Command           | Purpose                          |
+| ----------------- | -------------------------------- |
+| `npm run dev`     | Astro dev server                 |
+| `npm run build`   | Production build (static)        |
+| `npm run preview` | Preview the production build     |
+| `npm run check`   | `astro check` (type-check)       |
 
-## Adding a New Component
+Node >= 22. No lint script; Prettier-on-save.
 
-1. Create `src/components/<category>/<ComponentName>/ComponentName.vue` — the component file.
-2. If it needs a Nuxt variant, create `src/components/<category>/<component-name>-nuxt/ComponentName.vue`.
-3. Run `npm run build:registry` to regenerate `jsrepo-manifest.json`.
-4. Create documentation page at `docs/components/<category>/<component-name>/index.md`.
-5. Create preview/showcase Vue files in `src/docs/components/<category>/<component-name>/` (`Preview.vue`, `Showcases.vue`).
-6. Add the component to the VitePress sidebar in `docs/.vitepress/config.mts`.
+## Adding a Snippet
 
-## Component Conventions
+1. `src/snippets/<category>/<name>/vue-tailwind/<Name>.vue` (reference) + any ports/native variants.
+2. `src/snippets/<category>/<name>/meta.ts` — title, kind, category, `props` (for the API table), variants, prerequisites.
+3. `src/pages/snippets/<category>/<name>.astro` — mounts the reference for the live preview, `?raw`-imports each variant for the code tabs (no-drift rule).
+4. It appears on the home index + sidebar automatically.
 
-- **Vue 3 Composition API with `<script setup lang="ts">`** — all components use TypeScript and `defineProps` with interface types.
-- **Props use `withDefaults(defineProps<Interface>(), { ... })`** pattern for default values.
-- **Self-contained** — registry components must not import from other registry components. External deps (gsap, three) are declared per-block in the manifest.
-- **Naming**: PascalCase for `.vue` filenames matching the component name. Kebab-case for directory names.
-- **Nuxt variants** use the same filename as the Vue variant but import from `#components` (e.g., `NuxtLink`) instead of `vue-router`.
+## Conventions
 
-## Documentation Page Pattern
+- Vue 3 `<script setup lang="ts">`, `defineProps<Interface>()`, defaults via `withDefaults`. PascalCase filenames, kebab-case directories.
+- Tailwind v4 via `@tailwindcss/postcss` (no `tailwind.config.js`). The entry imports `@import "tailwindcss/index.css"` (Rolldown/Astro 7 workaround).
+- Design tokens (amber on charcoal; Bricolage / Hanken / JetBrains) are in `global.css @theme`; site chrome uses them in `site.css`. Snippets themselves use plain Tailwind and never depend on site tokens.
 
-Each doc page (`docs/components/.../index.md`) follows this structure:
+## Documentation
 
-```md
-<script setup lang="ts">
-import Preview from "@/src/docs/components/<category>/<name>/Preview.vue";
-import Showcases from "@/src/docs/components/<category>/<name>/Showcases.vue";
-</script>
-
-# Component Name
-
-<Preview />
-## Installation (jsrepo / standalone / manual install) ## Showcases
-<Showcases case-name="CaseName" />
-```
-
-- `Preview.vue` — interactive demo with configuration controls (uses shadcn UI from `src/docs/components/shadcn/`).
-- `Showcases.vue` — uses `caseName` prop with `v-if` to switch between showcase variants.
-- Path alias `@/` resolves to the project root.
-
-## Testing
-
-- Framework: **Vitest** with `@vue/test-utils`, running in browser mode (Playwright/Chromium).
-- Test files are co-located with components: `src/components/<category>/<name>/ComponentName.spec.ts`.
-- Tests use `vi.mock()` for external deps like `vue-router`.
-
-## Styling
-
-- **Tailwind CSS v4** via `@tailwindcss/vite` plugin (no `tailwind.config.js` — uses CSS-based config).
-- Docs UI uses **shadcn-vue** (new-york style) configured in `components.json`.
-- Registry components should use Tailwind utility classes for styling.
+All domain docs live in the Obsidian vault `tskr-ui-vault/` (glossary `CONTEXT.md`, ADRs, logs). See `CONTEXT-MAP.md`.
 
 ## Commit Convention
 
-Follow [Conventional Commits](https://www.conventionalcommits.org/): `feat:`, `fix:`, `docs:`, `style:`, `refactor:`, `test:`.
-When making code updates, suggest the git commit message for the updates too.
+[Conventional Commits](https://www.conventionalcommits.org/): `feat:`, `fix:`, `docs:`, `style:`, `refactor:`, `test:`. Suggest the commit message when making code changes.

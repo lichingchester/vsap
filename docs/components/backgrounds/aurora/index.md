@@ -21,7 +21,7 @@ npx jsrepo add backgrounds/aurora
 ### Standalone
 
 ```bash
-npx jsrepo add https://github.com/lichingchester/vsap/tree/main/backgrounds/aurora
+npx jsrepo add https://github.com/lichingchester/tskr-ui/tree/main/backgrounds/aurora
 ```
 
 ### Manually

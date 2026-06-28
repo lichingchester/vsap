@@ -1,8 +1,8 @@
-# VSAP (TBC)
+# tskr/ui
 
-This is an open-source library of effects and UI components that I built out of my passion for web development. It’s designed to make website enhancement super easy—just copy, pick, and use (or quickly tweak) ready-made visual effects and components in your own projects.
+A copy-paste collection of UI components, visual effects, and layouts for the web. Pick a snippet, copy the source, paste it into your project — no CLI, no package, no lock-in. Works with Vue, React, and plain HTML, with Tailwind or native CSS.
 
-It’s perfect for developers who want quick, cool solutions with minimal effort—whether you’re feeling creative or just want something done fast.
+Built out of a passion for web development, it’s designed to make website enhancement easy: ready-made visual effects and components you can drop in or quickly tweak.
 
 ## Maintainers
 

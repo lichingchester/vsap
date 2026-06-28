@@ -4,49 +4,72 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this project is
 
-VSAP is a **copy-and-use Vue 3 component registry** distributed via [jsrepo](https://jsrepo.dev), not an npm package. Users run `npx jsrepo add <category>/<block>` to copy a single component's source directly into their own project. The two consequences that drive everything else:
+**tskr/ui** is a **copy-paste collection** of UI components, visual effects, and layouts for the web (ADR-0001). Users copy a snippet's source straight into their own project from the site — there is **no install, no CLI, no package**. The old jsrepo + VitePress "Vue component registry" (VSAP) was retired; this is now an **Astro 7** site supporting multiple frameworks.
 
-1. **Registry components must be self-contained.** A component under `src/components/` may NOT import from another registry component. External deps (gsap, three) are declared per-block, not assumed present. `vue` and `vue-router` are treated as peer deps (`excludeDeps` in `jsrepo-build-config.json`).
-2. **The docs site is a separate concern.** Anything under `src/docs/` and `docs/` exists only to preview components and is never shipped to users.
+Two consequences drive everything:
+
+1. **Snippets must be self-contained.** A distributable snippet may not import from another snippet. External deps (gsap, three) are declared per-variant as **Prerequisites**, not assumed present.
+2. **The site is a separate concern.** Site chrome, previews, and docs-only components are never copied into a user's project.
 
 ## Commands
 
 ```bash
-npm run docs:dev        # VitePress dev server — the primary way to view/work on components
-npm run docs:build      # Build docs for production
-npm run build:registry  # Regenerate jsrepo-manifest.json after adding/changing a registry block
-npm test                # Vitest watch mode (browser mode via Playwright/Chromium)
-npm run test:run        # Run tests once
-npx vitest run src/components/utils/link-tag/LinkTag.spec.ts   # Single test file
+npm run dev      # Astro dev server — the primary way to view/work on the site
+npm run build    # Production build (static)
+npm run preview  # Preview the production build
+npm run check    # astro check (type-check)
 ```
 
 Notes:
-- Tests run in **real browser mode** (Playwright/Chromium), not jsdom-only — `npx playwright install` may be needed first.
-- There is **no lint script** despite CONTRIBUTING.md mentioning ESLint; formatting is Prettier-on-save via `.vscode/settings.json`.
-- Requires Node >= 22.
+- Requires **Node >= 22**.
+- No lint script; formatting is Prettier-on-save via `.vscode/settings.json`.
+- `astro check` reports a few **pre-existing** errors in legacy/raw files (`src/docs/lib/utils.ts`, the `link-tag/react-next` variant referencing `next/link`). Those variants are shipped as raw source, never compiled here.
 
-## Layout
+## The snippet model (ADR-0002, ADR-0004)
 
-- `src/components/<category>/<name>/` — the actual distributable blocks. One `.vue` file per folder (+ optional `.spec.ts`, `README.md`). Categories: `backgrounds`, `text-animations`, `utils`.
-- `src/components/<category>/<name>-nuxt/` — Nuxt variants. Same `.vue` filename as the base block but import from `#components` (e.g. `NuxtLink`) instead of `vue-router`. These are **excluded from TypeScript checking** via `tsconfig.json` (`"src/components/**/*-nuxt/*.vue"`).
-- `src/docs/` — Vue used only by the docs (previews, showcases, shadcn-vue UI). NOT registry code.
-- `docs/components/<category>/<name>/index.md` — VitePress page for each component.
-- `jsrepo-manifest.json` — **auto-generated**; never hand-edit. Rebuild with `npm run build:registry`.
+A **snippet** is the atomic unit a user copies. Each lives at:
 
-## Component conventions
+```
+src/snippets/<category>/<name>/
+├── meta.ts                      # data model: title, kind, category, props, variants, prerequisites
+├── vue-tailwind/<Name>.vue      # the reference variant (Vue + Tailwind) — source of truth
+├── vue-css/…  react-tailwind/…  react-css/…  html/…   # ports / native variants
+```
 
-- `<script setup lang="ts">`, `defineProps<Interface>()`, defaults via `withDefaults(defineProps<...>(), { ... })`.
-- PascalCase `.vue` filenames matching the component; kebab-case directory names.
-- Tailwind CSS v4 via `@tailwindcss/vite` — **no `tailwind.config.js`**, config is CSS-based.
-- Path alias `@/` resolves to the project root (configured in both `tsconfig.json` and `docs/.vitepress/config.mts`).
+- **Reference variant** = Vue + Tailwind, authored first. Other variants are **ports** (visual snippets) or **native variants** (utilities, which have no single canonical source).
+- **Kinds:** `component`, `effect`, `layout`, `utility`. **Categories** are user-facing slugs (`text-animations`, `backgrounds`, `utils`, …).
+- **No-drift rule:** a detail page's live preview mounts the *same* file it `?raw`-imports for the code tab. Only the reference variant is executed; other variants are raw text only (their `next/link`/`#components` imports never resolve here).
+- `meta.ts` `props: PropDoc[]` documents the component's public props; the detail page's **API table** is generated from it.
 
-## Adding a component
+## The site
 
-1. `src/components/<category>/<Name>/Name.vue` (+ `-nuxt/` variant if needed).
-2. `npm run build:registry` to regenerate the manifest.
-3. `docs/components/<category>/<name>/index.md` for the doc page.
-4. `Preview.vue` + `Showcases.vue` under `src/docs/components/<category>/<name>/`. `Showcases.vue` switches variants via a `caseName` prop with `v-if`.
-5. Register it in the VitePress sidebar in `docs/.vitepress/config.mts`.
+- **`src/pages/index.astro`** — the home: a Terminal · Masthead landing (no sidebar) listing every snippet, discovered from disk.
+- **`src/pages/snippets/<category>/<name>.astro`** — a snippet detail page: a docs layout (sidebar + Preview / Props / Usage + an "On this page" TOC).
+- **`src/lib/snippets.ts`** — `import.meta.glob` registry over `src/snippets/**/meta.ts`; powers the home index and the sidebar.
+- **`src/layouts/`** — `Layout.astro` (base shell + fonts) and `SnippetLayout.astro` (docs shell: header + name-only sidebar + main).
+- **Docs-only components** (never copied): `SnippetTabs.vue`, `GradientTextPlayground.vue`, `ApiTable.astro`, `OnThisPage.astro`.
+
+## Design system (ADR-0008)
+
+- Tokens live in **`src/styles/global.css`** as Tailwind v4 `@theme` variables: warm **amber `#F5B544`** on charcoal `#0E0E11`, type **Bricolage Grotesque / Hanken Grotesk / JetBrains Mono**, tight radii. Available as utilities (`bg-canvas`, `text-accent`, `border-line`, …) and as CSS vars.
+- **`src/styles/site.css`** holds the site chrome (terminal home + docs detail), reading those tokens. Snippets themselves use plain Tailwind and never depend on these tokens.
+- Tailwind v4 via `@tailwindcss/postcss`; the entry imports the explicit subpath `@import "tailwindcss/index.css"` (a Rolldown/Astro 7 workaround). No `tailwind.config.js`.
+
+## Conventions
+
+- `<script setup lang="ts">`, `defineProps<Interface>()`, defaults via `withDefaults`. PascalCase component filenames, kebab-case directories.
+- Path alias `@/` resolves to the project root.
+
+## Adding a snippet
+
+1. `src/snippets/<category>/<name>/vue-tailwind/<Name>.vue` (the reference) + any ports/native variants.
+2. `src/snippets/<category>/<name>/meta.ts` (incl. `props` for the API table).
+3. `src/pages/snippets/<category>/<name>.astro` (the detail page; mounts the reference for preview, `?raw`-imports variants for the tabs).
+4. It appears on the home index and sidebar automatically (glob).
+
+## Legacy (being phased out)
+
+Migration cruft from the VSAP era is still present as reference while the remaining components are ported: the old `docs/` VitePress site, `src/docs/`, old `src/components/<category>/` blocks, and `jsrepo-*.json`. Don't build new work on these.
 
 ## Commits
 
@@ -54,14 +77,6 @@ Conventional Commits (`feat:`, `fix:`, `docs:`, `style:`, `refactor:`, `test:`).
 
 ## Agent skills
 
-### Issue tracker
-
-Issues are tracked in this repo's **GitHub Issues** (via the `gh` CLI). External pull requests are also pulled into the triage queue as feature requests. See `docs/agents/issue-tracker.md`.
-
-### Triage labels
-
-Default canonical vocabulary — `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
-
-### Domain docs
-
-All documentation lives in the Obsidian vault `tskr-ui-vault/` (glossary `CONTEXT.md`, ADRs in `adr/`, process logs in `log/`). A root `CONTEXT-MAP.md` redirects skills to it. See `docs/agents/domain.md`.
+- **Issue tracker** — GitHub Issues via the `gh` CLI; external PRs are pulled into triage. See `docs/agents/issue-tracker.md`.
+- **Triage labels** — `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+- **Domain docs** — all documentation lives in the Obsidian vault `tskr-ui-vault/` (glossary `CONTEXT.md`, ADRs in `adr/`, process logs in `log/`). The root `CONTEXT-MAP.md` redirects to it. See `docs/agents/domain.md`.

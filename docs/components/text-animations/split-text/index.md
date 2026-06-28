@@ -21,7 +21,7 @@ npx jsrepo add text-animations/split-text
 ### Standalone
 
 ```bash
-npx jsrepo add https://github.com/lichingchester/vsap/tree/main/text-animations/split-text
+npx jsrepo add https://github.com/lichingchester/tskr-ui/tree/main/text-animations/split-text
 ```
 
 ### Manually

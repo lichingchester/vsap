@@ -14,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lichingchester/vsap.git"
+    "url": "git+https://github.com/lichingchester/tskr-ui.git"
   },
   "author": "lichingchester",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/lichingchester/vsap/issues"
+    "url": "https://github.com/lichingchester/tskr-ui/issues"
   },
-  "homepage": "https://github.com/lichingchester/vsap#readme",
+  "homepage": "https://github.com/lichingchester/tskr-ui#readme",
   "dependencies": {
     "@astrojs/react": "^6.0.0",
     "@astrojs/vue": "^7.0.0",

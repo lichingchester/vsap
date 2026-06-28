@@ -21,4 +21,4 @@ Map-of-content for the **tskr/ui** vault — all project documentation lives her
 
 ## Live work
 Follow-up tasks are tracked as GitHub issues:
-<https://github.com/lichingchester/vsap/issues>
+<https://github.com/lichingchester/tskr-ui/issues>

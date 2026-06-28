@@ -7,7 +7,7 @@ To make adding VSAP components more convenient, we use jsrepo as our installer. 
 1.  Initial jsrepo with VSAP Github provider
 
     ```bash
-    npx jsrepo init https://github.com/lichingchester/vsap/tree/main
+    npx jsrepo init https://github.com/lichingchester/tskr-ui/tree/main
     ```
 
 2.  This will start the setup for VSAP
@@ -22,12 +22,12 @@ To make adding VSAP components more convenient, we use jsrepo as our installer. 
     ◇  Which formatter would you like to use?
     │  None
     │
-    ●  Initializing https://github.com/lichingchester/vsap/tree/main
+    ●  Initializing https://github.com/lichingchester/tskr-ui/tree/main
     │
     ◇  Would you like to add an auth token?
     │  No
     │
-    ◇  Fetched manifest from https://github.com/lichingchester/vsap/tree/main
+    ◇  Fetched manifest from https://github.com/lichingchester/tskr-ui/tree/main
     │
     ◇  Which category paths would you like to configure?
     │  none

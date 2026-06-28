@@ -60,11 +60,11 @@ npx jsrepo add utils/link-tag-nuxt
 ::: code-group
 
 ```bash [<div class="flex items-center gap-2"><IconVue class="size-4" />Vue</div>]
-npx jsrepo add https://github.com/lichingchester/vsap/tree/main/utils/link-tag
+npx jsrepo add https://github.com/lichingchester/tskr-ui/tree/main/utils/link-tag
 ```
 
 ```bash [<div class="flex items-center gap-2"><IconNuxt class="size-4" />Nuxt</div>]
-npx jsrepo add https://github.com/lichingchester/vsap/tree/main/utils/link-tag-nuxt
+npx jsrepo add https://github.com/lichingchester/tskr-ui/tree/main/utils/link-tag-nuxt
 ```
 
 :::
