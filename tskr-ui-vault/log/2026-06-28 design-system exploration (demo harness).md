@@ -55,10 +55,13 @@ vocabulary only.
 
 ## State
 
-- Confirmed **and promoted to the live site** (commit `eb3742d`). `/demos` and
-  `data-direction` are kept in place for the next session.
-- Branch `design-system` (off `develop`); commits `f64f18e` → `eb3742d`.
-- B, C, D, E and all homepage/detail variants are preserved as the trail.
+- Confirmed **and promoted to the live site** (commit `eb3742d`); then the
+  whole `/demos` harness (pages, components, `DemoLayout`, `demos.css`,
+  `data-direction`) was **removed** — the real site now carries one design.
+- Also renamed the project **vsap → tskr-ui** (repo URL, git remote, CLAUDE.md,
+  README, copilot-instructions).
+- Branch `design-system` (off `develop`); the B→E exploration trail survives in
+  git history (commits `f64f18e` onward).
 
 ### What promotion changed (real site)
 
@@ -76,8 +79,10 @@ vocabulary only.
   → API tables generate from `meta.ts`.
 - `GradientTextPlayground` + `SnippetTabs` restyled to the tokens (docs-only).
 
-## Deferred to a later session (same `/demos` pattern)
+## Still open
 
-- Remaining detail polish, other surfaces, pruning the rejected directions,
-  and eventually deleting `/demos` once exploration is done.
-- (Done this session: tokens → `@theme`; props schema → `meta.ts`.)
+- Remaining detail polish and other surfaces, as they come up.
+- Migrate the remaining legacy components (Aurora, SplitText) into the new
+  `src/snippets/` model and remove the leftover VitePress/jsrepo cruft (issue #6).
+- Done this session: tokens → `@theme`; props schema → `meta.ts`; `/demos`
+  harness removed; project renamed to **tskr-ui**.
