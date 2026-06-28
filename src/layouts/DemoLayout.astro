@@ -1,12 +1,14 @@
 ---
 /*
- * DemoLayout — token-driven shell for the design-direction demos (ADR-0008).
+ * DemoLayout — token-driven app shell for the design-direction demos (ADR-0008).
  *
- * Deliberately does NOT use the real site's `Layout.astro` (whose chrome is the
- * generic neutral scaffold we're replacing). It loads the candidate type and
- * sets `data-direction`, under which `demos.css` resolves every token.
+ * Layout is SHARED across directions (grilling Q4): a full-width header, a left
+ * sidebar listing snippets by category, and a contained main column. Only the
+ * tokens differ between directions. Deliberately not the real `Layout.astro`.
  *
- * Throwaway scaffolding — removed when a direction is promoted.
+ * The sidebar nav is representative scaffolding for the harness: the two real
+ * snippets plus a few known-upcoming entries (which exist in src/components/)
+ * shown disabled, so the sidebar reads as a real component index.
  */
 import "../styles/global.css"; // Tailwind preflight reset only
 import "../styles/demos.css";
@@ -14,9 +16,29 @@ import "../styles/demos.css";
 interface Props {
   title: string;
   direction: string;
+  active?: string;
 }
 
-const { title, direction } = Astro.props;
+const { title, direction, active } = Astro.props;
+const here = `/demos/${direction}`;
+
+const nav = [
+  {
+    cat: "Text Animations",
+    items: [
+      { name: "gradient-text", label: "Gradient Text", ready: true },
+      { name: "split-text", label: "Split Text", ready: false },
+    ],
+  },
+  {
+    cat: "Backgrounds",
+    items: [{ name: "aurora", label: "Aurora", ready: false }],
+  },
+  {
+    cat: "Utilities",
+    items: [{ name: "link-tag", label: "Link Tag", ready: true }],
+  },
+];
 ---
 
 <!doctype html>
@@ -29,11 +51,66 @@ const { title, direction } = Astro.props;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
   </head>
   <body class="d-root" data-direction={direction}>
-    <slot />
+    <div class="d-app">
+      <!-- Full-width header -->
+      <header class="d-header">
+        <a class="d-brand" href="/demos">tskr<span>/ui</span></a>
+        <div class="d-header__right">
+          <nav class="d-dirswitch" aria-label="Design direction">
+            <span>dir</span>
+            <a href="/demos/b" aria-current={direction === "b" ? "true" : "false"}
+              >B</a
+            >
+            <a href="/demos/c" aria-current={direction === "c" ? "true" : "false"}
+              >C</a
+            >
+          </nav>
+          <a class="d-headerlink" href="https://github.com/lichingchester/vsap"
+            >GitHub</a
+          >
+        </div>
+      </header>
+
+      <div class="d-body">
+        <!-- Left sidebar: snippet index -->
+        <aside class="d-sidebar" aria-label="Snippets">
+          {
+            nav.map((group) => (
+              <div class="d-sidebar__group">
+                <p class="d-sidebar__cat">{group.cat}</p>
+                {group.items.map((it) =>
+                  it.ready ? (
+                    <a
+                      class="d-sidebar__link"
+                      href={here}
+                      aria-current={it.name === active ? "true" : "false"}
+                    >
+                      {it.label}
+                    </a>
+                  ) : (
+                    <span class="d-sidebar__link" aria-disabled="true">
+                      {it.label}
+                      <span class="d-soon">soon</span>
+                    </span>
+                  ),
+                )}
+              </div>
+            ))
+          }
+        </aside>
+
+        <!-- Contained main -->
+        <main class="d-main">
+          <div class="d-container">
+            <slot />
+          </div>
+        </main>
+      </div>
+    </div>
   </body>
 </html>
