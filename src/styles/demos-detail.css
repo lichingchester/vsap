@@ -61,27 +61,20 @@
   color: var(--color-accent);
 }
 
-/* ---- title row + section heading row ---- */
-.demo-titlerow {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1.5rem;
-  flex-wrap: wrap;
+/* ---- shared doc grid (main column + right sidebar/TOC) ---- */
+.doc-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 12rem;
+  gap: 2.5rem;
+  align-items: start;
 }
-.s-h2-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin: 2.75rem 0 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--color-line);
+.doc-main {
+  min-width: 0;
 }
-.s-h2-row .s-h2 {
-  margin: 0;
-  padding: 0;
-  border: 0;
+@media (max-width: 1000px) {
+  .doc-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ---- variant selector (two-axis segmented control) ---- */
@@ -390,98 +383,348 @@
   line-height: 1.55;
 }
 
-/* ---- Layout A (stacked) ---- */
-.lay-a__controls {
+/* full-bordered controls panel when it stands alone under the preview stage */
+.led-controls,
+.slab-controls,
+.con-controls {
+  border: 1px solid var(--color-line);
   border-radius: var(--radius-lg);
-  border-top: 1px solid var(--color-line);
-  margin-top: 0.5rem;
+  margin-top: 0.75rem;
 }
 
-/* ---- Layout B (workbench toggle) ---- */
-.lay-b__stagebar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-bottom: 0.75rem;
-}
-.lay-b__tabs {
+/* code-block extras (S3 IDE treatment) */
+.demo-code__actions {
   display: inline-flex;
-  gap: 0.25rem;
-  padding: 2px;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-md);
-  background: var(--color-surface);
+  align-items: center;
+  gap: 0.4rem;
 }
-.lay-b__tab {
+.demo-code__wrap {
   font-family: var(--font-mono);
-  font-size: 0.78rem;
-  padding: 0.3rem 0.7rem;
-  border: 0;
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--color-line2);
   border-radius: var(--radius-sm);
   background: transparent;
   color: var(--color-muted);
   cursor: pointer;
 }
-.lay-b__tab[aria-selected="true"] {
-  background: var(--color-accent-soft);
+.demo-code__wrap[aria-pressed="true"] {
   color: var(--color-accent);
+  border-color: var(--color-accent);
 }
-.lay-b__work {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 16rem;
-  gap: 1.25rem;
-  align-items: start;
+.demo-code--ln .demo-code__body code {
+  counter-reset: ln;
 }
-.lay-b__rail .demo-controls {
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-lg);
+.demo-code--ln .demo-code__body .line {
+  counter-increment: ln;
 }
-@media (max-width: 860px) {
-  .lay-b__work {
-    grid-template-columns: 1fr;
-  }
+.demo-code--ln .demo-code__body .line::before {
+  content: counter(ln);
+  display: inline-block;
+  width: 2ch;
+  margin-right: 1.25rem;
+  text-align: right;
+  color: var(--color-dim);
+  user-select: none;
+}
+.demo-code--wrap .demo-code__body pre.shiki,
+.demo-code--wrap .demo-code__body pre.shiki code {
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
-/* ---- Layout C (console) ---- */
-.lay-c__split {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
-  gap: 1.5rem;
-  align-items: start;
+/* ============================================================= */
+/* S1 · Ledger — numbered ruled headings, left-rail TOC          */
+/* ============================================================= */
+.led-title {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: clamp(1.6rem, 3.5vw, 2.1rem);
+  letter-spacing: -0.02em;
+  margin: 0.5rem 0 2rem;
 }
-.lay-c__play {
-  display: grid;
+.led-h {
+  display: flex;
+  align-items: baseline;
   gap: 0.75rem;
-  position: sticky;
-  top: 4.5rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--color-fg);
+  margin: 0 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-line);
 }
-.lay-c__pane {
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-lg);
-  background: var(--color-surface);
-  padding: 0.5rem;
+.led-h__num {
+  font-size: 0.78rem;
+  color: var(--color-dim);
 }
-.lay-c__panebar {
+.led-h-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.25rem 0.4rem 0.6rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-line);
 }
-.lay-c__panetitle {
+.led-h-row .led-h {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.toc-rail {
+  position: sticky;
+  top: 4.5rem;
+}
+.toc-rail__title {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-dim);
+  margin: 0 0 0.6rem;
+}
+.toc-rail a {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.28rem 0 0.28rem 0.75rem;
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  text-decoration: none;
+  border-left: 2px solid var(--color-line);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.toc-rail a:hover {
+  color: var(--color-fg);
+}
+.toc-rail__num {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-dim);
+}
+.toc-rail a[aria-current="true"] {
+  color: var(--color-accent);
+  border-left-color: var(--color-accent);
+}
+.toc-rail a[aria-current="true"] .toc-rail__num {
+  color: var(--color-accent);
+}
+
+/* ============================================================= */
+/* S2 · Slab — label-tag headings, kind badge, boxed dot TOC     */
+/* ============================================================= */
+.slab-titlerow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.5rem 0 2.25rem;
+}
+.slab-title {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: clamp(1.6rem, 3.5vw, 2.1rem);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.slab-badge {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+.slab-sec {
+  margin-bottom: 2.75rem;
+}
+.slab-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-dim);
+  margin-bottom: 0.75rem;
+}
+.slab-codewrap {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.slab-codebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0.6rem 0.5rem 0.85rem;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-line);
+}
+.slab-codebar__hint {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-dim);
+}
+/* the inner code block loses its own frame — the wrap provides it */
+.slab-codewrap .demo-code {
+  border: 0;
+  border-radius: 0;
+  margin: 0;
+}
+.slab-codewrap .demo-code + .demo-code .demo-code__bar {
+  border-top: 1px solid var(--color-line);
+}
+.toc-box {
+  position: sticky;
+  top: 4.5rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+.toc-box__title {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-dim);
+  margin: 0 0 0.6rem;
+}
+.toc-box a {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.28rem 0;
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  text-decoration: none;
+}
+.toc-box a:hover {
+  color: var(--color-fg);
+}
+.toc-box__dot {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-line2);
+  flex: none;
+  transition: background 0.2s ease;
+}
+.toc-box a[aria-current="true"] {
+  color: var(--color-accent);
+}
+.toc-box a[aria-current="true"] .toc-box__dot {
+  background: var(--color-accent);
+}
+
+/* ============================================================= */
+/* S3 · Console — sticky headers, progress-rail TOC, IDE blocks  */
+/* ============================================================= */
+.con-bc {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+.con-title {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: clamp(1.5rem, 3vw, 1.9rem);
+  letter-spacing: -0.02em;
+  margin: 0.4rem 0 1.75rem;
+}
+.con-sec {
+  margin-bottom: 2rem;
+}
+.con-h {
+  position: sticky;
+  top: var(--header-h, 3.5rem);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.92rem;
+  color: var(--color-fg);
+  margin: 0 0 0.85rem;
+  padding: 0.5rem 0;
+  background: color-mix(in srgb, var(--color-canvas) 88%, transparent);
+  backdrop-filter: blur(8px);
+}
+.con-h__tick {
+  width: 3px;
+  height: 0.95rem;
+  background: var(--color-accent);
+}
+.con-toolbar {
+  position: sticky;
+  top: calc(var(--header-h, 3.5rem) + 2.4rem);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.4rem 0.6rem;
+  margin-bottom: 0.6rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+.con-toolbar__label {
   font-family: var(--font-mono);
   font-size: 0.66rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-dim);
 }
-@media (max-width: 900px) {
-  .lay-c__split {
-    grid-template-columns: 1fr;
-  }
-  .lay-c__play {
-    position: static;
-  }
+.toc-prog {
+  position: sticky;
+  top: 4.5rem;
+}
+.toc-prog__title {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-dim);
+  margin: 0 0 0.6rem;
+}
+.toc-prog__body {
+  display: grid;
+  grid-template-columns: 3px 1fr;
+  gap: 0.85rem;
+}
+.toc-prog__track {
+  position: relative;
+  background: var(--color-line);
+  overflow: hidden;
+}
+.toc-prog__fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: top;
+  background: var(--color-accent);
+  transition: transform 0.1s linear;
+}
+.toc-prog__links {
+  display: grid;
+  gap: 0.1rem;
+}
+.toc-prog__links a {
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  text-decoration: none;
+  padding: 0.18rem 0;
+}
+.toc-prog__links a:hover {
+  color: var(--color-fg);
+}
+.toc-prog__links a[aria-current="true"] {
+  color: var(--color-accent);
 }

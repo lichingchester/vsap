@@ -1,28 +1,29 @@
 ---
 /*
- * THROWAWAY (detail-page /demos harness). Index of the three detail-page layout
- * candidates (A/B/C) for the redesign round. Deleted on promotion.
+ * THROWAWAY (detail-page /demos harness). Round 2: the STACKED layout won, so
+ * these three explore stacked variations — section design, right-sidebar (TOC),
+ * headings, and the code block. Deleted on promotion.
  */
 import Layout from "../../layouts/Layout.astro";
 
 const demos = [
   {
-    id: "a",
-    name: "Stacked docs",
+    id: "s1",
+    name: "Ledger",
     blurb:
-      "Linear evolution of today's page: Preview → Install → Source → Usage → API, one variant selector above the code.",
+      "Numbered, full-width ruled section headings (01 Preview); left-border TOC reading rail; minimal code block; variant selector in the Source heading row.",
   },
   {
-    id: "b",
-    name: "Workbench toggle",
+    id: "s2",
+    name: "Slab",
     blurb:
-      "One framed stage toggles Preview / Source / Usage; controls in a right rail. props→code is most tangible (shadcn-style).",
+      "Uppercase label-tag section headings + a kind badge on the title; boxed dot-marker TOC; the variant selector fused into the code block's top toolbar.",
   },
   {
-    id: "c",
-    name: "Console (code-forward)",
+    id: "s3",
+    name: "Console",
     blurb:
-      "Two columns: live playground left, a persistent terminal-style code pane right. Code gets permanent real estate.",
+      "Sticky mini-headers with an accent tick; a scroll-progress TOC rail; an IDE code block with line numbers + a wrap toggle and a sticky code toolbar.",
   },
 ];
 ---
@@ -30,13 +31,14 @@ const demos = [
 <Layout title="Detail-page demos">
   <main class="home">
     <div class="home-head">
-      <h1 class="home-word">detail<span>/redesign</span></h1>
+      <h1 class="home-word">stacked<span>/variations</span></h1>
       <p class="home-tag">
-        Throwaway harness for the snippet detail page. Three layouts on the
-        confirmed amber-on-charcoal tokens, each with the Install · Source ·
-        Usage copy model, the global variant preference, live props→code, and
-        Shiki highlighting. Try the variant toggle in the header and the props
-        controls — Usage updates as you edit.
+        Round 2 — the stacked layout won; these three explore it further:
+        section design, the right-sidebar TOC, headings, and the code block. All
+        share the Install · Source · Usage copy model, live props→code, and Shiki
+        highlighting. The variant selector now lives only in the header and at
+        the code block — not the page head. Try the header toggle and the props
+        controls; Usage updates as you edit.
       </p>
     </div>
 

@@ -15,10 +15,15 @@ const props = defineProps<{
   filename: string;
   /** Small kind label shown before the filename, e.g. "source" / "usage". */
   kind?: string;
+  /** IDE treatment (S3): gutter line numbers. */
+  lineNumbers?: boolean;
+  /** IDE treatment (S3): offer a soft-wrap toggle. */
+  wrappable?: boolean;
 }>();
 
 const html = ref("");
 const copied = ref(false);
+const wrap = ref(false);
 
 async function render() {
   try {
@@ -48,20 +53,31 @@ watch(() => [props.code, props.lang], render);
 </script>
 
 <template>
-  <figure class="demo-code">
+  <figure class="demo-code" :class="{ 'demo-code--ln': lineNumbers, 'demo-code--wrap': wrap }">
     <figcaption class="demo-code__bar">
       <span class="demo-code__name">
         <span v-if="kind" class="demo-code__kind">{{ kind }}</span>
         {{ filename }}
       </span>
-      <button
-        class="demo-code__copy"
-        type="button"
-        :data-copied="copied"
-        @click="copy"
-      >
-        {{ copied ? "Copied ✓" : "Copy" }}
-      </button>
+      <span class="demo-code__actions">
+        <button
+          v-if="wrappable"
+          class="demo-code__wrap"
+          type="button"
+          :aria-pressed="wrap"
+          @click="wrap = !wrap"
+        >
+          wrap
+        </button>
+        <button
+          class="demo-code__copy"
+          type="button"
+          :data-copied="copied"
+          @click="copy"
+        >
+          {{ copied ? "Copied ✓" : "Copy" }}
+        </button>
+      </span>
     </figcaption>
     <div class="demo-code__body" v-html="html"></div>
   </figure>

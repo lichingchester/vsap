@@ -33,6 +33,25 @@ export interface DetailView {
   referenceLabel: string;
 }
 
+export interface SectionRef {
+  id: string;
+  label: string;
+}
+
+/**
+ * The sections this detail page shows, in order — the single source the stacked
+ * layouts use for BOTH the rendered sections and the "On this page" TOC, so the
+ * two never drift. Install/Usage are conditional (no npm deps; HTML collapse).
+ */
+export function sectionList(view: DetailView): SectionRef[] {
+  const s: SectionRef[] = [{ id: "preview", label: "Preview" }];
+  if (view.install || view.notes.length) s.push({ id: "install", label: "Install" });
+  s.push({ id: "source", label: view.isHtml ? "Source" : "Component" });
+  if (view.usage) s.push({ id: "usage", label: "Usage" });
+  s.push({ id: "api", label: "API" });
+  return s;
+}
+
 const FW_LABEL: Record<string, string> = { vue: "Vue", react: "React", html: "HTML" };
 const ST_LABEL: Record<string, string> = { tailwind: "Tailwind", css: "CSS" };
 
