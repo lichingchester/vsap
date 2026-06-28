@@ -1,0 +1,47 @@
+---
+/*
+ * /demo — prop-controls design exploration (docs-only, not a snippet).
+ *
+ * Six fully-custom control skins across two axes (Density · Personality), each
+ * rendering the same 7 controls in isolation so we can pick a direction and then
+ * promote the winner into a reusable control kit. See src/styles/demo.css.
+ */
+import Layout from "../layouts/Layout.astro";
+import DemoGallery from "../demo/DemoGallery.vue";
+import "../styles/demo.css";
+---
+
+<Layout
+  title="Controls — design exploration"
+  description="Exploring custom-styled prop control fields across six skins."
+>
+  <nav class="s-nav">
+    <a class="s-brand" href="/">tskr<span>/ui</span></a>
+    <nav class="s-navlinks">
+      <a href="/">Home</a>
+      <a href="https://github.com/lichingchester/tskr-ui">GitHub</a>
+    </nav>
+  </nav>
+
+  <div class="demo">
+    <header style="margin-bottom: 2.5rem;">
+      <p
+        style="font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-accent); margin: 0 0 0.5rem;"
+      >
+        Internal · design exploration
+      </p>
+      <h1
+        style="font-family: var(--font-mono); font-weight: 500; font-size: clamp(1.6rem, 3.5vw, 2.1rem); letter-spacing: -0.02em; margin: 0;"
+      >
+        Prop controls
+      </h1>
+      <p style="margin: 0.75rem 0 0; max-width: 60ch; color: var(--color-muted); line-height: 1.55;">
+        Custom-styled control fields — fully custom widgets (no native inputs),
+        keyboard + ARIA built in. Each panel renders the same seven controls so
+        the skins compare directly. Pick a winner; it becomes the reusable kit.
+      </p>
+    </header>
+
+    <DemoGallery client:load />
+  </div>
+</Layout>
