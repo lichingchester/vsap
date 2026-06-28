@@ -21,7 +21,7 @@ What a snippet is, as a classification: `component`, `effect`, `layout`, or `uti
 The user-facing grouping a snippet is filed under in the sidebar and URL (e.g. backgrounds, text-animations, utils). Independent of Kind.
 
 **Prerequisites**:
-The per-snippet, per-variant declaration of what a user must already have for a pasted snippet to work — npm dependencies (e.g. gsap, three), assumed tooling (e.g. "Tailwind v4 configured"), and any global CSS to add (`@keyframes`, `@theme` tokens). The honest replacement for a blanket "no setup" promise.
+The per-snippet, per-variant declaration of what a user must already have for a pasted snippet to work — npm dependencies (e.g. gsap, three), assumed tooling (e.g. "Tailwind v4 configured"), and any global CSS to add (`@keyframes`, `@theme` tokens). The honest replacement for a blanket "no setup" promise. The npm subset surfaces on the detail page as the **Install** artifact; tooling/CSS notes stay as plain prerequisite lines.
 _Avoid_: requirements, dependencies (when referring to the whole block rather than just npm packages)
 
 ### Variants
@@ -52,5 +52,26 @@ A complete candidate look for the site, expressed primarily as one **token set**
 _Avoid_: theme, skin, mockup
 
 **Demo**:
-A throwaway page under `/demos` that renders the shared, token-driven site chrome under one design direction, across both judged surfaces (home + a snippet detail page), so directions can be compared in context. Demos exist only to choose a direction and are deleted on promotion.
+A throwaway page under `/demos` used to compare candidate designs **in context** before one is promoted, then deleted. Originally one per **design direction** (a token set, ADR-0008); reused since for any in-context comparison on the confirmed system — e.g. competing **detail-page** layouts under the fixed amber-on-charcoal tokens. Demos exist only to choose, and are removed on promotion (the trail survives in git + the ADR).
 _Avoid_: preview (reserved for a snippet's live render), playground
+
+### Detail page
+
+**Copy artifact**:
+One of the discrete, separately-copyable blocks the detail page exposes for a snippet variant: **Install**, **Source**, **Usage**. Each appears only when it has content (an effect with no npm deps shows no Install; the self-contained HTML variant collapses Source and Usage into one). Copying the source is the product's core job, so each artifact carries its own copy button.
+_Avoid_: snippet (the whole unit, not one block of it), code block
+
+**Install**:
+The copy artifact holding the npm install line(s) for the selected variant's npm **Prerequisites** (e.g. `npm i gsap`). Shown only when there are npm deps; tooling/CSS prerequisites are not Install, they remain prerequisite notes.
+
+**Source**:
+The copy artifact holding the component file the user pastes into their project — the literal variant source (`GradientText.vue`). Static: it does not change as playground controls move (it is the file, not a call of it).
+_Avoid_: code, snippet
+
+**Usage**:
+The copy artifact holding the generated call-site example for the selected variant — the import plus an invocation with the current prop values (`<GradientText :colors="…">…`). Generated from `meta` (tag + a children example) and the props, rendered into each framework's syntax, so the playground controls drive it live and copying reflects the chosen props.
+_Avoid_: example, demo
+
+**Variant preference**:
+The visitor's persisted choice of **framework target** + **styling target**, set once via the header toggles and honored by every detail page (one source of truth in `localStorage`, mirrored by the per-page selector). Expressed as the two axes — not a concrete **variant** id — because ids differ per snippet; each page resolves it to its nearest available variant, falling back to the **reference variant** with a quiet note when the exact combo is absent.
+_Avoid_: variant (the resolved implementation, not the saved preference), setting

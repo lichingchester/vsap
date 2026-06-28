@@ -1,0 +1,9 @@
+---
+/* THROWAWAY (detail-page /demos harness) — Layout B "Workbench toggle". */
+import DemoDetailLayout from "../../../layouts/DemoDetailLayout.astro";
+import DetailDemo from "../../../demos/DetailDemo.vue";
+---
+
+<DemoDetailLayout title="Layout B" active="gradient-text">
+  <DetailDemo layout="b" snippet="gradient-text" client:load />
+</DemoDetailLayout>

@@ -1,0 +1,487 @@
+/*
+ * THROWAWAY (detail-page /demos harness). Styling for the three candidate
+ * detail-page layouts, on the CONFIRMED amber-on-charcoal tokens (global.css) —
+ * this round explores information architecture + the copy UX, not the token set
+ * (ADR-0008's tokens are fixed). Reuses site.css classes (.s-h2, .s-section,
+ * .api, .docs-*) where they already fit. Deleted on promotion; the winning
+ * layout's rules move into site.css.
+ */
+
+/* ---- demo toolbar (scaffolding, visually set apart from the page) ---- */
+.demo-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px dashed var(--color-line2);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+.demo-bar__tag {
+  color: var(--color-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.demo-bar__switch {
+  display: flex;
+  gap: 0.25rem;
+}
+.demo-bar__layout {
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
+  color: var(--color-muted);
+  text-decoration: none;
+}
+.demo-bar__layout[aria-current="true"] {
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+.demo-bar__snips {
+  display: flex;
+  gap: 0.25rem;
+  margin-left: auto;
+}
+.demo-bar__snip,
+.demo-bar__reset {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--color-line2);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+}
+.demo-bar__snip[aria-pressed="true"] {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* ---- title row + section heading row ---- */
+.demo-titlerow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.s-h2-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 2.75rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-line);
+}
+.s-h2-row .s-h2 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* ---- variant selector (two-axis segmented control) ---- */
+.vsel {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+.vsel--compact {
+  gap: 0.6rem;
+}
+.vsel__axis {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.vsel__axis[data-disabled="true"] {
+  opacity: 0.4;
+}
+.vsel__label {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-dim);
+}
+.vseg {
+  display: inline-flex;
+  padding: 2px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+.vseg__btn {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  padding: 0.3rem 0.6rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.vsel--compact .vseg__btn {
+  padding: 0.22rem 0.5rem;
+  font-size: 0.72rem;
+}
+.vseg__btn:hover:not([aria-pressed="true"]):not(:disabled) {
+  color: var(--color-fg);
+}
+.vseg__btn[aria-pressed="true"] {
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+.vseg__btn:disabled {
+  cursor: not-allowed;
+}
+
+/* ---- live preview stage (lit cutout) ---- */
+.demo-stage-wrap {
+  display: grid;
+  gap: 0.5rem;
+}
+.demo-stage {
+  display: grid;
+  place-items: center;
+  min-height: 12rem;
+  padding: 2.5rem 1.5rem;
+  background: var(--color-inset);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(255, 255, 255, 0.05) 1px,
+    transparent 0
+  );
+  background-size: 22px 22px;
+}
+.demo-stage__meta {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-dim);
+}
+.demo-stage__meta b {
+  color: var(--color-muted);
+  font-weight: 500;
+}
+.demo-stage__live {
+  color: var(--color-accent);
+  margin-right: 0.4rem;
+}
+.demo-stage__fallback {
+  color: var(--color-accent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .demo-stage *,
+  .demo-stage *::before,
+  .demo-stage *::after {
+    animation-play-state: paused !important;
+    transition: none !important;
+  }
+}
+
+/* ---- controls panel ---- */
+.demo-controls {
+  display: grid;
+  gap: 1.1rem;
+  padding: 1rem;
+  border: 1px solid var(--color-line);
+  border-top: 0;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  background: var(--color-surface);
+}
+.demo-controls__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.demo-controls__title {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-dim);
+}
+.demo-controls__reset {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--color-line2);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+}
+.demo-controls__reset:hover {
+  color: var(--color-fg);
+}
+.demo-ctl__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+.demo-ctl__label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-fg);
+}
+.demo-ctl__val {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-dim);
+}
+.demo-ctl__add {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.2rem 0.5rem;
+  border: 1px dashed var(--color-line2);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+}
+.demo-ctl__add:hover:not(:disabled) {
+  border-color: var(--color-accent);
+  color: var(--color-fg);
+}
+.demo-ctl__add:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.demo-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.demo-swatch {
+  position: relative;
+}
+.demo-swatch input[type="color"] {
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 1px solid var(--color-line2);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  cursor: pointer;
+}
+.demo-swatch__rm {
+  position: absolute;
+  top: -0.35rem;
+  right: -0.35rem;
+  width: 1rem;
+  height: 1rem;
+  display: none;
+  place-items: center;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface2);
+  color: var(--color-fg);
+  font-size: 0.7rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.demo-swatch:hover .demo-swatch__rm {
+  display: grid;
+}
+.demo-range {
+  width: 100%;
+  accent-color: var(--color-accent);
+}
+.demo-text {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--color-line2);
+  border-radius: var(--radius-sm);
+  background: var(--color-inset);
+  color: var(--color-fg);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+
+/* ---- code block (Shiki) ---- */
+.demo-code {
+  margin: 0 0 0.75rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.demo-code__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0.4rem 0.4rem 0.75rem;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-line);
+}
+.demo-code__name {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--color-muted);
+}
+.demo-code__kind {
+  color: var(--color-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.62rem;
+  margin-right: 0.5rem;
+}
+.demo-code__copy {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--color-line2);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.demo-code__copy:hover {
+  color: var(--color-fg);
+  border-color: var(--color-fg);
+}
+.demo-code__copy[data-copied="true"] {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+.demo-code__body pre.shiki {
+  margin: 0;
+  padding: 1rem;
+  background: var(--color-inset) !important;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+.demo-code__body code {
+  font-family: inherit;
+}
+
+/* focus visibility on the dark canvas (WCAG 2.2) */
+.demo-code__copy:focus-visible,
+.vseg__btn:focus-visible,
+.demo-controls__reset:focus-visible,
+.demo-bar__snip:focus-visible,
+.lay-b__tab:focus-visible,
+.demo-ctl__add:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ---- install block ---- */
+.demo-install {
+  display: grid;
+  gap: 0.6rem;
+}
+.demo-notes {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--color-muted);
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
+/* ---- Layout A (stacked) ---- */
+.lay-a__controls {
+  border-radius: var(--radius-lg);
+  border-top: 1px solid var(--color-line);
+  margin-top: 0.5rem;
+}
+
+/* ---- Layout B (workbench toggle) ---- */
+.lay-b__stagebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+.lay-b__tabs {
+  display: inline-flex;
+  gap: 0.25rem;
+  padding: 2px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+.lay-b__tab {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  padding: 0.3rem 0.7rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+}
+.lay-b__tab[aria-selected="true"] {
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+.lay-b__work {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 16rem;
+  gap: 1.25rem;
+  align-items: start;
+}
+.lay-b__rail .demo-controls {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+}
+@media (max-width: 860px) {
+  .lay-b__work {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- Layout C (console) ---- */
+.lay-c__split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+.lay-c__play {
+  display: grid;
+  gap: 0.75rem;
+  position: sticky;
+  top: 4.5rem;
+}
+.lay-c__pane {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  padding: 0.5rem;
+}
+.lay-c__panebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.25rem 0.4rem 0.6rem;
+}
+.lay-c__panetitle {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-dim);
+}
+@media (max-width: 900px) {
+  .lay-c__split {
+    grid-template-columns: 1fr;
+  }
+  .lay-c__play {
+    position: static;
+  }
+}

@@ -1,0 +1,63 @@
+---
+/*
+ * THROWAWAY (detail-page /demos harness). Index of the three detail-page layout
+ * candidates (A/B/C) for the redesign round. Deleted on promotion.
+ */
+import Layout from "../../layouts/Layout.astro";
+
+const demos = [
+  {
+    id: "a",
+    name: "Stacked docs",
+    blurb:
+      "Linear evolution of today's page: Preview → Install → Source → Usage → API, one variant selector above the code.",
+  },
+  {
+    id: "b",
+    name: "Workbench toggle",
+    blurb:
+      "One framed stage toggles Preview / Source / Usage; controls in a right rail. props→code is most tangible (shadcn-style).",
+  },
+  {
+    id: "c",
+    name: "Console (code-forward)",
+    blurb:
+      "Two columns: live playground left, a persistent terminal-style code pane right. Code gets permanent real estate.",
+  },
+];
+---
+
+<Layout title="Detail-page demos">
+  <main class="home">
+    <div class="home-head">
+      <h1 class="home-word">detail<span>/redesign</span></h1>
+      <p class="home-tag">
+        Throwaway harness for the snippet detail page. Three layouts on the
+        confirmed amber-on-charcoal tokens, each with the Install · Source ·
+        Usage copy model, the global variant preference, live props→code, and
+        Shiki highlighting. Try the variant toggle in the header and the props
+        controls — Usage updates as you edit.
+      </p>
+    </div>
+
+    <div class="home-index">
+      <p class="home-cat">layouts</p>
+      {
+        demos.map((d) => (
+          <a class="home-item" href={`/demos/detail/${d.id}`}>
+            <span class="home-item__path">
+              <em>{d.id}/</em>
+              {d.name}
+            </span>
+            <span class="home-item__kind">open →</span>
+          </a>
+        ))
+      }
+      <p class="home-cat">snippets in each demo</p>
+      <p class="home-why">
+        <span>gradient-text — flagship effect with live controls</span><br />
+        <span>link-tag — utility, static preview, native variants</span>
+      </p>
+    </div>
+  </main>
+</Layout>

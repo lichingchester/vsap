@@ -1,0 +1,9 @@
+---
+/* THROWAWAY (detail-page /demos harness) — Layout A "Stacked docs". */
+import DemoDetailLayout from "../../../layouts/DemoDetailLayout.astro";
+import DetailDemo from "../../../demos/DetailDemo.vue";
+---
+
+<DemoDetailLayout title="Layout A" active="gradient-text">
+  <DetailDemo layout="a" snippet="gradient-text" client:load />
+</DemoDetailLayout>
