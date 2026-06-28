@@ -7,6 +7,7 @@
 import "../../styles/global.css";
 import "../../styles/demos.css";
 import { catalog } from "../../components/demos/catalog";
+import HomeNav from "../../components/demos/HomeNav.astro";
 
 const pick = (name: string) => catalog.find((s) => s.name === name)!;
 const featured = [
@@ -35,23 +36,7 @@ const detailHref = "/demos/e/detail";
   </head>
   <body data-direction="e">
     <div class="e-shell">
-      <!-- Full-width transparent nav (no sidebar on the landing) -->
-      <nav class="e-nav">
-        <a class="e-brand" href="/demos/e">tskr<span>/ui</span></a>
-        <div class="e-nav__right">
-          <nav class="d-dirswitch" aria-label="Design direction">
-            <span>dir</span>
-            <a href="/demos/b" aria-current="false">B</a>
-            <a href="/demos/c" aria-current="false">C</a>
-            <a href="/demos/d" aria-current="false">D</a>
-            <a href="/demos/e" aria-current="true">E</a>
-          </nav>
-          <a class="e-navlink" href={detailHref}>Snippets</a>
-          <a class="e-navlink" href="https://github.com/lichingchester/vsap"
-            >GitHub</a
-          >
-        </div>
-      </nav>
+      <HomeNav current="centered" />
 
       <div class="e-wrap">
         <!-- Hero -->
@@ -71,11 +56,6 @@ const detailHref = "/demos/e/detail";
             >
           </div>
         </header>
-
-        <!-- Product-shot stage: the product demoing itself -->
-        <div class="e-stage">
-          <span class="d-gradient-text">The quick brown fox</span>
-        </div>
 
         <!-- Featured -->
         <section class="e-section">

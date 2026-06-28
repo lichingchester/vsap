@@ -1,0 +1,36 @@
+---
+/*
+ * HomeNav — shared top nav + "home:" switcher for the homepage design round
+ * (ADR-0008). Lets us flip between the candidate homepage layouts (centered /
+ * bento / split / terminal) to pick one before designing the detail page.
+ * No sidebar — these are landing pages. Throwaway scaffolding.
+ */
+interface Props {
+  current: string;
+}
+const { current } = Astro.props;
+
+const options = [
+  { id: "centered", label: "Centered", href: "/demos/e" },
+  { id: "bento", label: "Bento", href: "/demos/home/bento" },
+  { id: "split", label: "Split", href: "/demos/home/split" },
+  { id: "terminal", label: "Terminal", href: "/demos/home/terminal" },
+];
+---
+
+<nav class="e-nav">
+  <a class="e-brand" href="/demos/home">tskr<span>/ui</span></a>
+  <div class="e-nav__right">
+    <nav class="d-dirswitch" aria-label="Homepage design">
+      <span>home</span>
+      {
+        options.map((o) => (
+          <a href={o.href} aria-current={o.id === current ? "true" : "false"}>
+            {o.label}
+          </a>
+        ))
+      }
+    </nav>
+    <a class="e-navlink" href="https://github.com/lichingchester/vsap">GitHub</a>
+  </div>
+</nav>

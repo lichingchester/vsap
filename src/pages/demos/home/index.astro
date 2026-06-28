@@ -1,0 +1,56 @@
+---
+/*
+ * Homepage hub (ADR-0008) — pick a homepage layout. Links to the four
+ * candidates; the "home:" switcher in the nav also flips between them.
+ */
+import "../../../styles/global.css";
+import "../../../styles/demos.css";
+import HomeNav from "../../../components/demos/HomeNav.astro";
+
+const options = [
+  { href: "/demos/e", title: "Centered", note: "Classic centered hero, a featured strip, and a value band. Calm, conventional, safe." },
+  { href: "/demos/home/bento", title: "Bento", note: "The gallery is the landing — a dominant grid of live preview tiles. The collection sells itself." },
+  { href: "/demos/home/split", title: "Split", note: "Asymmetric editorial: headline + CTA on the left, a live snippet list on the right." },
+  { href: "/demos/home/terminal", title: "Terminal", note: "Minimal typographic index — wordmark, search, a monospace directory of every snippet. Dev-tool feel." },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Homepage designs — tskr/ui demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body data-direction="e">
+    <div class="e-shell">
+      <HomeNav current="hub" />
+      <div class="hub">
+        <h1>Homepage designs</h1>
+        <p>
+          Four candidate layouts on the confirmed amber palette, no sidebar. Pick
+          one and we'll design the detail page next. Flip between them with the
+          "home:" switcher above.
+        </p>
+        <div class="hub__grid">
+          {
+            options.map((o) => (
+              <a class="d-card" href={o.href}>
+                <span class="d-card__kind">homepage</span>
+                <h2 class="d-card__title">{o.title}</h2>
+                <p class="d-card__desc">{o.note}</p>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

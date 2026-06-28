@@ -945,6 +945,244 @@
 }
 
 /* ================================================================== *
+ * Homepage design round (ADR-0008): candidate landing layouts, all on
+ * the confirmed amber palette, no sidebar. Bento / Split / Terminal.
+ * ================================================================== */
+
+/* --- Bento landing: the gallery IS the hero --- */
+.hb-hero {
+  padding: 3.5rem 0 2rem;
+}
+.hb-hero h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  letter-spacing: -0.03em;
+  line-height: 1.04;
+  margin: 0.6rem 0 0;
+  max-width: 18ch;
+}
+.hb-hero h1 em {
+  font-style: normal;
+  color: var(--accent);
+}
+.hb-hero p {
+  margin: 1rem 0 1.5rem;
+  max-width: 50ch;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+/* --- Split landing: asymmetric editorial --- */
+.hs-hero {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  padding: 4.5rem 0 3rem;
+}
+@media (max-width: 880px) {
+  .hs-hero {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+.hs-copy h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  margin: 0.8rem 0 0;
+}
+.hs-copy h1 em {
+  font-style: normal;
+  color: var(--accent);
+}
+.hs-copy p {
+  margin: 1.25rem 0 0;
+  max-width: 44ch;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+.hs-stat {
+  display: flex;
+  gap: 1.25rem;
+  margin-top: 1.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+.hs-stat b {
+  color: var(--accent);
+  font-weight: 500;
+}
+.hs-list {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  overflow: hidden;
+}
+.hs-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  text-decoration: none;
+  color: inherit;
+  transition: background var(--dur) var(--ease);
+}
+.hs-row + .hs-row {
+  border-top: 1px solid var(--border);
+}
+.hs-row:hover {
+  background: var(--surface-2);
+}
+.hs-row__name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+.hs-row__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.hs-row__kind {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.hs-row__arrow {
+  color: var(--accent);
+}
+
+/* --- Terminal landing: minimal typographic index --- */
+.ht-wrap {
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+.ht-head {
+  padding: 5rem 0 2.5rem;
+}
+.ht-word {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: clamp(2.2rem, 5vw, 3rem);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.ht-word span {
+  color: var(--accent);
+}
+.ht-tag {
+  margin: 0.8rem 0 0;
+  max-width: 56ch;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+.ht-search {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1.75rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+.ht-search b {
+  color: var(--accent);
+  font-weight: 400;
+}
+.ht-index {
+  padding-bottom: 4rem;
+}
+.ht-cat {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 2rem 0 0.4rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.ht-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.55rem 0.25rem;
+  text-decoration: none;
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  transition:
+    background var(--dur) var(--ease),
+    color var(--dur) var(--ease);
+}
+.ht-item:hover {
+  background: var(--surface);
+  color: var(--accent);
+  padding-left: 0.6rem;
+}
+.ht-item__path {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+}
+.ht-item__path em {
+  font-style: normal;
+  color: var(--text-dim);
+}
+.ht-item:hover .ht-item__path em {
+  color: var(--accent);
+}
+.ht-item__kind {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+/* --- Homepage hub: pick a layout --- */
+.hub {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 3rem 2rem 5rem;
+}
+.hub h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.hub p {
+  margin: 0.6rem 0 2rem;
+  color: var(--text-muted);
+  max-width: 56ch;
+}
+.hub__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+}
+@media (max-width: 680px) {
+  .hub__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ================================================================== *
  * Direction C only — gallery / bento structural chrome (`.c-*`).
  * Lives under [data-direction="c"]; uses the same colour tokens but a
  * completely different layout from the shared `.d-app` shell.

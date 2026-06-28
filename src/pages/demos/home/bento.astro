@@ -1,0 +1,76 @@
+---
+/*
+ * Homepage candidate — "Bento": the gallery IS the landing. A compact hero
+ * over a dominant bento grid of live preview tiles. No sidebar. (ADR-0008)
+ */
+import "../../../styles/global.css";
+import "../../../styles/demos.css";
+import { catalog } from "../../../components/demos/catalog";
+import HomeNav from "../../../components/demos/HomeNav.astro";
+
+const detailHref = "/demos/e/detail";
+const featured = catalog.find((s) => s.name === "gradient-text")!;
+const rest = catalog.filter((s) => s.name !== "gradient-text").slice(0, 15);
+const spanClass = (i: number) =>
+  i % 7 === 1 ? " c-tile--wide" : i % 9 === 4 ? " c-tile--tall" : "";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Homepage · Bento — tskr/ui demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body data-direction="e">
+    <div class="e-shell">
+      <HomeNav current="bento" />
+      <div class="e-wrap">
+        <header class="hb-hero">
+          <span class="e-eyebrow">the copy-paste collection</span>
+          <h1>Every effect, <em>previewed live.</em></h1>
+          <p>
+            Components, effects, and layouts for Vue, React, and HTML. Browse the
+            wall, grab the source, paste it in.
+          </p>
+          <div class="e-cta">
+            <a class="d-btn d-btn--primary" href={detailHref}>Browse all</a>
+            <a class="d-btn d-btn--ghost" href="https://github.com/lichingchester/vsap">GitHub</a>
+          </div>
+        </header>
+
+        <div class="c-bento">
+          <a class="c-tile c-tile--wide c-tile--tall" href={detailHref} aria-label="Gradient Text">
+            <div class="c-tile__art c-tile__art--live">
+              <span class="d-gradient-text">Gradient Text</span>
+            </div>
+            <div class="c-tile__bar">
+              <span class="c-tile__name">{featured.title}</span>
+              <span class="c-tile__live">live</span>
+            </div>
+          </a>
+          {
+            rest.map((s, i) => (
+              <a class={"c-tile" + spanClass(i)} href={detailHref} aria-label={s.title}>
+                <div class={"c-tile__art c-art-" + (i % 6)} />
+                <div class="c-tile__bar">
+                  <span class="c-tile__name">{s.title}</span>
+                  <span class="c-tile__kind">{s.kind}</span>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+
+        <footer class="e-foot">tskr/ui · homepage candidate · bento</footer>
+      </div>
+    </div>
+  </body>
+</html>
