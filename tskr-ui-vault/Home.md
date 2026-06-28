@@ -15,6 +15,9 @@ Map-of-content for the **tskr/ui** vault — all project documentation lives her
 - [[0007-lean-playground-is-the-live-preview]]
 - [[0008-design-directions-via-token-demo-harness]]
 
+## Tooling
+- [[Impeccable (design tooling)]] — design-detector skill + how contributors use it
+
 ## Process logs
 - [[2026-06-27 tskr-ui rewrite (Astro 7)]]
 - [[2026-06-28 design-system exploration (demo harness)]]
