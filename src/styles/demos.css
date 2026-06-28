@@ -53,42 +53,42 @@
 }
 
 /* ================================================================== *
- * Direction C — light Swiss/editorial paper with a crimson accent.
- * Deliberate contrast to B: light vs dark, crimson vs amber, sharp vs
- * soft, dense vs calm. The preview STAGE stays dark so glowy snippets
- * still read (light docs + dark component canvas).
- * Dials: variance 8 / motion 2 / density 3.
+ * Direction C — gallery / "lab". A structurally different design, not a
+ * recolour of B (escape hatch, ADR-0008): no sidebar, a top category-filter
+ * bar, and an edge-to-edge bento gallery where the previews ARE the nav.
+ * Dark, technical, hot-magenta accent, monospace headings.
+ * Dials: variance 8 / motion 6 / density 8.
  * ================================================================== */
 [data-direction="c"] {
-  --canvas: #f4f4f1;
-  --surface: #ffffff;
-  --surface-2: #eceae4;
-  --inset: #0e0e11; /* dark preview stage on a light page */
-  --border: #deded6;
-  --border-strong: #c2c2b8;
+  --canvas: #08080a;
+  --surface: #101013;
+  --surface-2: #17171b;
+  --inset: #0a0a0c;
+  --border: #1f1f25;
+  --border-strong: #2c2c34;
 
-  --text: #15151a;
-  --text-muted: #5b5b66;
-  --text-dim: #8a8a82;
+  --text: #f5f5f7;
+  --text-muted: #9b9ba4;
+  --text-dim: #65656f;
 
-  --accent: #e5484d;
-  --accent-strong: #cf3239;
-  --accent-ink: #ffffff;
-  --accent-faint: rgba(229, 72, 77, 0.1);
+  --accent: #ff2e88;
+  --accent-strong: #ff5ba3;
+  --accent-ink: #180108;
+  --accent-faint: rgba(255, 46, 136, 0.12);
 
-  --radius-sm: 2px;
-  --radius-md: 2px;
-  --radius-lg: 3px;
+  --radius-sm: 3px;
+  --radius-md: 5px;
+  --radius-lg: 10px;
 
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
   --font-ui: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
 
-  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
-  --dur: 120ms;
-  --shadow: 0 1px 2px rgba(20, 20, 26, 0.06), 0 8px 24px rgba(20, 20, 26, 0.08);
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --dur: 160ms;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 12px 32px rgba(0, 0, 0, 0.35);
 
-  --code-bg: #15151a;
+  --code-bg: #0a0a0c;
   --code-text: #e8e8ea;
 }
 
@@ -584,4 +584,337 @@
   color: var(--text-dim);
   font-size: 0.82rem;
   font-family: var(--font-mono);
+}
+
+/* ================================================================== *
+ * Direction C only — gallery / bento structural chrome (`.c-*`).
+ * Lives under [data-direction="c"]; uses the same colour tokens but a
+ * completely different layout from the shared `.d-app` shell.
+ * ================================================================== */
+.c-shell {
+  min-height: 100vh;
+  background: var(--canvas);
+  color: var(--text);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Sticky top bar: brand + category filter pills + dir switch */
+.c-top {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: color-mix(in srgb, var(--canvas) 82%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.c-top__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1.5rem;
+}
+.c-brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  text-decoration: none;
+}
+.c-brand span {
+  color: var(--accent);
+}
+.c-top__right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.c-top__right a.c-link {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+.c-top__right a.c-link:hover {
+  color: var(--text);
+}
+
+/* Category filter pills */
+.c-filter {
+  display: flex;
+  gap: 0.4rem;
+  padding: 0 1.5rem 0.7rem;
+  overflow-x: auto;
+}
+.c-pill {
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.3rem 0.8rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    background var(--dur) var(--ease);
+}
+.c-pill:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+.c-pill[aria-pressed="true"] {
+  color: var(--accent-ink);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* Full-bleed main */
+.c-main {
+  padding: 1.5rem;
+}
+.c-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.c-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  letter-spacing: -0.03em;
+  margin: 0.4rem 0 0;
+}
+.c-lead {
+  margin: 0.6rem 0 0;
+  max-width: 58ch;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+.c-count {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  margin: 1.6rem 0 0.7rem;
+}
+
+/* Bento gallery */
+.c-bento {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 9.5rem;
+  grid-auto-flow: row dense;
+  gap: 0.6rem;
+}
+@media (max-width: 1100px) {
+  .c-bento {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 760px) {
+  .c-bento {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.c-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  text-decoration: none;
+  color: inherit;
+  transition:
+    border-color var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
+}
+.c-tile:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+.c-tile.is-hidden {
+  display: none;
+}
+.c-tile--wide {
+  grid-column: span 2;
+}
+.c-tile--tall {
+  grid-row: span 2;
+}
+
+/* Procedural preview art (placeholder snippet visuals) */
+.c-tile__art {
+  position: absolute;
+  inset: 0;
+  opacity: 0.9;
+}
+.c-art-0 {
+  background:
+    radial-gradient(120% 80% at 20% 10%, #ff2e8855, transparent 60%),
+    radial-gradient(120% 80% at 90% 90%, #22d3ee44, transparent 60%), #0c0c10;
+}
+.c-art-1 {
+  background: conic-gradient(
+    from 0deg,
+    #1a1a20,
+    #2a2030,
+    #1a1a20,
+    #202a30,
+    #1a1a20
+  );
+  animation: c-spin 14s linear infinite;
+}
+.c-art-2 {
+  background:
+    repeating-linear-gradient(
+      45deg,
+      #16161c,
+      #16161c 8px,
+      #1c1c24 8px,
+      #1c1c24 16px
+    );
+}
+.c-art-3 {
+  background:
+    radial-gradient(circle at 50% 50%, #ff2e8830, transparent 55%), #0c0c10;
+  animation: c-pulse 4s ease-in-out infinite;
+}
+.c-art-4 {
+  background:
+    linear-gradient(120deg, #5eead433, #818cf833, #f472b633);
+  background-size: 200% 200%;
+  animation: c-flow2 8s ease infinite;
+}
+.c-art-5 {
+  background-color: #0c0c10;
+  background-image: radial-gradient(#2a2a34 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+@keyframes c-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+@keyframes c-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+@keyframes c-flow2 {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .c-art-1,
+  .c-art-3,
+  .c-art-4 {
+    animation: none;
+  }
+}
+
+/* Live featured tile reuses the real gradient-text preview */
+.c-tile__art--live {
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(100% 100% at 50% 0%, #15151c, #0a0a0c);
+}
+.c-tile__art--live .d-gradient-text {
+  font-size: clamp(1.1rem, 2.2vw, 1.8rem);
+}
+
+.c-tile__bar {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  background: linear-gradient(transparent, rgba(8, 8, 10, 0.85) 40%);
+}
+.c-tile__name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.88rem;
+  letter-spacing: -0.01em;
+}
+.c-tile__kind {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.c-tile__live {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  background: var(--accent);
+  border-radius: 999px;
+  padding: 0.1rem 0.4rem;
+}
+
+/* C detail surface: full-bleed preview hero + two-column meta/code */
+.c-detail {
+  margin-top: 3rem;
+  border-top: 1px solid var(--border);
+  padding-top: 2.5rem;
+}
+.c-hero-preview {
+  display: grid;
+  place-items: center;
+  min-height: 18rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(120% 120% at 50% 0%, #15151c, #0a0a0c);
+  background-image:
+    radial-gradient(120% 120% at 50% 0%, #15151c, #0a0a0c),
+    radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: cover, 22px 22px;
+}
+.c-detail__head {
+  margin-top: 1.5rem;
+}
+.c-cols {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .c-cols {
+    grid-template-columns: 1fr;
+  }
+}
+.c-foot {
+  padding: 3rem 0 4rem;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
 }

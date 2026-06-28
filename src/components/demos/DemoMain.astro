@@ -7,15 +7,15 @@
  * snippet grid) and a real snippet detail page (preview stage + variant tabs),
  * using real snippet metas and real ?raw source. Throwaway scaffolding.
  */
-import linkTagMeta from "../../snippets/utils/link-tag/meta";
 import gradientTextMeta from "../../snippets/text-animations/gradient-text/meta";
+import { catalog } from "./catalog";
 
 import vueTwSrc from "../../snippets/text-animations/gradient-text/vue-tailwind/GradientText.vue?raw";
 import vueCssSrc from "../../snippets/text-animations/gradient-text/vue-css/GradientText.vue?raw";
 import reactTwSrc from "../../snippets/text-animations/gradient-text/react-tailwind/GradientText.tsx?raw";
 import htmlSrc from "../../snippets/text-animations/gradient-text/html/gradient-text.html?raw";
 
-const cards = [gradientTextMeta, linkTagMeta];
+const cards = catalog;
 const detail = gradientTextMeta;
 
 const codeById: Record<string, string> = {
@@ -44,16 +44,17 @@ const firstPrereq = tabs[0]?.prerequisites?.[0];
   </div>
 </section>
 
-<p class="d-section-label">Snippets</p>
+<p class="d-section-label">Snippets · {cards.length}</p>
 <div class="d-grid">
   {
     cards.map((s) => (
       <a class="d-card" href="#detail">
         <span class="d-card__kind">
           {s.kind} · {s.category}
+          {!s.real && <span class="d-soon">soon</span>}
         </span>
         <h2 class="d-card__title">{s.title}</h2>
-        <p class="d-card__desc">{s.description.slice(0, 116).trimEnd()}…</p>
+        <p class="d-card__desc">{s.blurb}</p>
       </a>
     ))
   }

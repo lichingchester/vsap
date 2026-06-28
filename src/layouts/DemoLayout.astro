@@ -12,6 +12,7 @@
  */
 import "../styles/global.css"; // Tailwind preflight reset only
 import "../styles/demos.css";
+import { groupedCatalog } from "../components/demos/catalog";
 
 interface Props {
   title: string;
@@ -21,24 +22,7 @@ interface Props {
 
 const { title, direction, active } = Astro.props;
 const here = `/demos/${direction}`;
-
-const nav = [
-  {
-    cat: "Text Animations",
-    items: [
-      { name: "gradient-text", label: "Gradient Text", ready: true },
-      { name: "split-text", label: "Split Text", ready: false },
-    ],
-  },
-  {
-    cat: "Backgrounds",
-    items: [{ name: "aurora", label: "Aurora", ready: false }],
-  },
-  {
-    cat: "Utilities",
-    items: [{ name: "link-tag", label: "Link Tag", ready: true }],
-  },
-];
+const nav = groupedCatalog();
 ---
 
 <!doctype html>
@@ -82,19 +66,19 @@ const nav = [
           {
             nav.map((group) => (
               <div class="d-sidebar__group">
-                <p class="d-sidebar__cat">{group.cat}</p>
+                <p class="d-sidebar__cat">{group.label}</p>
                 {group.items.map((it) =>
-                  it.ready ? (
+                  it.real ? (
                     <a
                       class="d-sidebar__link"
                       href={here}
                       aria-current={it.name === active ? "true" : "false"}
                     >
-                      {it.label}
+                      {it.title}
                     </a>
                   ) : (
                     <span class="d-sidebar__link" aria-disabled="true">
-                      {it.label}
+                      {it.title}
                       <span class="d-soon">soon</span>
                     </span>
                   ),

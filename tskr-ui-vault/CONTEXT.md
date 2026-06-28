@@ -48,7 +48,7 @@ A variant of a `utility` snippet that is a genuinely independent, idiomatic impl
 ### Site design
 
 **Design direction**:
-A complete candidate look for the site, expressed as one **token set** (canvas, accent, type, radii, spacing, shadow, motion) filling a fixed set of CSS variables — not a mockup. Directions are explored before one is adopted; the first is "B" (warm amber on charcoal), the second "C". The winning direction's tokens are promoted into the real `@theme`. See [[0008-design-directions-via-token-demo-harness]].
+A complete candidate look for the site, expressed primarily as one **token set** (canvas, accent, type, radii, spacing, shadow, motion) filling a fixed set of CSS variables. A direction may also bring its own **layout** when it needs to explore a genuinely different structure rather than a recolour (the escape hatch). Directions are explored before one is adopted: "B" (warm amber on the shared sidebar shell), "C" (a sidebar-less gallery). The winning direction's tokens — and at most one chosen layout — are promoted into the real `@theme`. See [[0008-design-directions-via-token-demo-harness]].
 _Avoid_: theme, skin, mockup
 
 **Demo**:
