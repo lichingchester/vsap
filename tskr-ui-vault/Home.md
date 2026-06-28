@@ -17,6 +17,7 @@ Map-of-content for the **tskr/ui** vault — all project documentation lives her
 
 ## Process logs
 - [[2026-06-27 tskr-ui rewrite (Astro 7)]]
+- [[2026-06-28 design-system exploration (demo harness)]]
 
 ## Live work
 Follow-up tasks are tracked as GitHub issues:
