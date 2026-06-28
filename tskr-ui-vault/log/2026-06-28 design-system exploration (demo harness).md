@@ -55,14 +55,29 @@ vocabulary only.
 
 ## State
 
-- Confirmed, **not promoted**. `/demos` and `data-direction` stay in place.
-- Branch `design-system` (off `develop`); commits `f64f18e` → `43fefe4`.
+- Confirmed **and promoted to the live site** (commit `eb3742d`). `/demos` and
+  `data-direction` are kept in place for the next session.
+- Branch `design-system` (off `develop`); commits `f64f18e` → `eb3742d`.
 - B, C, D, E and all homepage/detail variants are preserved as the trail.
+
+### What promotion changed (real site)
+
+- `global.css` — amber-on-charcoal tokens in Tailwind v4 `@theme`.
+- `src/styles/site.css` — real chrome (terminal home + docs detail), clean
+  class names, decoupled from the throwaway demo CSS.
+- `Layout.astro` (base shell + fonts) + `SnippetLayout.astro` (docs shell:
+  header + name-only mono sidebar + main).
+- `src/lib/snippets.ts` — `import.meta.glob` registry powering the home index
+  and the sidebar (replaced the hand-listed array).
+- `index.astro` — Terminal · Masthead home; detail pages rebuilt as docs pages
+  (breadcrumb + Preview / Props / Usage + "On this page" TOC); `ApiTable` +
+  `OnThisPage` components.
+- `SnippetMeta.props` (`PropDoc[]`) added; both metas document their real props
+  → API tables generate from `meta.ts`.
+- `GradientTextPlayground` + `SnippetTabs` restyled to the tokens (docs-only).
 
 ## Deferred to a later session (same `/demos` pattern)
 
-- Promote the confirmed tokens + the two layouts into the real `global.css`
-  `@theme` and `Layout.astro`; wire the real snippet pages; delete `/demos`.
-- Move the props schema from `gradientProps.ts` into each snippet's `meta.ts`
-  so API tables + controls are generated per snippet.
-- Remaining detail polish, other surfaces, and pruning the rejected directions.
+- Remaining detail polish, other surfaces, pruning the rejected directions,
+  and eventually deleting `/demos` once exploration is done.
+- (Done this session: tokens → `@theme`; props schema → `meta.ts`.)
