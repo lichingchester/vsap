@@ -172,91 +172,8 @@
 .sd-controls__reset:hover {
   color: var(--color-fg);
 }
-.sd-ctl__row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.4rem;
-}
-.sd-ctl__label {
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--color-fg);
-}
-.sd-ctl__val {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  font-variant-numeric: tabular-nums;
-  color: var(--color-dim);
-}
-.sd-ctl__add {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  padding: 0.2rem 0.5rem;
-  border: 1px dashed var(--color-line2);
-  border-radius: var(--radius-sm);
-  background: transparent;
-  color: var(--color-muted);
-  cursor: pointer;
-}
-.sd-ctl__add:hover:not(:disabled) {
-  border-color: var(--color-accent);
-  color: var(--color-fg);
-}
-.sd-ctl__add:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-.sd-swatches {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-.sd-swatch {
-  position: relative;
-}
-.sd-swatch input[type="color"] {
-  width: 2.25rem;
-  height: 2.25rem;
-  padding: 0;
-  border: 1px solid var(--color-line2);
-  border-radius: var(--radius-sm);
-  background: transparent;
-  cursor: pointer;
-}
-.sd-swatch__rm {
-  position: absolute;
-  top: -0.35rem;
-  right: -0.35rem;
-  width: 1rem;
-  height: 1rem;
-  display: none;
-  place-items: center;
-  border: 0;
-  border-radius: var(--radius-sm);
-  background: var(--color-surface2);
-  color: var(--color-fg);
-  font-size: 0.7rem;
-  line-height: 1;
-  cursor: pointer;
-}
-.sd-swatch:hover .sd-swatch__rm {
-  display: grid;
-}
-.sd-range {
-  width: 100%;
-  accent-color: var(--color-accent);
-}
-.sd-text {
-  width: 100%;
-  padding: 0.4rem 0.6rem;
-  border: 1px solid var(--color-line2);
-  border-radius: var(--radius-sm);
-  background: var(--color-inset);
-  color: var(--color-fg);
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-}
+/* Individual field widgets are supplied by the control kit (src/controls,
+   tk-prefixed in controls.css); this panel only frames them. */
 
 /* ---- code block (Shiki) ---- */
 .sd-code {
@@ -362,8 +279,7 @@
 .sd-code__copy:focus-visible,
 .sd-code__wrap:focus-visible,
 .vseg__btn:focus-visible,
-.sd-controls__reset:focus-visible,
-.sd-ctl__add:focus-visible {
+.sd-controls__reset:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }

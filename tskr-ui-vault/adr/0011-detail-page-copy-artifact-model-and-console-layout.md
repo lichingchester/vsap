@@ -66,6 +66,12 @@ harness discipline as ADR-0008) and decided:
 - **`shiki` is a new dev dependency** (client-side highlighting for the
   live-updating Usage). A small concession to the lean ethos, accepted because
   reading/copying code is the core job; it is dev-only and never shipped to users.
+- **The props controls use the custom "Terminal" control kit**
+  ([[0010-prop-controls-kit]]), not native inputs: `src/detail/Controls.vue` maps
+  each `meta.controls` spec to a kit `Slider` / `ColorList` / `Toggle` /
+  `TextField`. This supersedes that ADR's `GradientTextPlayground` retrofit — that
+  component was removed with the Console promotion, so the kit's first real
+  consumer is the detail page. (Adds `lucide-vue-next`, used by the kit.)
 - **Removed:** the old `SnippetTabs`, `GradientTextPlayground`, `ApiTable.astro`,
   `OnThisPage.astro`, and the throwaway `/demos` harness (trail in git +
   [[0008-design-directions-via-token-demo-harness]]). No-drift (ADR-0004/0005)

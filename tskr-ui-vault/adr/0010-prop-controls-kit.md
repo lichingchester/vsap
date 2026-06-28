@@ -44,6 +44,11 @@ We decided:
   (`ColorList` + two `Slider`s), replacing all native inputs. The no-drift rule
   ([[0004-single-source-snippet-structure]]) is unaffected: the kit drives the
   controls, the reference variant is still the mounted preview.
+  - **Superseded by [[0011-detail-page-copy-artifact-model-and-console-layout]].**
+    `GradientTextPlayground` was removed when the Console detail page landed; the
+    kit's real consumer is now `src/detail/Controls.vue`, which maps each
+    `meta.controls` spec to a kit widget. The decision (kit replaces native
+    inputs) stands; only the consuming component changed.
 - **`/demo` is kept as the exploration record**, intentionally disposable. Its
   six-skin components live separately under `src/demo/` and are NOT the kit; when
   the exploration is no longer useful the directory can be deleted without

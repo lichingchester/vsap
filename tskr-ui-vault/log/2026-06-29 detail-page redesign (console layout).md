@@ -3,7 +3,7 @@
 Redesigned the snippet **detail page** around the copy job, explored via a fresh
 throwaway `/demos` round (same harness discipline as
 [[0008-design-directions-via-token-demo-harness]]) and promoted. See
-[[0010-detail-page-copy-artifact-model-and-console-layout]] and [[CONTEXT]] (the
+[[0011-detail-page-copy-artifact-model-and-console-layout]] and [[CONTEXT]] (the
 **Copy artifact** / **Install** / **Source** / **Usage** / **Variant
 preference** terms).
 
