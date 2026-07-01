@@ -93,7 +93,7 @@ export const meta: SnippetMeta = {
       label: "HTML",
       entry: "link-tag.html",
       native: true,
-      prerequisites: [{ note: "No dependencies — plain <a>." }],
+      // No prerequisites — plain <a>; the section is hidden.
     },
   ],
 };

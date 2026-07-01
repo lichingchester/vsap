@@ -67,7 +67,7 @@ export const meta: SnippetMeta = {
       styling: "css",
       label: "Vue + CSS",
       entry: "GradientText.vue",
-      prerequisites: [{ note: "No dependencies — styles are scoped in the SFC." }],
+      // No prerequisites — styles are scoped in the SFC; the section is hidden.
     },
     {
       id: "react-tailwind",
@@ -93,7 +93,7 @@ export const meta: SnippetMeta = {
       styling: "css",
       label: "HTML",
       entry: "gradient-text.html",
-      prerequisites: [{ note: "No dependencies — self-contained <style> + markup." }],
+      // No prerequisites — self-contained <style> + markup; the section is hidden.
     },
   ],
 };

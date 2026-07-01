@@ -21,8 +21,8 @@ What a snippet is, as a classification: `component`, `effect`, `layout`, or `uti
 The user-facing grouping a snippet is filed under in the sidebar and URL (e.g. backgrounds, text-animations, utils). Independent of Kind.
 
 **Prerequisites**:
-The per-snippet, per-variant declaration of what a user must already have for a pasted snippet to work — npm dependencies (e.g. gsap, three), assumed tooling (e.g. "Tailwind v4 configured"), and any global CSS to add (`@keyframes`, `@theme` tokens). The honest replacement for a blanket "no setup" promise. The npm subset surfaces on the detail page as the **Install** artifact; tooling/CSS notes stay as plain prerequisite lines.
-_Avoid_: requirements, dependencies (when referring to the whole block rather than just npm packages)
+The per-snippet, per-variant declaration of what a user must already have for a pasted snippet to work — third-party dependencies (e.g. gsap, three), assumed tooling (e.g. "Tailwind v4 configured"), and any global CSS to add (`@keyframes`, `@theme` tokens). The honest replacement for a blanket "no setup" promise. On the detail page this is the name of the **section** (formerly mistitled "Install"): a state the user checks, not an action they perform. It renders the **Install** command for its dependencies plus any tooling/CSS notes, and is **hidden entirely** when a variant needs nothing. See [[0012-prerequisites-not-install]].
+_Avoid_: requirements, dependencies (when referring to the whole block rather than just the packages), Install (that is only the dependency command inside this section)
 
 ### Variants
 
@@ -58,11 +58,12 @@ _Avoid_: preview (reserved for a snippet's live render), playground
 ### Detail page
 
 **Copy artifact**:
-One of the discrete, separately-copyable blocks the detail page exposes for a snippet variant: **Install**, **Source**, **Usage**. Each appears only when it has content (an effect with no npm deps shows no Install; the self-contained HTML variant collapses Source and Usage into one). Copying the source is the product's core job, so each artifact carries its own copy button.
+One of the discrete, separately-copyable blocks the detail page exposes for a snippet variant: the **Install** command (nested inside the **Prerequisites** section), **Source**, and **Usage**. Each appears only when it has content (a variant with no dependencies shows no Install and, if it needs no tooling either, no Prerequisites section at all; the self-contained HTML variant collapses Source and Usage into one). Copying the source is the product's core job, so each artifact carries its own copy button.
 _Avoid_: snippet (the whole unit, not one block of it), code block
 
 **Install**:
-The copy artifact holding the npm install line(s) for the selected variant's npm **Prerequisites** (e.g. `npm i gsap`). Shown only when there are npm deps; tooling/CSS prerequisites are not Install, they remain prerequisite notes.
+The copyable dependency-setup command shown *inside* the **Prerequisites** section for the selected variant — `npm i gsap@^3.12` for a Vue/React variant, or the equivalent CDN `<script>` line for the HTML variant (which has no npm). The version is *known-good* (the range the reference was written against), guidance not a mandatory pin. No longer a top-level section heading of its own; renders only when the variant has a real dependency (tooling/CSS-only prerequisites stay as notes). See [[0012-prerequisites-not-install]].
+_Avoid_: the section title (that is **Prerequisites**); implying the snippet itself is installable
 
 **Source**:
 The copy artifact holding the component file the user pastes into their project — the literal variant source (`GradientText.vue`). Static: it does not change as playground controls move (it is the file, not a call of it).

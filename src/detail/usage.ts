@@ -84,19 +84,50 @@ export function renderUsage(
   return imp ? `${imp}\n\n${el}` : el;
 }
 
-/** The Install artifact: npm deps for a variant, or null when there are none. */
-export function renderInstall(variant: DetailVariant): string | null {
-  const pkgs = (variant.prerequisites ?? [])
-    .map((p) => p.npm)
-    .filter((x): x is string => Boolean(x));
-  return pkgs.length ? `npm i ${pkgs.join(" ")}` : null;
+/** The copyable dependency-setup command shown inside the Prerequisites section. */
+export interface InstallArtifact {
+  code: string;
+  lang: string;
+  filename: string;
 }
 
-/** Tooling / CSS prerequisite notes (everything that isn't an npm install). */
+/**
+ * The Install command for a variant (ADR-0012): the dependency-setup line inside
+ * the Prerequisites section. For npm frameworks it's `npm i pkg@version` — the
+ * version is a *known-good* range the reference was written against, not a hard
+ * pin. The HTML variant has no npm, so its command is a CDN `<script>` line built
+ * from each prerequisite's `cdn` URL. Returns null when the variant declares no
+ * real dependency (tooling/CSS-only prerequisites live in noteLines, not here).
+ */
+export function renderInstall(variant: DetailVariant): InstallArtifact | null {
+  const prereqs = variant.prerequisites ?? [];
+
+  if (variant.framework === "html") {
+    const tags = prereqs
+      .filter((p) => p.cdn)
+      .map((p) => `<script src="${p.cdn}"></script>`);
+    return tags.length
+      ? { code: tags.join("\n"), lang: "html", filename: "index.html" }
+      : null;
+  }
+
+  const pkgs = prereqs
+    .filter((p) => p.npm)
+    .map((p) => (p.version ? `${p.npm}@${p.version}` : (p.npm as string)));
+  return pkgs.length
+    ? { code: `npm i ${pkgs.join(" ")}`, lang: "bash", filename: "terminal" }
+    : null;
+}
+
+/**
+ * The tooling / CSS prerequisite notes: everything that isn't the Install
+ * command. A prerequisite's package identity already shows in the Install
+ * command, so only its human `note` surfaces here.
+ */
 export function noteLines(variant: DetailVariant): string[] {
   return (variant.prerequisites ?? [])
-    .filter((p) => p.note)
-    .map((p) => (p.npm ? `${p.npm} — ${p.note}` : (p.note as string)));
+    .map((p) => p.note)
+    .filter((n): n is string => Boolean(n));
 }
 
 /**

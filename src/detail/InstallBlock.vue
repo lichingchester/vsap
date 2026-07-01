@@ -1,19 +1,21 @@
 <script setup lang="ts">
-/* Detail page. The Install copy artifact + the
- * non-npm prerequisite notes. "Prerequisites, not magic" (PRODUCT.md): the npm
- * line is copyable; tooling/CSS notes stay as honest plain lines. Renders
- * nothing when a variant needs neither. */
+/* Detail page. The body of the Prerequisites section: the Install command (a
+ * copyable dependency-setup line — `npm i` for npm frameworks, a CDN <script>
+ * for the HTML variant) plus the non-dependency tooling/CSS notes. "Prerequisites,
+ * not magic" (PRODUCT.md): the command is copyable; tooling/CSS notes stay as
+ * honest plain lines. Renders nothing when a variant needs neither. */
 import CodeBlock from "./CodeBlock.vue";
-defineProps<{ install: string | null; notes: string[] }>();
+import type { InstallArtifact } from "./usage";
+defineProps<{ install: InstallArtifact | null; notes: string[] }>();
 </script>
 
 <template>
   <div v-if="install || notes.length" class="sd-install">
     <CodeBlock
       v-if="install"
-      :code="install"
-      lang="bash"
-      filename="terminal"
+      :code="install.code"
+      :lang="install.lang"
+      :filename="install.filename"
       kind="install"
     />
     <ul v-if="notes.length" class="sd-notes">

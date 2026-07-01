@@ -13,7 +13,19 @@ export type Kind = "component" | "effect" | "layout" | "utility";
 export interface Prerequisite {
   /** npm package the user must install, if any (e.g. "gsap", "three"). */
   npm?: string;
-  /** Human note: assumed tooling, global CSS to add, version constraints. */
+  /**
+   * Known-good version the reference was written against, as an npm range
+   * (e.g. "^3.12"). Rendered into the Install command (`npm i gsap@^3.12`).
+   * Guidance, not a hard pin — see ADR-0012. Ignored without `npm`.
+   */
+  version?: string;
+  /**
+   * CDN / import URL for the HTML variant, which has no npm. When the selected
+   * variant is `html`, the Install command becomes a `<script>` line built from
+   * this instead of `npm i` (ADR-0012).
+   */
+  cdn?: string;
+  /** Human note: assumed tooling, global CSS to add, or other setup. */
   note?: string;
 }
 

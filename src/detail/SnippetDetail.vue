@@ -79,8 +79,8 @@ onMounted(initPref);
         />
       </section>
 
-      <section v-if="view.install || view.notes.length" id="install" class="s-section con-sec">
-        <h2 class="con-h"><span class="con-h__tick"></span>Install</h2>
+      <section v-if="view.install || view.notes.length" id="prerequisites" class="s-section con-sec">
+        <h2 class="con-h"><span class="con-h__tick"></span>Prerequisites</h2>
         <InstallBlock :install="view.install" :notes="view.notes" />
       </section>
 

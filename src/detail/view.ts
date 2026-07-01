@@ -11,6 +11,7 @@ import {
   noteLines,
   resolveVariant,
   type VariantPref,
+  type InstallArtifact,
 } from "./usage";
 
 export interface CodeArtifact {
@@ -24,7 +25,7 @@ export interface DetailView {
   variant: DetailVariant;
   fellBack: boolean;
   fallbackNote: string | null;
-  install: string | null;
+  install: InstallArtifact | null;
   notes: string[];
   isHtml: boolean;
   sources: CodeArtifact[];
@@ -41,11 +42,13 @@ export interface SectionRef {
 /**
  * The sections this detail page shows, in order — the single source the stacked
  * layouts use for BOTH the rendered sections and the "On this page" TOC, so the
- * two never drift. Install/Usage are conditional (no npm deps; HTML collapse).
+ * two never drift. Prerequisites/Usage are conditional (nothing to set up; HTML
+ * collapse).
  */
 export function sectionList(view: DetailView): SectionRef[] {
   const s: SectionRef[] = [{ id: "preview", label: "Preview" }];
-  if (view.install || view.notes.length) s.push({ id: "install", label: "Install" });
+  if (view.install || view.notes.length)
+    s.push({ id: "prerequisites", label: "Prerequisites" });
   s.push({ id: "source", label: view.isHtml ? "Source" : "Component" });
   if (view.usage) s.push({ id: "usage", label: "Usage" });
   s.push({ id: "api", label: "API" });

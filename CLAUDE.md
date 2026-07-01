@@ -44,7 +44,7 @@ src/snippets/<category>/<name>/
 ## The site
 
 - **`src/pages/index.astro`** — the home: a Terminal · Masthead landing (no sidebar) listing every snippet, discovered from disk.
-- **`src/pages/snippets/<category>/<name>.astro`** — a snippet detail page: the **Console** layout (ADR-0011), a thin Astro page that hands `meta` + `?raw` sources to the `SnippetDetail` island. Sections **Preview → Install → Source → Usage → API** with copy artifacts and a scroll-progress "On this page" rail.
+- **`src/pages/snippets/<category>/<name>.astro`** — a snippet detail page: the **Console** layout (ADR-0011), a thin Astro page that hands `meta` + `?raw` sources to the `SnippetDetail` island. Sections **Preview → Prerequisites → Source → Usage → API** with copy artifacts and a scroll-progress "On this page" rail.
 - **`src/lib/snippets.ts`** — `import.meta.glob` registry over `src/snippets/**/meta.ts`; powers the home index and the sidebar.
 - **`src/layouts/`** — `Layout.astro` (base shell + fonts) and `SnippetLayout.astro` (docs shell: header + name-only sidebar + main).
 - **Detail components** (`src/detail/`, docs-only, never copied, ADR-0011): the `SnippetDetail` island + `CodeBlock` (Shiki), `Controls`, `PreviewStage`, `VariantSelector`, `InstallBlock`, `ApiTable`, and the `usage`/`view`/`variantPref`/`scroll` modules.
