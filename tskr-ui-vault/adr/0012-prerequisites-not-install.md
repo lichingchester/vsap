@@ -32,7 +32,11 @@ We decided:
   reintroduce jsrepo-style exact pinning/resolution (dropped in
   [[0001-distribution-by-web-copy-paste]]): a hard `gsap@3.12.5` usually overstates
   the requirement and rots into a lie under manual upkeep, whereas a caret range /
-  "written against" note stays true as the dependency patches.
+  "written against" note stays true as the dependency patches. A version is a
+  claim ("written against this"), so it belongs only on libraries the snippet
+  *bundles and imports* (gsap, three) — **not** on framework/peer packages the
+  user's app already owns (`vue-router`, `next`), whose version the user's project
+  dictates. Those stay a bare `npm i vue-router`.
 - **Setup is per-framework.** npm (`npm i pkg@version`) for Vue/React; a CDN
   `<script>` line for the HTML variant, built from a new `cdn` field on
   `Prerequisite`. `renderInstall` selects the right form for the selected variant,

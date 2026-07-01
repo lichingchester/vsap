@@ -17,6 +17,11 @@ export interface Prerequisite {
    * Known-good version the reference was written against, as an npm range
    * (e.g. "^3.12"). Rendered into the Install command (`npm i gsap@^3.12`).
    * Guidance, not a hard pin — see ADR-0012. Ignored without `npm`.
+   *
+   * Set it only for libraries the snippet *bundles and is coded against*
+   * (gsap, three) — a major bump can break the pasted code. Leave framework /
+   * peer packages the user's app already owns (vue-router, next) unversioned:
+   * their version is the user's project's call, not the snippet's.
    */
   version?: string;
   /**
