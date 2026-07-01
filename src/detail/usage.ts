@@ -119,15 +119,21 @@ export function renderInstall(variant: DetailVariant): InstallArtifact | null {
     : null;
 }
 
+/** A tooling/CSS prerequisite note, optionally linking to a setup guide. */
+export interface NoteLine {
+  text: string;
+  href?: string;
+}
+
 /**
  * The tooling / CSS prerequisite notes: everything that isn't the Install
  * command. A prerequisite's package identity already shows in the Install
- * command, so only its human `note` surfaces here.
+ * command, so only its human `note` (with any doc `href`) surfaces here.
  */
-export function noteLines(variant: DetailVariant): string[] {
+export function noteLines(variant: DetailVariant): NoteLine[] {
   return (variant.prerequisites ?? [])
-    .map((p) => p.note)
-    .filter((n): n is string => Boolean(n));
+    .filter((p) => p.note)
+    .map((p) => ({ text: p.note as string, href: p.href }));
 }
 
 /**

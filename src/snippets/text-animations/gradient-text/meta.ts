@@ -59,7 +59,9 @@ export const meta: SnippetMeta = {
       label: "Vue + Tailwind",
       entry: "GradientText.vue",
       reference: true,
-      prerequisites: [{ note: "Tailwind v4 configured." }],
+      prerequisites: [
+        { note: "Tailwind v4 configured.", href: "https://tailwindcss.com/docs/installation" },
+      ],
     },
     {
       id: "vue-css",
@@ -75,7 +77,9 @@ export const meta: SnippetMeta = {
       styling: "tailwind",
       label: "React + Tailwind",
       entry: "GradientText.tsx",
-      prerequisites: [{ note: "Tailwind v4 configured." }],
+      prerequisites: [
+        { note: "Tailwind v4 configured.", href: "https://tailwindcss.com/docs/installation" },
+      ],
     },
     {
       id: "react-css",

@@ -5,8 +5,8 @@
  * not magic" (PRODUCT.md): the command is copyable; tooling/CSS notes stay as
  * honest plain lines. Renders nothing when a variant needs neither. */
 import CodeBlock from "./CodeBlock.vue";
-import type { InstallArtifact } from "./usage";
-defineProps<{ install: InstallArtifact | null; notes: string[] }>();
+import type { InstallArtifact, NoteLine } from "./usage";
+defineProps<{ install: InstallArtifact | null; notes: NoteLine[] }>();
 </script>
 
 <template>
@@ -19,7 +19,10 @@ defineProps<{ install: InstallArtifact | null; notes: string[] }>();
       kind="install"
     />
     <ul v-if="notes.length" class="sd-notes">
-      <li v-for="(n, i) in notes" :key="i">{{ n }}</li>
+      <li v-for="(n, i) in notes" :key="i">
+        <a v-if="n.href" :href="n.href" target="_blank" rel="noopener noreferrer">{{ n.text }}</a>
+        <template v-else>{{ n.text }}</template>
+      </li>
     </ul>
   </div>
 </template>

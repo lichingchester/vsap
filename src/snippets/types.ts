@@ -27,6 +27,12 @@ export interface Prerequisite {
   cdn?: string;
   /** Human note: assumed tooling, global CSS to add, or other setup. */
   note?: string;
+  /**
+   * Optional doc link for the `note` — e.g. a tooling setup guide the site
+   * shouldn't reproduce ("Tailwind v4 configured" → tailwindcss.com install
+   * docs). Rendered as a link on the note line; ignored without `note`.
+   */
+  href?: string;
 }
 
 export interface Variant {

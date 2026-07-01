@@ -12,6 +12,7 @@ import {
   resolveVariant,
   type VariantPref,
   type InstallArtifact,
+  type NoteLine,
 } from "./usage";
 
 export interface CodeArtifact {
@@ -26,7 +27,7 @@ export interface DetailView {
   fellBack: boolean;
   fallbackNote: string | null;
   install: InstallArtifact | null;
-  notes: string[];
+  notes: NoteLine[];
   isHtml: boolean;
   sources: CodeArtifact[];
   /** null when the HTML variant collapses Source and Usage into one. */
