@@ -296,6 +296,31 @@
   font-size: 0.86rem;
   line-height: 1.55;
 }
+/* A tooling note states the requirement as plain text; the optional link is a
+ * separate, clearly-marked way to act on it — never the status sentence itself. */
+.sd-note-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.22rem;
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.sd-note-link::before {
+  content: "·";
+  margin-right: 0.4rem;
+  color: var(--color-dim);
+  font-weight: 400;
+}
+.sd-note-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.sd-note-link__icon {
+  flex: none;
+  opacity: 0.85;
+}
 
 /* ============================================================= */
 /* Console layout — sticky headers, IDE blocks, progress TOC     */

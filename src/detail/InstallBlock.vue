@@ -20,8 +20,31 @@ defineProps<{ install: InstallArtifact | null; notes: NoteLine[] }>();
     />
     <ul v-if="notes.length" class="sd-notes">
       <li v-for="(n, i) in notes" :key="i">
-        <a v-if="n.href" :href="n.href" target="_blank" rel="noopener noreferrer">{{ n.text }}</a>
-        <template v-else>{{ n.text }}</template>
+        {{ n.text }}
+        <a
+          v-if="n.href"
+          :href="n.href"
+          class="sd-note-link"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Setup guide
+          <svg
+            class="sd-note-link__icon"
+            viewBox="0 0 24 24"
+            width="12"
+            height="12"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M7 7h10v10" />
+            <path d="M7 17 17 7" />
+          </svg>
+        </a>
       </li>
     </ul>
   </div>
