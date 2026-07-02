@@ -20,7 +20,7 @@
 }
 .tk-label {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: var(--text-eyebrow);
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.07em;
@@ -32,7 +32,7 @@
 }
 .tk-value {
   font-family: var(--font-mono);
-  font-size: 0.74rem;
+  font-size: var(--text-caption);
   color: var(--color-dim);
   font-variant-numeric: tabular-nums;
 }
@@ -149,7 +149,7 @@
   background: transparent;
   border-radius: 2px;
   font-family: var(--font-mono);
-  font-size: 0.74rem;
+  font-size: var(--text-caption);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--color-muted);
@@ -186,7 +186,7 @@
   border-radius: 3px;
   color: var(--color-fg);
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: var(--text-caption);
   cursor: pointer;
   transition: border-color 0.15s ease;
 }
@@ -230,7 +230,7 @@
   padding: 0.4rem 0.55rem;
   border-radius: 2px;
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: var(--text-caption);
   color: var(--color-muted);
   cursor: pointer;
 }
@@ -255,7 +255,7 @@
   border-radius: 3px;
   color: var(--color-fg);
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: var(--text-caption);
   transition: border-color 0.15s ease;
 }
 .tk-text::placeholder {
@@ -294,7 +294,7 @@
 }
 .tk-cp__hexlabel {
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: var(--text-caption);
   color: var(--color-muted);
 }
 .tk-pop {
@@ -402,7 +402,7 @@
   border-radius: 3px;
   color: var(--color-fg);
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: var(--text-caption);
 }
 .tk-pick__hexin:focus {
   outline: none;

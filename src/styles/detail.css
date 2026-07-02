@@ -49,10 +49,10 @@
 }
 .vsel__label {
   font-family: var(--font-mono);
-  font-size: 0.66rem;
-  letter-spacing: 0.12em;
+  font-size: var(--text-eyebrow);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-dim);
+  color: var(--color-muted);
 }
 .vseg {
   display: inline-flex;
@@ -63,7 +63,7 @@
 }
 .vseg__btn {
   font-family: var(--font-mono);
-  font-size: 0.76rem;
+  font-size: var(--text-caption);
   padding: 0.3rem 0.6rem;
   border: 0;
   border-radius: var(--radius-sm);
@@ -76,7 +76,7 @@
 }
 .vsel--compact .vseg__btn {
   padding: 0.22rem 0.5rem;
-  font-size: 0.72rem;
+  font-size: var(--text-eyebrow);
 }
 .vseg__btn:hover:not([aria-pressed="true"]):not(:disabled) {
   color: var(--color-fg);
@@ -112,7 +112,7 @@
 .sd-stage__meta {
   margin: 0;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: var(--text-caption);
   color: var(--color-dim);
 }
 .sd-stage__meta b {
@@ -154,14 +154,14 @@
 }
 .sd-controls__title {
   font-family: var(--font-mono);
-  font-size: 0.66rem;
-  letter-spacing: 0.12em;
+  font-size: var(--text-eyebrow);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-dim);
+  color: var(--color-muted);
 }
 .sd-controls__reset {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: var(--text-caption);
   padding: 0.15rem 0.5rem;
   border: 1px solid var(--color-line2);
   border-radius: var(--radius-sm);
@@ -192,14 +192,14 @@
 }
 .sd-code__name {
   font-family: var(--font-mono);
-  font-size: 0.76rem;
+  font-size: var(--text-caption);
   color: var(--color-muted);
 }
 .sd-code__kind {
   color: var(--color-dim);
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  font-size: var(--text-eyebrow);
   margin-right: 0.5rem;
 }
 .sd-code__actions {
@@ -209,7 +209,7 @@
 }
 .sd-code__wrap {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: var(--text-caption);
   padding: 0.25rem 0.5rem;
   border: 1px solid var(--color-line2);
   border-radius: var(--radius-sm);
@@ -223,7 +223,7 @@
 }
 .sd-code__copy {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: var(--text-caption);
   padding: 0.25rem 0.6rem;
   border: 1px solid var(--color-line2);
   border-radius: var(--radius-sm);
@@ -293,7 +293,7 @@
   margin: 0;
   padding-left: 1.1rem;
   color: var(--color-muted);
-  font-size: 0.86rem;
+  font-size: var(--text-body);
   line-height: 1.55;
 }
 /* A tooling note states the requirement as plain text; the optional link is a
@@ -327,13 +327,13 @@
 /* ============================================================= */
 .con-bc {
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: var(--text-caption);
 }
 .con-title {
   font-family: var(--font-mono);
   font-weight: 500;
   /* DESIGN.md Title token — the snippet name at the top of a detail page. */
-  font-size: clamp(1.6rem, 3.5vw, 2.1rem);
+  font-size: var(--text-title);
   line-height: 1.15;
   letter-spacing: -0.02em;
   text-wrap: balance;
@@ -353,7 +353,7 @@
   font-weight: 500;
   /* DESIGN.md Heading token + the Mono-Heading Rule: size 1rem carried by a
      hairline underline, not by being large. */
-  font-size: 1rem;
+  font-size: var(--text-heading);
   line-height: 1.4;
   color: var(--color-fg);
   margin: 0 0 1rem;
@@ -382,10 +382,10 @@
 }
 .con-toolbar__label {
   font-family: var(--font-mono);
-  font-size: 0.66rem;
-  letter-spacing: 0.12em;
+  font-size: var(--text-eyebrow);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-dim);
+  color: var(--color-muted);
 }
 
 /* ---- scroll-progress TOC rail ---- */
@@ -395,10 +395,10 @@
 }
 .toc-prog__title {
   font-family: var(--font-mono);
-  font-size: 0.66rem;
-  letter-spacing: 0.12em;
+  font-size: var(--text-eyebrow);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-dim);
+  color: var(--color-muted);
   margin: 0 0 0.6rem;
 }
 .toc-prog__body {
@@ -426,7 +426,7 @@
   gap: 0.1rem;
 }
 .toc-prog__links a {
-  font-size: 0.82rem;
+  font-size: var(--text-body);
   color: var(--color-muted);
   text-decoration: none;
   padding: 0.18rem 0;
