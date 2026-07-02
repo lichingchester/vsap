@@ -89,3 +89,37 @@ _Avoid_: example, demo
 **Variant preference**:
 The visitor's persisted choice of **framework target** + **styling target**, set once via the header toggles and honored by every detail page (one source of truth in `localStorage`, mirrored by the per-page selector). Expressed as the two axes — not a concrete **variant** id — because ids differ per snippet; each page resolves it to its nearest available variant, falling back to the **reference variant** with a quiet note when the exact combo is absent.
 _Avoid_: variant (the resolved implementation, not the saved preference), setting
+
+### API section
+
+**API table**:
+The detail-page section that documents a snippet's public props, generated from `meta.props` (`PropDoc[]`) — one row per prop with its **type chip**, **default token**, and description. Reference material, not a **copy artifact**: the reader learns the props here but copies code from **Source** / **Usage**. See [[0015-api-table-depicts-defaults-render-kinds-echo-controls]].
+_Avoid_: props table, API reference
+
+**Depiction**:
+How a prop's default (or type) is *drawn* in the **API table** rather than printed as flat source text — the governing rule is **depiction echoes control**: a default is shown in the static visual language of the control that would edit it in the playground ([[0010-prop-controls-kit]]). Depictions are inert illustrations that share the controls' look, never the live control components. See [[0015-api-table-depicts-defaults-render-kinds-echo-controls]].
+_Avoid_: widget, preview (that is a snippet's live render)
+
+**Render kind**:
+The classification a `PropDoc` is dispatched to for its **depiction**, decided by a pure `classifyDefault` from the default/type *strings* (not the prop name): `colors`, `boolean`, `union`, or `code`. `union` is recognised but currently renders as `code` until its **option chips** ship.
+_Avoid_: type category, prop type (that is the source-text `type` field)
+
+**Type chip**:
+The Type column's container — a ghost / hairline-outline chip, transparent fill, holding the source-text type. Its outline reads as "the shape of the value," deliberately contrasting the filled **default token**. Monochrome: types are never hue-coded by kind ([[0008-design-directions-via-token-demo-harness]]).
+_Avoid_: type badge, type pill
+
+**Default token**:
+The Default column's container — a filled code token holding the concrete default value (or a dim ghost `required` tag when the prop has no default). Its fill reads as "a concrete value," contrasting the hollow **type chip**.
+_Avoid_: default badge, value pill
+
+**Swatch**:
+The `colors` **depiction** — small rounded-square colour chips echoing the `Swatch` control ([[0010-prop-controls-kit]]). A single colour shows swatch + inline hex; a colour array shows swatches only with hex on hover. Distinct from the interactive `Swatch` control component: this is a static illustration of it.
+_Avoid_: colour dot, chip
+
+**Toggle glyph**:
+The `boolean` **depiction** — a tiny non-interactive toggle drawn in its default position (off = hollow, on = amber), echoing the `Toggle` control.
+_Avoid_: switch, checkbox
+
+**Option chips**:
+The `union` **depiction** — segmented chips of the union's members with the default one highlighted, echoing the `Segmented` control. Designed but deferred: no union prop exists yet, so a union currently falls back to the `code` render kind.
+_Avoid_: enum tags, segmented badge

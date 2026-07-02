@@ -17,6 +17,10 @@ Map-of-content for the **tskr/ui** vault — all project documentation lives her
 - [[0009-adopt-impeccable-as-installed-design-gate]]
 - [[0010-prop-controls-kit]]
 - [[0011-detail-page-copy-artifact-model-and-console-layout]]
+- [[0012-prerequisites-not-install]]
+- [[0013-single-purpose-snippets-static-vs-animated]]
+- [[0014-type-ramp-is-chrome-local-not-a-theme-token]]
+- [[0015-api-table-depicts-defaults-render-kinds-echo-controls]]
 
 ## Tooling
 - [[Impeccable (design tooling)]] — design-detector skill + how contributors use it
