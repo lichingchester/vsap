@@ -55,6 +55,19 @@ _Avoid_: theme, skin, mockup
 A throwaway page under `/demos` used to compare candidate designs **in context** before one is promoted, then deleted. Originally one per **design direction** (a token set, ADR-0008); reused since for any in-context comparison on the confirmed system — e.g. competing **detail-page** layouts under the fixed amber-on-charcoal tokens. Demos exist only to choose, and are removed on promotion (the trail survives in git + the ADR).
 _Avoid_: preview (reserved for a snippet's live render), playground
 
+### Typography
+
+**Type ramp**:
+The site chrome's named font-size scale — six rungs, smallest to largest: **eyebrow**, **caption**, **body**, **ui**, **heading**, **title**. One conceptual tier maps to exactly one rung, so labels of the same kind share a size instead of each selector picking its own. Belongs to the site chrome, not to snippets — it is deliberately kept out of the `@theme` design tokens. See [[0014-type-ramp-is-chrome-local-not-a-theme-token]].
+_Avoid_: type scale, font scale
+
+**Eyebrow tier**:
+The smallest rung of the **type ramp**: the small uppercase, letter-spaced mono labels used for structural wayfinding — section kickers, "On this page", "Props", category names (e.g. "text-animations"), table headers. Sits at the readable floor and is never set smaller; rendered in muted ink when it carries structure, dim only when it is incidental chrome.
+_Avoid_: overline, caption (that is the rung above it), label
+
+**Mono-Heading Rule**:
+The convention that a detail-page section **heading** is set at roughly UI-text size and earns its prominence from a hairline underline and an amber tick — not from large type. Keeps the Console page quiet and text-dense; it is why the smallest labels (the **eyebrow tier**), not the headings, are the tier that needed a legibility floor. See [[0011-detail-page-copy-artifact-model-and-console-layout]].
+
 ### Detail page
 
 **Copy artifact**:
