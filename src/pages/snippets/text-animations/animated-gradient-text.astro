@@ -1,0 +1,33 @@
+---
+/*
+ * Animated Gradient Text — detail page (Console layout). The page ?raw-imports
+ * every variant's source (no-drift, ADR-0004) and hands meta + sources to the
+ * SnippetDetail island, which generates the Install · Source · Usage copy
+ * artifacts and mounts the live reference for the preview (ADR-0005).
+ */
+import SnippetLayout from "../../../layouts/SnippetLayout.astro";
+import meta from "../../../snippets/text-animations/animated-gradient-text/meta";
+import SnippetDetail from "../../../detail/SnippetDetail.vue";
+
+import vueTwSrc from "../../../snippets/text-animations/animated-gradient-text/vue-tailwind/AnimatedGradientText.vue?raw";
+import vueCssSrc from "../../../snippets/text-animations/animated-gradient-text/vue-css/AnimatedGradientText.vue?raw";
+import reactTwSrc from "../../../snippets/text-animations/animated-gradient-text/react-tailwind/AnimatedGradientText.tsx?raw";
+import reactCssSrc from "../../../snippets/text-animations/animated-gradient-text/react-css/AnimatedGradientText.tsx?raw";
+import reactCssStyleSrc from "../../../snippets/text-animations/animated-gradient-text/react-css/AnimatedGradientText.css?raw";
+import htmlSrc from "../../../snippets/text-animations/animated-gradient-text/html/animated-gradient-text.html?raw";
+
+const sources = {
+  "vue-tailwind": { source: vueTwSrc },
+  "vue-css": { source: vueCssSrc },
+  "react-tailwind": { source: reactTwSrc },
+  "react-css": {
+    source: reactCssSrc,
+    extra: { filename: "AnimatedGradientText.css", lang: "css", source: reactCssStyleSrc },
+  },
+  html: { source: htmlSrc },
+};
+---
+
+<SnippetLayout title={meta.title} description={meta.description} active={meta.name}>
+  <SnippetDetail meta={meta} sources={sources} client:load />
+</SnippetLayout>

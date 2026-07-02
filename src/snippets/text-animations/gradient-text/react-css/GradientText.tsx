@@ -2,20 +2,16 @@ import type { CSSProperties, ReactNode } from "react";
 import "./GradientText.css";
 
 /**
- * GradientText — text painted with an animated linear gradient.
+ * GradientText — text painted with a linear gradient, clipped to the glyphs.
  *
- * The gradient is clipped to the glyphs and its background-position is
- * animated, so the colors appear to flow across the letters. Pass any number
- * of colors; CSS distributes the stops evenly.
- *
- * Copy GradientText.css alongside this file and keep the import above.
+ * Pass any number of colors; CSS distributes the stops evenly. Copy
+ * GradientText.css alongside this file and keep the import above. For a version
+ * that flows, see the Animated Gradient Text snippet.
  */
 interface GradientTextProps {
   children?: ReactNode;
-  /** Gradient colors, in order. Repeat the first color last for a seamless loop. */
+  /** Gradient colors, in order. */
   colors?: string[];
-  /** One full loop, in seconds. */
-  animationSpeed?: number;
   /** Gradient direction, in degrees (0–360). */
   degree?: number;
 }
@@ -23,18 +19,10 @@ interface GradientTextProps {
 export default function GradientText({
   children,
   colors = ["#ffaa40", "#9c40ff", "#ffaa40"],
-  animationSpeed = 8,
   degree = 90,
 }: GradientTextProps) {
-  // A near-vertical gradient animates along Y, a near-horizontal one along X;
-  // the oversized axis is what gives the background-position room to travel.
-  const d = ((degree % 360) + 360) % 360;
-  const isVertical = d % 180 < 45 || d % 180 > 135;
-
   const style: CSSProperties = {
     backgroundImage: `linear-gradient(${degree}deg, ${colors.join(", ")})`,
-    backgroundSize: isVertical ? "100% 300%" : "300% 100%",
-    animationDuration: `${animationSpeed}s`,
   };
 
   return (
