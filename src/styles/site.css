@@ -351,7 +351,10 @@
   background-size: 22px 22px;
 }
 
-/* API reference table */
+/* API reference table (ADR-0015: Type/Default are depicted, not printed) */
+.api-wrap {
+  overflow-x: auto; /* safety net for genuinely wide rows */
+}
 .api {
   width: 100%;
   border-collapse: collapse;
@@ -379,16 +382,101 @@
   color: var(--color-accent);
   white-space: nowrap;
 }
-.api__type {
+/* Type = ghost/outline chip — hollow "shape of the value" */
+.api-type {
+  display: inline-block;
   font-family: var(--font-mono);
   font-size: var(--text-caption);
   color: var(--color-fg);
+  background: transparent;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  padding: 0.08rem 0.4rem;
+  white-space: nowrap;
 }
-.api__def {
+/* Default = filled code token — solid "a concrete value" */
+.api-tok {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   font-family: var(--font-mono);
   font-size: var(--text-caption);
+  color: var(--color-muted);
+  background: var(--color-surface);
+  border-radius: var(--radius-sm);
+  padding: 0.08rem 0.4rem;
+}
+.api-tok__note {
+  font-size: var(--text-eyebrow);
   color: var(--color-dim);
-  white-space: nowrap;
+  letter-spacing: 0.04em;
+}
+/* required — dim ghost tag replacing the old em-dash */
+.api-req {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  letter-spacing: 0.06em;
+  color: var(--color-dim);
+  border: 1px dashed var(--color-line2);
+  border-radius: var(--radius-sm);
+  padding: 0.05rem 0.4rem;
+}
+/* colours → swatches (echoes the Swatch control's rounded square) */
+.api-sw {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.api-sw__chip {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-line2);
+  background: var(--sw);
+}
+.api-sw__hex {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  color: var(--color-muted);
+}
+/* boolean → static toggle glyph (echoes the Toggle control) */
+.api-bool {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.api-bool__track {
+  position: relative;
+  display: inline-block;
+  width: 26px;
+  height: 15px;
+  border-radius: var(--radius-sm);
+  background: var(--color-inset);
+  border: 1px solid var(--color-line2);
+}
+.api-bool__knob {
+  position: absolute;
+  top: 50%;
+  left: 2px;
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-sm);
+  background: var(--color-fg);
+  transform: translateY(-50%);
+}
+.api-bool.is-on .api-bool__track {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+.api-bool.is-on .api-bool__knob {
+  left: calc(100% - 12px);
+  background: var(--color-accent-ink);
+}
+.api-bool__val {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  color: var(--color-muted);
 }
 
 /* Right "On this page" TOC */
