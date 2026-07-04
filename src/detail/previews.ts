@@ -8,10 +8,12 @@
 import type { Component } from "vue";
 import GradientText from "../snippets/text-animations/gradient-text/vue-tailwind/GradientText.vue";
 import AnimatedGradientText from "../snippets/text-animations/animated-gradient-text/vue-tailwind/AnimatedGradientText.vue";
+import SplitText from "../snippets/text-animations/split-text/vue/SplitText.vue";
 import LinkTag from "../snippets/utils/link-tag/vue/LinkTag.vue";
 
 export const previews: Record<string, Component> = {
   "gradient-text": GradientText,
   "animated-gradient-text": AnimatedGradientText,
+  "split-text": SplitText,
   "link-tag": LinkTag,
 };

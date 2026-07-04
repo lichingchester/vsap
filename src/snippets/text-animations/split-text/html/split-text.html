@@ -1,0 +1,43 @@
+<!-- Split Text — GSAP scroll reveal. The three <script> tags load GSAP core plus
+     the ScrollTrigger and SplitText plugins (all free since v3.13). -->
+<h2 class="split-text" style="font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 600; letter-spacing: -0.02em;">
+  Reveal your words, one line at a time
+</h2>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/SplitText.min.js"></script>
+<script>
+  gsap.registerPlugin(ScrollTrigger, SplitText);
+
+  document.querySelectorAll(".split-text").forEach((el) => {
+    // Tune these to taste.
+    const splitBy = "chars"; // "chars" | "words" | "lines"
+    const mask = true;
+    const stagger = 0.05;
+    const duration = 0.8;
+    const ease = "power4.out";
+    const from = { opacity: 0, y: "100%" };
+    const to = { opacity: 1, y: 0 };
+
+    // Respect reduced-motion — leave the text in place, no reveal.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    SplitText.create(el, {
+      type: splitBy,
+      mask: mask ? splitBy : undefined,
+      autoSplit: true, // re-split on resize / font load
+      onSplit: (self) => {
+        const units =
+          splitBy === "words" ? self.words : splitBy === "lines" ? self.lines : self.chars;
+        return gsap.fromTo(units, from, {
+          ...to,
+          duration,
+          ease,
+          stagger,
+          scrollTrigger: { trigger: el, start: "top 90%", once: true },
+        });
+      },
+    });
+  });
+</script>

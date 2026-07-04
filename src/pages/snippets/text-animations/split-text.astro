@@ -1,0 +1,26 @@
+---
+/*
+ * Split Text — detail page (Console layout). A GSAP visual effect with no
+ * styling axis: framework-only variants (Vue reference + React/HTML ports of
+ * the same GSAP logic). The page ?raw-imports each variant and hands meta +
+ * sources to the SnippetDetail island; only the Vue reference runs in the live
+ * preview (no-drift, ADR-0004/0005).
+ */
+import SnippetLayout from "../../../layouts/SnippetLayout.astro";
+import meta from "../../../snippets/text-animations/split-text/meta";
+import SnippetDetail from "../../../detail/SnippetDetail.vue";
+
+import vueSrc from "../../../snippets/text-animations/split-text/vue/SplitText.vue?raw";
+import reactSrc from "../../../snippets/text-animations/split-text/react/SplitText.tsx?raw";
+import htmlSrc from "../../../snippets/text-animations/split-text/html/split-text.html?raw";
+
+const sources = {
+  vue: { source: vueSrc },
+  react: { source: reactSrc },
+  html: { source: htmlSrc },
+};
+---
+
+<SnippetLayout title={meta.title} description={meta.description} active={meta.name}>
+  <SnippetDetail meta={meta} sources={sources} client:load />
+</SnippetLayout>
