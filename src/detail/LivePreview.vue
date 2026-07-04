@@ -10,13 +10,22 @@ defineProps<{
   snippet: SnippetData;
   view: DetailView;
   propValues: Record<string, unknown>;
+  /** Bumped to remount the live component (replay a one-shot animation). */
+  previewKey: number;
 }>();
+defineEmits<{ (e: "replay"): void }>();
 </script>
 
 <template>
-  <PreviewStage :reference-label="view.referenceLabel" :fallback-note="view.fallbackNote">
+  <PreviewStage
+    :reference-label="view.referenceLabel"
+    :fallback-note="view.fallbackNote"
+    :replayable="snippet.replayable"
+    @replay="$emit('replay')"
+  >
     <component
       :is="snippet.component"
+      :key="previewKey"
       v-bind="propValues"
       :class="snippet.previewClass"
     >

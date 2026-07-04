@@ -51,6 +51,7 @@ export function buildSnippetData(
     category: meta.category,
     kind: meta.kind,
     hasStylingAxis: meta.hasStylingAxis,
+    replayable: meta.replayable,
     component: markRaw(component),
     previewClass: meta.previewClass,
     defaultProps: meta.previewProps ?? {},

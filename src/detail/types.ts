@@ -35,6 +35,8 @@ export interface SnippetData {
   category: string;
   kind: string;
   hasStylingAxis: boolean;
+  /** One-shot preview — shows a Replay button that remounts the live component. */
+  replayable?: boolean;
   /** Live preview component (the reference variant). */
   component: Component;
   previewClass?: string;

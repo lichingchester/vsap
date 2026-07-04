@@ -7,7 +7,7 @@
  * and the generated Usage code (props→code). Reset returns to defaults.
  */
 import { computed } from "vue";
-import { ColorList, Slider, Toggle, TextField } from "../controls";
+import { ColorList, Slider, Toggle, Segmented, TextField } from "../controls";
 import type { ControlSpec } from "../snippets/types";
 
 const props = defineProps<{
@@ -56,6 +56,13 @@ const hasControls = computed(() => props.controls.length > 0);
         v-else-if="c.kind === 'toggle'"
         :model-value="Boolean(values[c.prop])"
         :label="c.label"
+        @update:model-value="set(c.prop, $event)"
+      />
+      <Segmented
+        v-else-if="c.kind === 'segmented'"
+        :model-value="(values[c.prop] as string)"
+        :label="c.label"
+        :options="c.options ?? []"
         @update:model-value="set(c.prop, $event)"
       />
       <TextField

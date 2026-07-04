@@ -39,15 +39,25 @@ const data = computed(() =>
 const clone = <T,>(v: T): T => JSON.parse(JSON.stringify(v));
 const propValues = ref<Record<string, unknown>>(clone(data.value.defaultProps));
 
+// Remount key for one-shot previews: bumping it re-runs the animation. New
+// stagger/duration only take effect on the next play, so control edits bump it
+// too (update/reset); the stage's Replay button bumps it on demand.
+const previewKey = ref(0);
+function replay() {
+  previewKey.value += 1;
+}
+
 watch(
   () => props.meta,
   () => (propValues.value = clone(data.value.defaultProps)),
 );
 function reset() {
   propValues.value = clone(data.value.defaultProps);
+  if (data.value.replayable) replay();
 }
 function update(v: Record<string, unknown>) {
   propValues.value = v;
+  if (data.value.replayable) replay();
 }
 
 const view = computed(() => buildView(data.value, pref, propValues.value));
@@ -68,7 +78,13 @@ onMounted(initPref);
 
       <section id="preview" class="s-section con-sec">
         <h2 class="con-h"><span class="con-h__tick"></span>Preview</h2>
-        <LivePreview :snippet="data" :view="view" :prop-values="propValues" />
+        <LivePreview
+          :snippet="data"
+          :view="view"
+          :prop-values="propValues"
+          :preview-key="previewKey"
+          @replay="replay"
+        />
         <Controls
           v-if="data.controls.length"
           class="con-controls"

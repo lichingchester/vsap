@@ -73,6 +73,11 @@ export interface SnippetMeta {
   hasStylingAxis: boolean;
   /** Opt-in interactive playground — flagship snippets only. */
   playground?: boolean;
+  /**
+   * One-shot snippets (a reveal that plays once, not a loop) opt into a Replay
+   * button on the preview stage that remounts the live component to replay it.
+   */
+  replayable?: boolean;
   /** Public props of the snippet's component, for the detail page's API table. */
   props?: PropDoc[];
   /**
@@ -105,11 +110,13 @@ export interface ControlSpec {
   /** Prop this control drives — must match a usage prop + a `props` entry. */
   prop: string;
   label: string;
-  kind: "colors" | "range" | "toggle" | "text";
+  kind: "colors" | "range" | "toggle" | "text" | "segmented";
   min?: number;
   max?: number;
   step?: number;
   unit?: string;
+  /** Options for the `segmented` kind (value → segment, label → its caption). */
+  options?: { value: string; label: string }[];
 }
 
 /** One row of a snippet's API reference table on the detail page. */
