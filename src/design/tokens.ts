@@ -40,17 +40,17 @@ export const colorGroups: TokenGroup[] = [
     label: "Text",
     tokens: [
       { var: "--color-fg", name: "fg", note: "primary text" },
-      { var: "--color-muted", name: "muted", note: "secondary text — AA on canvas" },
-      { var: "--color-dim", name: "dim", note: "tertiary / captions — AA on canvas" },
+      { var: "--color-muted", name: "muted", note: "secondary text, AA on canvas" },
+      { var: "--color-dim", name: "dim", note: "tertiary / captions, AA on canvas" },
     ],
   },
   {
     label: "Accent",
     tokens: [
-      { var: "--color-accent", name: "accent", note: "the warm amber — links, ticks, primary" },
+      { var: "--color-accent", name: "accent", note: "the warm amber for links, ticks, primary" },
       { var: "--color-accent2", name: "accent2", note: "hover / brighter amber" },
       { var: "--color-accent-ink", name: "accent-ink", note: "text ON accent (near-black)" },
-      { var: "--color-accent-soft", name: "accent-soft", note: "12% amber wash — active-row tint" },
+      { var: "--color-accent-soft", name: "accent-soft", note: "12% amber wash for active-row tint" },
     ],
   },
 ];
@@ -66,19 +66,19 @@ export const fonts: FontDoc[] = [
   {
     var: "--font-display",
     name: "Bricolage Grotesque",
-    role: "display — the wordmark & big titles",
+    role: "display · the wordmark & big titles",
     sample: "Copy, paste, ship.",
   },
   {
     var: "--font-ui",
     name: "Hanken Grotesk",
-    role: "ui — body & interface prose",
+    role: "ui · body & interface prose",
     sample: "A copy-paste collection of UI.",
   },
   {
     var: "--font-mono",
     name: "JetBrains Mono",
-    role: "mono — code, labels, headings",
+    role: "mono · code, labels, headings",
     sample: "const snippet = copy()",
   },
 ];
@@ -90,12 +90,12 @@ export interface RampDoc {
 }
 /** The 6-rung type ramp (ADR-0014), smallest → largest. */
 export const ramp: RampDoc[] = [
-  { var: "--text-eyebrow", name: "eyebrow", note: "uppercase mono labels — the 12px floor" },
+  { var: "--text-eyebrow", name: "eyebrow", note: "uppercase mono labels, the 12px floor" },
   { var: "--text-caption", name: "caption", note: "chips, hex readouts" },
   { var: "--text-body", name: "body", note: "table cells, TOC links" },
   { var: "--text-ui", name: "ui", note: "default interface text" },
-  { var: "--text-heading", name: "heading", note: "section headings — 1rem, Mono-Heading Rule" },
-  { var: "--text-title", name: "title", note: "page title — fluid clamp()" },
+  { var: "--text-heading", name: "heading", note: "section headings at 1rem, Mono-Heading Rule" },
+  { var: "--text-title", name: "title", note: "page title, fluid clamp()" },
 ];
 
 export interface RadiusDoc {

@@ -16,7 +16,7 @@ import { colorGroups, fonts, ramp, radii, sections } from "../design/tokens";
 
 <Layout
   title="Design"
-  description="The design system behind tskr/ui — color, type, radii, motion, and the control kit."
+  description="The design system behind tskr/ui: color, type, radii, motion, and the control kit."
 >
   <nav class="s-nav">
     <a class="s-brand" href="/">tskr<span>/ui</span></a>
@@ -35,7 +35,7 @@ import { colorGroups, fonts, ramp, radii, sections } from "../design/tokens";
         </p>
         <h1 class="s-title">Design system</h1>
         <p class="ds-lead">
-          Warm amber on charcoal, mono-forward, tight radii — the visual language of the
+          Warm amber on charcoal, mono-forward, tight radii: the visual language of the
           site itself. Every token below is read <em>live</em> from the running stylesheet,
           so this page can't drift. Snippets never touch these; they ship plain Tailwind.
         </p>
@@ -119,7 +119,7 @@ import { colorGroups, fonts, ramp, radii, sections } from "../design/tokens";
           <div class="ds-callout">
             <p class="ds-eyebrow">The Mono-Heading Rule</p>
             <p class="ds-callout__body">
-              Section headings stay <strong>1rem mono</strong> — never scaled up. Their
+              Section headings stay <strong>1rem mono</strong> and are never scaled up. Their
               hierarchy is carried by the bottom rule and the accent tick, not by size. The
               <code>&lt;h2&gt;</code> reading “Typography” above is one.
             </p>
@@ -159,9 +159,9 @@ import { colorGroups, fonts, ramp, radii, sections } from "../design/tokens";
               <p class="ds-callout__body">
                 There is <strong>no motion token</strong>. The de-facto easing is
                 <code>0.2s ease</code>, inlined across the chrome. Tellingly, <code>.s-btn</code>
-                transitions on <code>var(--ease, 0.2s)</code> — an <code>--ease</code> token
-                reached for but <strong>never defined</strong>. Documented here rather than
-                papered over.
+                transitions on <code>var(--ease, 0.2s)</code>, referencing an
+                <code>--ease</code> token that was reached for but
+                <strong>never defined</strong>. Documented here rather than papered over.
               </p>
             </div>
           </div>
@@ -185,7 +185,7 @@ import { colorGroups, fonts, ramp, radii, sections } from "../design/tokens";
           <h2 class="s-h2">Controls</h2>
           <p class="ds-note">
             The custom “Terminal” prop controls that interactive playgrounds use instead of
-            native inputs — zero deps, self-styled. Live: drag, flip, and pick.
+            native inputs. Zero deps, self-styled. Live: drag, flip, and pick.
           </p>
           <ControlsGallery client:visible />
         </section>
@@ -194,27 +194,27 @@ import { colorGroups, fonts, ramp, radii, sections } from "../design/tokens";
         <section id="render-kinds" class="s-section">
           <h2 class="s-h2">API render-kinds</h2>
           <p class="ds-note">
-            How the API table depicts a prop's type &amp; default — the <em>shape</em> of the
+            How the API table depicts a prop's type &amp; default: the <em>shape</em> of the
             value, echoing the controls, not just its text.
           </p>
           <div class="ds-kinds">
             <div class="ds-kind">
-              <p class="ds-eyebrow">Type — ghost chip</p>
+              <p class="ds-eyebrow">Type · ghost chip</p>
               <span class="api-type">string</span>
             </div>
             <div class="ds-kind">
-              <p class="ds-eyebrow">Default — filled token</p>
+              <p class="ds-eyebrow">Default · filled token</p>
               <span class="api-tok">'ease'</span>
             </div>
             <div class="ds-kind">
-              <p class="ds-eyebrow">Color — swatch</p>
+              <p class="ds-eyebrow">Color · swatch</p>
               <span class="api-sw">
                 <span class="api-sw__chip" style="--sw: #f5b544"></span>
                 <span class="api-sw__hex">#f5b544</span>
               </span>
             </div>
             <div class="ds-kind">
-              <p class="ds-eyebrow">Boolean — toggle glyph</p>
+              <p class="ds-eyebrow">Boolean · toggle glyph</p>
               <span class="ds-kind__pair">
                 <span class="api-bool is-on">
                   <span class="api-bool__track"><span class="api-bool__knob" /></span>
@@ -227,13 +227,13 @@ import { colorGroups, fonts, ramp, radii, sections } from "../design/tokens";
               </span>
             </div>
             <div class="ds-kind">
-              <p class="ds-eyebrow">Required — dashed tag</p>
+              <p class="ds-eyebrow">Required · dashed tag</p>
               <span class="api-req">required</span>
             </div>
           </div>
         </section>
 
-        <footer class="s-foot"># tskr/ui — the design behind the copy-paste.</footer>
+        <footer class="s-foot"># tskr/ui · the design behind the copy-paste.</footer>
       </div>
 
       <DesignToc sections={sections} client:load />
