@@ -1,0 +1,272 @@
+---
+/*
+ * /design — the design-system showcase (ADR-0008). A showcase that doubles as
+ * the reference: it is built IN the site chrome it documents, so the page is
+ * live proof the tokens work. Layout: shared `.s-nav` + a contained column +
+ * the right-hand `.docs-toc` scroll-spy rail (DesignToc island). Values are
+ * never hardcoded — an inline script reads them from the live tokens
+ * (getComputedStyle) so the page can't drift, and click-to-copy yields the
+ * CSS var, matching the site's copy-paste culture.
+ */
+import Layout from "../layouts/Layout.astro";
+import DesignToc from "../design/DesignToc.vue";
+import ControlsGallery from "../design/ControlsGallery.vue";
+import { colorGroups, fonts, ramp, radii, sections } from "../design/tokens";
+---
+
+<Layout
+  title="Design"
+  description="The design system behind tskr/ui — color, type, radii, motion, and the control kit."
+>
+  <nav class="s-nav">
+    <a class="s-brand" href="/">tskr<span>/ui</span></a>
+    <nav class="s-navlinks">
+      <a href="/">Home</a>
+      <a href="/design" aria-current="page">Design</a>
+      <a href="https://github.com/lichingchester/tskr-ui">GitHub</a>
+    </nav>
+  </nav>
+
+  <div class="docs-wrap">
+    <div class="docs-doc">
+      <div class="ds-main">
+        <p class="s-bc">
+          <span class="s-bc__group">tskr/ui/</span><span class="s-bc__name">design</span>
+        </p>
+        <h1 class="s-title">Design system</h1>
+        <p class="ds-lead">
+          Warm amber on charcoal, mono-forward, tight radii — the visual language of the
+          site itself. Every token below is read <em>live</em> from the running stylesheet,
+          so this page can't drift. Snippets never touch these; they ship plain Tailwind.
+        </p>
+
+        <!-- ================= COLOR ================= -->
+        <section id="color" class="s-section">
+          <h2 class="s-h2">Color</h2>
+          {
+            colorGroups.map((g) => (
+              <div class="ds-cgroup">
+                <p class="ds-eyebrow">{g.label}</p>
+                <div class="ds-grid">
+                  {g.tokens.map((t) => (
+                    <button
+                      class="ds-swatch"
+                      type="button"
+                      data-token={t.var}
+                      aria-label={`Copy var(${t.var})`}
+                    >
+                      <span class="ds-swatch__chip" style={`background: var(${t.var})`} />
+                      <span class="ds-swatch__name">{t.name}</span>
+                      <span class="ds-swatch__hex" data-hex />
+                      <span class="ds-swatch__note">{t.note}</span>
+                      <span class="ds-flash">copied ✓</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))
+          }
+        </section>
+
+        <!-- ================= TYPOGRAPHY ================= -->
+        <section id="type" class="s-section">
+          <h2 class="s-h2">Typography</h2>
+          <div class="ds-fonts">
+            {
+              fonts.map((f) => (
+                <button
+                  class="ds-font"
+                  type="button"
+                  data-token={f.var}
+                  aria-label={`Copy var(${f.var})`}
+                >
+                  <span class="ds-eyebrow">{f.role}</span>
+                  <span class="ds-font__sample" style={`font-family: var(${f.var})`}>
+                    {f.sample}
+                  </span>
+                  <span class="ds-font__meta">
+                    <span class="ds-font__name">{f.name}</span>
+                    <span class="ds-tok">var({f.var})</span>
+                  </span>
+                  <span class="ds-flash">copied ✓</span>
+                </button>
+              ))
+            }
+          </div>
+
+          <p class="ds-eyebrow ds-subhead">Type ramp · ADR-0014</p>
+          <div class="ds-ramp">
+            {
+              ramp.map((r) => (
+                <button
+                  class="ds-rung"
+                  type="button"
+                  data-token={r.var}
+                  aria-label={`Copy var(${r.var})`}
+                >
+                  <span class="ds-rung__name">{r.name}</span>
+                  <span class="ds-rung__sample" style={`font-size: var(${r.var})`}>
+                    The quick brown fox
+                  </span>
+                  <span class="ds-rung__val" data-hex />
+                  <span class="ds-rung__note">{r.note}</span>
+                  <span class="ds-flash">copied ✓</span>
+                </button>
+              ))
+            }
+          </div>
+
+          <div class="ds-callout">
+            <p class="ds-eyebrow">The Mono-Heading Rule · ADR-0011</p>
+            <p class="ds-callout__body">
+              Section headings stay <strong>1rem mono</strong> — never scaled up. Their
+              hierarchy is carried by the bottom rule and the accent tick, not by size. The
+              <code>&lt;h2&gt;</code> reading “Typography” above is one.
+            </p>
+          </div>
+        </section>
+
+        <!-- ================= RADII ================= -->
+        <section id="radii" class="s-section">
+          <h2 class="s-h2">Radii</h2>
+          <div class="ds-radii">
+            {
+              radii.map((r) => (
+                <button
+                  class="ds-radius"
+                  type="button"
+                  data-token={r.var}
+                  aria-label={`Copy var(${r.var})`}
+                >
+                  <span class="ds-radius__shape" style={`border-radius: var(${r.var})`} />
+                  <span class="ds-radius__name">{r.name}</span>
+                  <span class="ds-radius__val" data-hex />
+                  <span class="ds-radius__note">{r.note}</span>
+                  <span class="ds-flash">copied ✓</span>
+                </button>
+              ))
+            }
+          </div>
+        </section>
+
+        <!-- ================= MOTION ================= -->
+        <section id="motion" class="s-section">
+          <h2 class="s-h2">Motion</h2>
+          <div class="ds-motion">
+            <div class="ds-motion__demo" tabindex="0">hover me</div>
+            <div class="ds-callout ds-callout--warn">
+              <p class="ds-eyebrow">Not formalized yet</p>
+              <p class="ds-callout__body">
+                There is <strong>no motion token</strong>. The de-facto easing is
+                <code>0.2s ease</code>, inlined across the chrome. Tellingly, <code>.s-btn</code>
+                transitions on <code>var(--ease, 0.2s)</code> — an <code>--ease</code> token
+                reached for but <strong>never defined</strong>. Documented here rather than
+                papered over.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= BUTTONS ================= -->
+        <section id="buttons" class="s-section">
+          <h2 class="s-h2">Buttons</h2>
+          <div class="ds-buttons">
+            <button class="s-btn s-btn--primary" type="button">Primary</button>
+            <button class="s-btn s-btn--ghost" type="button">Ghost</button>
+          </div>
+          <p class="ds-note">
+            Primary carries the amber; ghost is a hairline that fills to <code>surface</code>
+            on hover. Both use <code>radius-md</code>.
+          </p>
+        </section>
+
+        <!-- ================= CONTROLS ================= -->
+        <section id="controls" class="s-section">
+          <h2 class="s-h2">Controls</h2>
+          <p class="ds-note">
+            The custom “Terminal” prop controls (ADR-0010) that interactive playgrounds use
+            instead of native inputs — zero deps, self-styled. Live: drag, flip, and pick.
+          </p>
+          <ControlsGallery client:visible />
+        </section>
+
+        <!-- ================= API RENDER-KINDS ================= -->
+        <section id="render-kinds" class="s-section">
+          <h2 class="s-h2">API render-kinds</h2>
+          <p class="ds-note">
+            How the API table depicts a prop's type &amp; default (ADR-0015) — the
+            <em>shape</em> of the value, echoing the controls, not just its text.
+          </p>
+          <div class="ds-kinds">
+            <div class="ds-kind">
+              <p class="ds-eyebrow">Type — ghost chip</p>
+              <span class="api-type">string</span>
+            </div>
+            <div class="ds-kind">
+              <p class="ds-eyebrow">Default — filled token</p>
+              <span class="api-tok">'ease'</span>
+            </div>
+            <div class="ds-kind">
+              <p class="ds-eyebrow">Color — swatch</p>
+              <span class="api-sw">
+                <span class="api-sw__chip" style="--sw: #f5b544"></span>
+                <span class="api-sw__hex">#f5b544</span>
+              </span>
+            </div>
+            <div class="ds-kind">
+              <p class="ds-eyebrow">Boolean — toggle glyph</p>
+              <span class="ds-kind__pair">
+                <span class="api-bool is-on">
+                  <span class="api-bool__track"><span class="api-bool__knob" /></span>
+                  <span class="api-bool__val">true</span>
+                </span>
+                <span class="api-bool">
+                  <span class="api-bool__track"><span class="api-bool__knob" /></span>
+                  <span class="api-bool__val">false</span>
+                </span>
+              </span>
+            </div>
+            <div class="ds-kind">
+              <p class="ds-eyebrow">Required — dashed tag</p>
+              <span class="api-req">required</span>
+            </div>
+          </div>
+        </section>
+
+        <footer class="s-foot"># tskr/ui — the design behind the copy-paste.</footer>
+      </div>
+
+      <DesignToc sections={sections} client:load />
+    </div>
+  </div>
+</Layout>
+
+<script>
+  /*
+   * Zero-drift + copy (ADR-0008/0011). For every [data-token] element: read the
+   * token's authored value from the live stylesheet and drop it into its
+   * [data-hex] label, then wire click → copy `var(--token)` with a brief flash.
+   * Runs on the static HTML — no framework needed for this layer.
+   */
+  const root = document.documentElement;
+  const cards = document.querySelectorAll<HTMLElement>("[data-token]");
+
+  cards.forEach((el) => {
+    const name = el.dataset.token;
+    if (!name) return;
+
+    const value = getComputedStyle(root).getPropertyValue(name).trim();
+    const label = el.querySelector<HTMLElement>("[data-hex]");
+    if (label) label.textContent = value;
+
+    el.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(`var(${name})`);
+      } catch {
+        /* clipboard blocked — the flash still confirms intent */
+      }
+      el.classList.add("is-copied");
+      window.setTimeout(() => el.classList.remove("is-copied"), 1200);
+    });
+  });
+</script>

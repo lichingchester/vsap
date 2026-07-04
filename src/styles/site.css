@@ -518,3 +518,370 @@
   font-family: var(--font-mono);
   font-size: var(--text-caption);
 }
+
+/* Active top-nav link (the /design page marks itself) */
+.s-navlinks a[aria-current="page"] {
+  color: var(--color-accent);
+}
+
+/* ================= /design — the design-system showcase ================= */
+.ds-main {
+  min-width: 0; /* let the column shrink inside the .docs-doc grid */
+}
+.ds-lead {
+  margin: 0 0 1rem;
+  max-width: 62ch;
+  font-size: var(--text-ui);
+  line-height: 1.6;
+  color: var(--color-muted);
+}
+.ds-lead em {
+  font-style: normal;
+  color: var(--color-fg);
+}
+
+/* small uppercase mono label, used throughout the page */
+.ds-eyebrow {
+  margin: 0 0 0.6rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-dim);
+}
+.ds-subhead {
+  margin-top: 2rem;
+  color: var(--color-muted);
+}
+
+/* Shared copyable-card chrome (color / font / rung / radius) */
+.ds-swatch,
+.ds-font,
+.ds-rung,
+.ds-radius {
+  position: relative;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+.ds-swatch:hover,
+.ds-font:hover,
+.ds-rung:hover,
+.ds-radius:hover {
+  background: var(--color-surface2);
+  border-color: var(--color-line2);
+}
+.ds-swatch:focus-visible,
+.ds-font:focus-visible,
+.ds-rung:focus-visible,
+.ds-radius:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* "copied ✓" flash (shared) */
+.ds-flash {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  color: var(--color-accent-ink);
+  background: var(--color-accent);
+  border-radius: var(--radius-sm);
+  padding: 0.05rem 0.35rem;
+  opacity: 0;
+  transform: translateY(-2px);
+  pointer-events: none;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+}
+.is-copied .ds-flash {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Color */
+.ds-cgroup + .ds-cgroup {
+  margin-top: 1.5rem;
+}
+.ds-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.75rem;
+}
+.ds-swatch {
+  display: grid;
+  gap: 0.1rem;
+  padding: 0;
+  overflow: hidden;
+}
+.ds-swatch__chip {
+  height: 3.5rem;
+  width: 100%;
+  border-bottom: 1px solid var(--color-line);
+}
+.ds-swatch__name {
+  padding: 0.5rem 0.6rem 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  color: var(--color-fg);
+}
+.ds-swatch__hex {
+  padding: 0 0.6rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+.ds-swatch__note {
+  padding: 0.15rem 0.6rem 0.65rem;
+  font-size: var(--text-eyebrow);
+  line-height: 1.4;
+  color: var(--color-dim);
+}
+
+/* Typography — families */
+.ds-fonts {
+  display: grid;
+  gap: 0.75rem;
+}
+.ds-font {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1rem 1.1rem;
+}
+.ds-font .ds-eyebrow {
+  margin: 0;
+}
+.ds-font__sample {
+  font-size: 1.65rem;
+  line-height: 1.2;
+  color: var(--color-fg);
+}
+.ds-font__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+.ds-font__name {
+  font-size: var(--text-body);
+  color: var(--color-muted);
+}
+.ds-tok {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  color: var(--color-dim);
+  background: var(--color-inset);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  padding: 0.05rem 0.4rem;
+}
+
+/* Typography — ramp */
+.ds-ramp {
+  display: grid;
+  gap: 0.5rem;
+}
+.ds-rung {
+  display: grid;
+  grid-template-columns: 5rem minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0.5rem 1rem;
+  padding: 0.7rem 1rem;
+}
+.ds-rung__name {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  color: var(--color-accent);
+}
+.ds-rung__sample {
+  min-width: 0;
+  line-height: 1.2;
+  color: var(--color-fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ds-rung__val {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  color: var(--color-dim);
+  white-space: nowrap;
+}
+.ds-rung__note {
+  grid-column: 2 / -1;
+  font-size: var(--text-eyebrow);
+  color: var(--color-dim);
+}
+
+/* Callouts (Mono-Heading Rule, Motion gap) */
+.ds-callout {
+  margin-top: 1.5rem;
+  padding: 1rem 1.1rem;
+  background: var(--color-accent-soft);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 30%, transparent);
+  border-radius: var(--radius-md);
+}
+.ds-callout .ds-eyebrow {
+  margin: 0 0 0.4rem;
+  color: var(--color-accent);
+}
+.ds-callout__body {
+  margin: 0;
+  font-size: var(--text-body);
+  line-height: 1.6;
+  color: var(--color-muted);
+}
+.ds-callout__body strong {
+  color: var(--color-fg);
+  font-weight: 600;
+}
+.ds-callout--warn {
+  background: var(--color-surface);
+  border-color: var(--color-line2);
+}
+.ds-callout--warn .ds-eyebrow {
+  color: var(--color-dim);
+}
+
+/* Radii */
+.ds-radii {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.75rem;
+}
+.ds-radius {
+  display: grid;
+  justify-items: start;
+  gap: 0.3rem;
+  padding: 1rem 1.1rem;
+}
+.ds-radius__shape {
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 0.35rem;
+  background: var(--color-accent-soft);
+  border: 1px solid var(--color-accent);
+}
+.ds-radius__name {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  color: var(--color-fg);
+}
+.ds-radius__val {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  color: var(--color-accent);
+}
+.ds-radius__note {
+  font-size: var(--text-eyebrow);
+  color: var(--color-dim);
+}
+
+/* Motion */
+.ds-motion {
+  display: grid;
+  gap: 1rem;
+}
+.ds-motion__demo {
+  display: grid;
+  place-items: center;
+  width: 8rem;
+  height: 4rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  color: var(--color-muted);
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+.ds-motion__demo:hover,
+.ds-motion__demo:focus-visible {
+  color: var(--color-accent-ink);
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+/* Buttons + prose notes */
+.ds-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+.ds-note {
+  margin: 0.9rem 0 0;
+  max-width: 62ch;
+  font-size: var(--text-body);
+  line-height: 1.6;
+  color: var(--color-muted);
+}
+.ds-note code,
+.ds-callout__body code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  color: var(--color-accent);
+  background: var(--color-inset);
+  border-radius: var(--radius-sm);
+  padding: 0.02rem 0.3rem;
+}
+
+/* Controls gallery */
+.ds-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem 1.5rem;
+  margin-top: 0.75rem;
+}
+.ds-controls__wide {
+  grid-column: 1 / -1;
+}
+@media (max-width: 560px) {
+  .ds-controls {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* API render-kinds */
+.ds-kinds {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+.ds-kind {
+  display: grid;
+  align-content: start;
+  gap: 0.6rem;
+  padding: 1rem 1.1rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+}
+.ds-kind .ds-eyebrow {
+  margin: 0;
+}
+.ds-kind__pair {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+}
