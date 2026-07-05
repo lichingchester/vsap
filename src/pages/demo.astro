@@ -7,7 +7,7 @@
  * promote the winner into a reusable control kit. See src/styles/demo.css.
  */
 import Layout from "../layouts/Layout.astro";
-import ThemeToggle from "../components/ThemeToggle.astro";
+import NavActions from "../components/NavActions.astro";
 import DemoGallery from "../demo/DemoGallery.vue";
 import "../styles/demo.css";
 ---
@@ -19,9 +19,7 @@ import "../styles/demo.css";
   <nav class="s-nav">
     <a class="s-brand" href="/">tskr<span>/ui</span></a>
     <nav class="s-navlinks">
-      <a href="/">Home</a>
-      <a href="https://github.com/lichingchester/tskr-ui">GitHub</a>
-      <ThemeToggle />
+      <NavActions />
     </nav>
   </nav>
 

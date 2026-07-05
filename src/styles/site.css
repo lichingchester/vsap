@@ -89,44 +89,57 @@
 }
 .s-navlinks {
   display: flex;
-  gap: 1.25rem;
+  align-items: center;
+  gap: 0.25rem;
   font-size: 0.9rem;
 }
-.s-navlinks a {
+/* Text links (e.g. the home "Snippets") — icon links opt out via :not(). */
+.s-navlinks a:not(.s-navicon) {
   color: var(--color-muted);
   text-decoration: none;
+  padding: 0 0.35rem;
   transition: color 0.2s ease;
 }
-.s-navlinks a:hover {
+.s-navlinks a:not(.s-navicon):hover {
   color: var(--color-fg);
 }
 
-/* Theme toggle (ADR-0016) — dark/light icon button, ≥44px tap target. */
-.s-theme {
+/* Icon buttons (ADR-0016) — the theme toggle and the Design/GitHub icon links
+   share one treatment so the nav's right side reads as a tidy icon row. ≥44px
+   tap targets for mobile; dim → fg with a soft surface on hover. */
+.s-theme,
+.s-navicon {
   display: inline-grid;
   place-items: center;
   width: 2.75rem;
   height: 2.75rem;
-  margin: -0.4rem 0; /* keep it visually compact in the bar without shrinking the target */
+  margin: -0.4rem 0; /* compact in the bar without shrinking the target */
   padding: 0;
   border: 0;
   background: transparent;
   color: var(--color-dim);
   border-radius: var(--radius-md);
+  text-decoration: none;
   cursor: pointer;
   transition:
     color 0.2s ease,
     background 0.2s ease;
 }
-.s-theme:hover {
+.s-theme:hover,
+.s-navicon:hover {
   color: var(--color-fg);
   background: var(--color-surface);
 }
-.s-theme:focus-visible {
+.s-theme:focus-visible,
+.s-navicon:focus-visible {
   outline: 2px solid var(--color-accent-text);
   outline-offset: 2px;
 }
-.s-theme__icon {
+.s-navicon[aria-current="page"] {
+  color: var(--color-accent-text);
+}
+.s-theme__icon,
+.s-navicon svg {
   display: block;
 }
 /* Icon reflects the current theme: moon in dark, sun in light. CSS-driven so it's

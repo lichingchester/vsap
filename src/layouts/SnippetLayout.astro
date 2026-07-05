@@ -8,7 +8,7 @@
 import Layout from "./Layout.astro";
 import { groupedSnippets, snippetHref } from "../lib/snippets";
 import VariantSelector from "../detail/VariantSelector.vue";
-import ThemeToggle from "../components/ThemeToggle.astro";
+import NavActions from "../components/NavActions.astro";
 import "../styles/detail.css";
 
 interface Props {
@@ -28,10 +28,7 @@ const groups = groupedSnippets();
       <div class="docs-header__right">
         <VariantSelector compact client:load />
         <nav class="s-navlinks">
-          <a href="/">Home</a>
-          <a href="/design">Design</a>
-          <a href="https://github.com/lichingchester/tskr-ui">GitHub</a>
-          <ThemeToggle />
+          <NavActions />
         </nav>
       </div>
     </header>
