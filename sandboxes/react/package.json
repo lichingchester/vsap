@@ -1,0 +1,22 @@
+{
+  "name": "sandbox-react",
+  "private": true,
+  "type": "module",
+  "description": "Verification harness: runs tskr/ui react-* variants in a real React 19 + Vite app (ADR-0017). Dev-only, never published.",
+  "scripts": {
+    "dev": "vite --port 4331 --strictPort",
+    "build": "vite build",
+    "preview": "vite preview --port 4331 --strictPort"
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "gsap": "^3.13.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "tailwindcss": "^4.3.1",
+    "vite": "^6.0.0"
+  }
+}

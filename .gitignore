@@ -38,3 +38,9 @@ docs/.vitepress/dist
 docs/.vitepress/cache
 # nested impeccable per-dev cache (from component moves)
 **/.impeccable/
+
+# Sandboxes (dev-only verification harness, ADR-0017) — build output & test
+# artifacts. node_modules is already covered by the global rule above.
+sandboxes/**/dist
+sandboxes/smoke/test-results
+sandboxes/smoke/playwright-report

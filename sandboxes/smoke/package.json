@@ -1,0 +1,14 @@
+{
+  "name": "sandbox-smoke",
+  "private": true,
+  "type": "module",
+  "description": "Playwright smoke pass over the three sandboxes: every variant mounts clean (ADR-0017). Local-only.",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "postinstall": "playwright install chromium"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0"
+  }
+}

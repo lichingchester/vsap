@@ -1,0 +1,192 @@
+@import "tailwindcss";
+
+/*
+ * The `-tailwind` variants rely on Tailwind utility classes existing in the
+ * generated stylesheet. Their source lives OUTSIDE this app root, so Tailwind's
+ * automatic content detection won't see it — point it there explicitly.
+ * Path is relative to THIS file (sandboxes/react/src/index.css).
+ */
+@source "../../../src/snippets/**/*.{tsx,jsx}";
+
+/* ── switcher chrome (docs-only; plain CSS, not part of any snippet) ───────── */
+:root {
+  --sb-bg: #0e0e11;
+  --sb-panel: #16161b;
+  --sb-line: #26262e;
+  --sb-text: #ececf1;
+  --sb-dim: #8a8a99;
+  --sb-accent: #f5b544;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--sb-bg);
+  color: var(--sb-text);
+  font-family:
+    "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+.sb {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  height: 100%;
+}
+
+.sb-side {
+  border-right: 1px solid var(--sb-line);
+  background: var(--sb-panel);
+  overflow-y: auto;
+  padding: 0.75rem;
+}
+
+.sb-brand {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  color: var(--sb-accent);
+  padding: 0.5rem 0.5rem 1rem;
+}
+.sb-brand span {
+  color: var(--sb-dim);
+}
+
+.sb-group {
+  margin-bottom: 1rem;
+}
+.sb-group-title {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sb-dim);
+  padding: 0.25rem 0.5rem;
+}
+
+.sb-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.4rem 0.5rem;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--sb-text);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.sb-item:hover {
+  background: #1e1e25;
+}
+.sb-item.is-active {
+  background: color-mix(in oklab, var(--sb-accent) 18%, transparent);
+  color: var(--sb-accent);
+}
+
+.sb-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: auto;
+}
+
+.sb-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1.25rem;
+  border-bottom: 1px solid var(--sb-line);
+}
+.sb-head-title {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.sb-title {
+  font-weight: 600;
+}
+.sb-variant {
+  font-size: 0.8rem;
+  color: var(--sb-dim);
+}
+.sb-entry {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.72rem;
+  color: var(--sb-dim);
+}
+
+.sb-replay {
+  border: 1px solid var(--sb-line);
+  background: transparent;
+  color: var(--sb-text);
+  border-radius: 6px;
+  padding: 0.3rem 0.7rem;
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.sb-replay:hover {
+  border-color: var(--sb-accent);
+  color: var(--sb-accent);
+}
+
+.sb-stage {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 4rem 2rem;
+  min-height: 320px;
+}
+
+.sb-empty,
+.sb-loading {
+  margin: auto;
+  color: var(--sb-dim);
+  font-size: 0.9rem;
+}
+
+.sb-prereq {
+  border-top: 1px solid var(--sb-line);
+  padding: 0.9rem 1.25rem;
+  background: var(--sb-panel);
+  font-size: 0.8rem;
+}
+.sb-prereq-label {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.66rem;
+  color: var(--sb-dim);
+  margin-bottom: 0.4rem;
+}
+.sb-prereq ul {
+  margin: 0;
+  padding-left: 1rem;
+}
+.sb-prereq li {
+  margin: 0.2rem 0;
+}
+.sb-prereq code {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.75rem;
+  color: var(--sb-accent);
+  background: var(--sb-bg);
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+}
+.sb-prereq-note {
+  color: var(--sb-dim);
+  margin-left: 0.4rem;
+}

@@ -45,6 +45,10 @@ Any non-reference variant of a visual snippet (component, effect, layout), produ
 **Native variant**:
 A variant of a `utility` snippet that is a genuinely independent, idiomatic implementation per framework (e.g. LinkTag uses `vue-router` in Vue, `next/link` or react-router in React, a plain `<a>` in HTML) rather than a translation of a reference. Utility snippets are exempt from the reference/port model because there is no single canonical source to translate from.
 
+**Sandbox**:
+A real per-framework Vite app under `sandboxes/` that runs a **port** in its native environment to verify it actually works — the deliberate inverse of the site, which only ever runs the **reference variant**. Three apps (Vue, React, and native HTML executed in an `iframe`) glob-import the real snippet source, alongside a Playwright **smoke** pass. Developer-only, never deployed. Distinct from a snippet's **playground** (the site's interactive live preview of the reference) and from a **demo** (a throwaway design comparison). See [[0017-sandboxes-verify-the-ports-the-site-never-runs]].
+_Avoid_: playground, demo, preview
+
 ### Site design
 
 **Design direction**:

@@ -1,0 +1,14 @@
+{
+  "name": "sandbox-html",
+  "private": true,
+  "type": "module",
+  "description": "Verification harness: runs tskr/ui html fragments in a real browser via iframe srcdoc (ADR-0017). Dev-only, never published. No runtime deps — fragments self-load from CDN.",
+  "scripts": {
+    "dev": "vite --port 4333 --strictPort",
+    "build": "vite build",
+    "preview": "vite preview --port 4333 --strictPort"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "sandbox-vue",
+  "private": true,
+  "type": "module",
+  "description": "Verification harness: runs tskr/ui vue-* variants in a real Vue 3.5 + Vite app (ADR-0017). Dev-only, never published.",
+  "scripts": {
+    "dev": "vite --port 4332 --strictPort",
+    "build": "vite build",
+    "preview": "vite preview --port 4332 --strictPort"
+  },
+  "dependencies": {
+    "vue": "^3.5.0",
+    "vue-router": "^4.5.0",
+    "gsap": "^3.13.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.1",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "tailwindcss": "^4.3.1",
+    "vite": "^6.0.0"
+  }
+}
