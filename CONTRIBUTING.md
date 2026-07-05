@@ -78,7 +78,33 @@ Feature requests are welcome! Please provide:
 3. Any relevant mockups or examples
 4. Explanation of why this feature would be valuable to users
 
-## Running Tests [WIP]
+## Running Tests
+
+### Verifying variants run in a real framework (sandboxes)
+
+The site only executes the Vue + Tailwind reference variant. Any port you write
+(`react-*`, `vue-css`, `html`) is never run by the site — so before you open a
+PR, verify it in the **sandboxes**: three real per-framework Vite apps that run
+the ports in their native environment, plus a Playwright smoke pass.
+
+Start with the step-by-step guide: [`sandboxes/GUIDE.md`](./sandboxes/GUIDE.md).
+
+The short version:
+
+```bash
+# 1. eyeball your port in a real framework app
+cd sandboxes/react   # or vue, or html
+npm install
+npm run dev          # pick your variant from the switcher (react :4331)
+
+# 2. before you PR, run the headless smoke pass over all three
+cd sandboxes/smoke
+npm install
+npm test
+```
+
+`react-next` / `vue-nuxt` variants are out of scope for the sandboxes (they need
+a real Next/Nuxt runtime); verify those in a scratch project.
 
 ## Communication [WIP]
 

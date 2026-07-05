@@ -10,6 +10,10 @@ These sandboxes fix that: three real per-framework Vite apps that glob-import th
 actual snippet source and **run the ports the site refuses to**, plus a Playwright
 smoke pass. Dev-only — never deployed. See **ADR-0017** for the full rationale.
 
+> **New here?** [`GUIDE.md`](./GUIDE.md) is the step-by-step contributor
+> walkthrough — verify a port, run the smoke pass, add a dependency, troubleshoot.
+> This README is the quick reference.
+
 | App | What it runs | Prereqs baked in |
 | --- | --- | --- |
 | `react/` | `react`, `react-tailwind`, `react-css` variants in React 19 + Vite | gsap, Tailwind v4 |
