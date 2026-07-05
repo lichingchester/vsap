@@ -85,7 +85,7 @@
   text-decoration: none;
 }
 .s-brand span {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 .s-navlinks {
   display: flex;
@@ -99,6 +99,46 @@
 }
 .s-navlinks a:hover {
   color: var(--color-fg);
+}
+
+/* Theme toggle (ADR-0016) — dark/light icon button, ≥44px tap target. */
+.s-theme {
+  display: inline-grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin: -0.4rem 0; /* keep it visually compact in the bar without shrinking the target */
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-dim);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+.s-theme:hover {
+  color: var(--color-fg);
+  background: var(--color-surface);
+}
+.s-theme:focus-visible {
+  outline: 2px solid var(--color-accent-text);
+  outline-offset: 2px;
+}
+.s-theme__icon {
+  display: block;
+}
+/* Icon reflects the current theme: moon in dark, sun in light. CSS-driven so it's
+   correct on first paint (the pre-paint script has already set data-theme). */
+.s-theme__sun {
+  display: none;
+}
+:root[data-theme="light"] .s-theme__moon {
+  display: none;
+}
+:root[data-theme="light"] .s-theme__sun {
+  display: block;
 }
 
 /* ================= Home: Terminal · Masthead ================= */
@@ -118,7 +158,7 @@
   margin: 0;
 }
 .home-word span {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 .home-tag {
   margin: 0.85rem 0 0;
@@ -141,7 +181,7 @@
   color: var(--color-dim);
 }
 .home-stats b {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   font-weight: 500;
 }
 .home-why {
@@ -157,7 +197,7 @@
   color: var(--color-muted);
 }
 .home-why b {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   font-weight: 400;
 }
 .home-why strong {
@@ -172,7 +212,7 @@
   font-size: var(--text-eyebrow);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   margin: 2rem 0 0.4rem;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--color-line);
@@ -193,7 +233,7 @@
 }
 .home-item:hover {
   background: var(--color-surface);
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   padding-left: 0.6rem;
 }
 .home-item__path {
@@ -205,7 +245,7 @@
   color: var(--color-dim);
 }
 .home-item:hover .home-item__path em {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 .home-item__kind {
   font-family: var(--font-mono);
@@ -276,7 +316,7 @@
   color: var(--color-fg);
 }
 .docs-link[aria-current="true"] {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   background: var(--color-accent-soft);
 }
 .docs-main {
@@ -309,7 +349,7 @@
   color: var(--color-muted);
 }
 .s-bc__name {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 .s-title {
   font-family: var(--font-mono);
@@ -350,6 +390,14 @@
   );
   background-size: 22px 22px;
 }
+/* Dot grid is white-on-dark; invert to dark-on-light so it stays visible. */
+:root[data-theme="light"] .s-stage {
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(0, 0, 0, 0.06) 1px,
+    transparent 0
+  );
+}
 
 /* API reference table (ADR-0015: Type/Default are depicted, not printed) */
 .api-wrap {
@@ -379,7 +427,7 @@
 }
 .api__name {
   font-family: var(--font-mono);
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   white-space: nowrap;
 }
 /* Type = ghost/outline chip — hollow "shape of the value" */
@@ -467,7 +515,7 @@
 }
 .api-bool.is-on .api-bool__track {
   background: var(--color-accent);
-  border-color: var(--color-accent);
+  border-color: var(--color-accent-text);
 }
 .api-bool.is-on .api-bool__knob {
   left: calc(100% - 12px);
@@ -508,8 +556,8 @@
   color: var(--color-fg);
 }
 .docs-toc a[aria-current="true"] {
-  color: var(--color-accent);
-  border-left-color: var(--color-accent);
+  color: var(--color-accent-text);
+  border-left-color: var(--color-accent-text);
 }
 
 .s-foot {
@@ -521,7 +569,7 @@
 
 /* Active top-nav link (the /design page marks itself) */
 .s-navlinks a[aria-current="page"] {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 
 /* ================= /design — the design-system showcase ================= */
@@ -585,7 +633,7 @@
 .ds-font:focus-visible,
 .ds-rung:focus-visible,
 .ds-radius:focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-accent-text);
   outline-offset: 2px;
 }
 
@@ -643,7 +691,7 @@
   font-family: var(--font-mono);
   font-size: var(--text-eyebrow);
   text-transform: uppercase;
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 .ds-swatch__note {
   padding: 0.15rem 0.6rem 0.65rem;
@@ -705,7 +753,7 @@
 .ds-rung__name {
   font-family: var(--font-mono);
   font-size: var(--text-caption);
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 .ds-rung__sample {
   min-width: 0;
@@ -737,7 +785,7 @@
 }
 .ds-callout .ds-eyebrow {
   margin: 0 0 0.4rem;
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 .ds-callout__body {
   margin: 0;
@@ -774,7 +822,7 @@
   height: 3rem;
   margin-bottom: 0.35rem;
   background: var(--color-accent-soft);
-  border: 1px solid var(--color-accent);
+  border: 1px solid var(--color-accent-text);
 }
 .ds-radius__name {
   font-family: var(--font-mono);
@@ -784,7 +832,7 @@
 .ds-radius__val {
   font-family: var(--font-mono);
   font-size: var(--text-eyebrow);
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 .ds-radius__note {
   font-size: var(--text-eyebrow);
@@ -817,7 +865,7 @@
 .ds-motion__demo:focus-visible {
   color: var(--color-accent-ink);
   background: var(--color-accent);
-  border-color: var(--color-accent);
+  border-color: var(--color-accent-text);
   transform: translateY(-2px);
   outline: none;
 }
@@ -839,7 +887,7 @@
 .ds-callout__body code {
   font-family: var(--font-mono);
   font-size: 0.9em;
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   background: var(--color-inset);
   border-radius: var(--radius-sm);
   padding: 0.02rem 0.3rem;

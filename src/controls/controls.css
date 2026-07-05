@@ -28,7 +28,7 @@
 }
 .tk-label::before {
   content: "# ";
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 .tk-value {
   font-family: var(--font-mono);
@@ -108,7 +108,7 @@
 }
 .tk-toggle__btn[aria-checked="true"] .tk-toggle__switch {
   background: var(--color-accent);
-  border-color: var(--color-accent);
+  border-color: var(--color-accent-text);
 }
 .tk-toggle__knob {
   position: absolute;
@@ -117,7 +117,7 @@
   width: 16px;
   height: 16px;
   border-radius: 2px;
-  background: #fff;
+  background: var(--color-fg);
   transform: translateY(-50%);
   transition: left 0.18s ease;
 }
@@ -192,7 +192,7 @@
 }
 .tk-select__trigger:hover,
 .tk-select__trigger.is-open {
-  border-color: var(--color-accent);
+  border-color: var(--color-accent-text);
 }
 .tk-select__trigger:focus-visible {
   outline: none;
@@ -239,10 +239,10 @@
   color: var(--color-fg);
 }
 .tk-select__opt[aria-selected="true"] {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 .tk-select__tick {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   flex: none;
 }
 
@@ -263,7 +263,7 @@
 }
 .tk-text:focus {
   outline: none;
-  border-color: var(--color-accent);
+  border-color: var(--color-accent-text);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 55%, transparent);
 }
 
@@ -286,7 +286,7 @@
 }
 .tk-swatch:hover,
 .tk-swatch.is-open {
-  border-color: var(--color-accent);
+  border-color: var(--color-accent-text);
 }
 .tk-swatch:focus-visible {
   outline: none;
@@ -344,7 +344,7 @@
 }
 .tk-pick__sv-knob:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--color-accent);
+  box-shadow: 0 0 0 2px var(--color-accent-text);
 }
 .tk-pick__hue {
   position: relative;
@@ -377,7 +377,7 @@
 }
 .tk-pick__hue-knob:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--color-accent);
+  box-shadow: 0 0 0 2px var(--color-accent-text);
 }
 .tk-pick__hexrow {
   display: flex;
@@ -406,7 +406,7 @@
 }
 .tk-pick__hexin:focus {
   outline: none;
-  border-color: var(--color-accent);
+  border-color: var(--color-accent-text);
 }
 .tk-pick__presets {
   display: grid;
@@ -418,14 +418,14 @@
   aspect-ratio: 1;
   padding: 0;
   border-radius: 3px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--color-line2);
   background: var(--chip);
   cursor: pointer;
 }
 .tk-pick__preset.is-sel {
   box-shadow:
     0 0 0 2px var(--color-surface2),
-    0 0 0 3px var(--color-accent);
+    0 0 0 3px var(--color-accent-text);
 }
 
 /* ---------- Color list ---------- */
@@ -475,10 +475,18 @@
     border-color 0.15s ease;
 }
 .tk-cl__add:hover:not(:disabled) {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
+  border-color: var(--color-accent-text);
+  color: var(--color-accent-text);
 }
 .tk-cl__add:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+/* Theme (ADR-0016): the popover drop-shadows are tuned for a dark canvas; at
+   0.5 alpha they read as grey smudges on a light surface. Soften in light only —
+   dark is untouched. */
+:root[data-theme="light"] .tk-select__list,
+:root[data-theme="light"] .tk-pop {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }

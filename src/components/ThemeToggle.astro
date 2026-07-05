@@ -1,0 +1,100 @@
+---
+/*
+ * ThemeToggle — dark/light switch (ADR-0016). Docs-only site chrome, never
+ * copied into a user's project. Framework-free: the button lives in static nav
+ * markup and this component's bundled <script> wires it, reading/writing the same
+ * `tskr-theme` key + `data-theme` attribute the pre-paint script in Layout sets.
+ *
+ * Top-level src/components/ file on purpose (NOT a nested dir) — the dev-scanner
+ * stub plugin only rewrites `src/components/<dir>/…`, so a flat file is safe.
+ *
+ * The icon is swapped by CSS off `:root[data-theme]` (see `.s-theme` in site.css),
+ * so it's correct on first paint with no JS; the script only manages `aria-pressed`
+ * and the click/OS-change wiring.
+ */
+---
+
+<button
+  type="button"
+  class="s-theme"
+  aria-label="Toggle light or dark theme"
+  aria-pressed="false"
+>
+  <svg
+    class="s-theme__icon s-theme__moon"
+    viewBox="0 0 24 24"
+    width="18"
+    height="18"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+  </svg>
+  <svg
+    class="s-theme__icon s-theme__sun"
+    viewBox="0 0 24 24"
+    width="18"
+    height="18"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="4"></circle>
+    <path
+      d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+    ></path>
+  </svg>
+</button>
+
+<script>
+  const KEY = "tskr-theme";
+  const DARK = "#0e0e11";
+  const LIGHT = "#fbfaf7";
+
+  const root = document.documentElement;
+  const mq = matchMedia("(prefers-color-scheme: dark)");
+  const meta = document.querySelector('meta[name="theme-color"]');
+  const buttons = document.querySelectorAll<HTMLButtonElement>(".s-theme");
+
+  const resolved = (): "light" | "dark" =>
+    root.dataset.theme === "light" ? "light" : "dark";
+
+  function syncButtons() {
+    const isLight = resolved() === "light";
+    buttons.forEach((b) => b.setAttribute("aria-pressed", String(isLight)));
+  }
+
+  function apply(theme: "light" | "dark") {
+    root.dataset.theme = theme;
+    meta?.setAttribute("content", theme === "light" ? LIGHT : DARK);
+    syncButtons();
+  }
+
+  buttons.forEach((b) =>
+    b.addEventListener("click", () => {
+      const next = resolved() === "dark" ? "light" : "dark";
+      try {
+        localStorage.setItem(KEY, next);
+      } catch {}
+      apply(next);
+    }),
+  );
+
+  // Follow the OS live — but only until the visitor has made an explicit choice.
+  mq.addEventListener("change", (e) => {
+    let stored: string | null = null;
+    try {
+      stored = localStorage.getItem(KEY);
+    } catch {}
+    if (!stored) apply(e.matches ? "dark" : "light");
+  });
+
+  syncButtons();
+</script>

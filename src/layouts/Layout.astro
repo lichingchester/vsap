@@ -20,6 +20,23 @@ const { title, description } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {/* Theme (ADR-0016): resolve before first paint so a light-preferring
+        visitor never flashes dark. Defaults to the OS setting until the visitor
+        makes an explicit choice (stored under `tskr-theme`). */}
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem("tskr-theme"); // 'light' | 'dark' | null
+          const theme =
+            stored ??
+            (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+          document.documentElement.dataset.theme = theme;
+          const m = document.querySelector('meta[name="theme-color"]');
+          if (m) m.setAttribute("content", theme === "light" ? "#fbfaf7" : "#0e0e11");
+        } catch {}
+      })();
+    </script>
+    <meta name="theme-color" content="#0e0e11" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title} — tskr/ui</title>
     {description && <meta name="description" content={description} />}

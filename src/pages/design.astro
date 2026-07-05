@@ -9,6 +9,7 @@
  * CSS var, matching the site's copy-paste culture.
  */
 import Layout from "../layouts/Layout.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
 import DesignToc from "../design/DesignToc.vue";
 import ControlsGallery from "../design/ControlsGallery.vue";
 import { colorGroups, fonts, ramp, radii, sections } from "../design/tokens";
@@ -24,6 +25,7 @@ import { colorGroups, fonts, ramp, radii, sections } from "../design/tokens";
       <a href="/">Home</a>
       <a href="/design" aria-current="page">Design</a>
       <a href="https://github.com/lichingchester/tskr-ui">GitHub</a>
+      <ThemeToggle />
     </nav>
   </nav>
 

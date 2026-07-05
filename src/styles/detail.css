@@ -83,7 +83,7 @@
 }
 .vseg__btn[aria-pressed="true"] {
   background: var(--color-accent-soft);
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 .vseg__btn:disabled {
   cursor: not-allowed;
@@ -110,6 +110,14 @@
   );
   background-size: 22px 22px;
 }
+/* Dot grid is white-on-dark; invert to dark-on-light so it stays visible. */
+:root[data-theme="light"] .sd-stage {
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(0, 0, 0, 0.06) 1px,
+    transparent 0
+  );
+}
 /* Replay — remounts the live component to re-run a one-shot animation. */
 .sd-stage__replay {
   position: absolute;
@@ -129,11 +137,11 @@
     border-color 0.15s ease;
 }
 .sd-stage__replay:hover {
-  color: var(--color-accent);
-  border-color: var(--color-accent);
+  color: var(--color-accent-text);
+  border-color: var(--color-accent-text);
 }
 .sd-stage__replay:focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-accent-text);
   outline-offset: 2px;
 }
 .sd-stage__meta {
@@ -147,11 +155,11 @@
   font-weight: 500;
 }
 .sd-stage__live {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   margin-right: 0.4rem;
 }
 .sd-stage__fallback {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 @media (prefers-reduced-motion: reduce) {
   .sd-stage *,
@@ -245,8 +253,8 @@
   cursor: pointer;
 }
 .sd-code__wrap[aria-pressed="true"] {
-  color: var(--color-accent);
-  border-color: var(--color-accent);
+  color: var(--color-accent-text);
+  border-color: var(--color-accent-text);
 }
 .sd-code__copy {
   font-family: var(--font-mono);
@@ -266,8 +274,8 @@
   border-color: var(--color-fg);
 }
 .sd-code__copy[data-copied="true"] {
-  color: var(--color-accent);
-  border-color: var(--color-accent);
+  color: var(--color-accent-text);
+  border-color: var(--color-accent-text);
 }
 .sd-code__body pre.shiki {
   margin: 0;
@@ -277,6 +285,14 @@
   font-family: var(--font-mono);
   font-size: 0.82rem;
   line-height: 1.55;
+}
+/* Dual-theme swap (ADR-0016). Shiki renders each token's dark color inline and
+   stashes the light one in --shiki-light (defaultColor:'dark'). In light mode we
+   swap to it — !important beats the inline style; the fallback keeps the plain
+   catch-path (no --shiki-light) readable. Background is token-driven above. */
+:root[data-theme="light"] .sd-code__body .shiki,
+:root[data-theme="light"] .sd-code__body .shiki span {
+  color: var(--shiki-light, var(--color-fg)) !important;
 }
 .sd-code__body code {
   font-family: inherit;
@@ -307,7 +323,7 @@
 .sd-code__wrap:focus-visible,
 .vseg__btn:focus-visible,
 .sd-controls__reset:focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-accent-text);
   outline-offset: 2px;
 }
 
@@ -329,7 +345,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.22rem;
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   text-decoration: none;
   font-weight: 500;
   white-space: nowrap;
@@ -462,5 +478,5 @@
   color: var(--color-fg);
 }
 .toc-prog__links a[aria-current="true"] {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }

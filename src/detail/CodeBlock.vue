@@ -7,7 +7,7 @@
  * the live Usage block updates as the playground controls move.
  */
 import { ref, watch, onMounted } from "vue";
-import { getHighlighter, SHIKI_THEME } from "./highlighter";
+import { getHighlighter, SHIKI_THEMES } from "./highlighter";
 
 const props = defineProps<{
   code: string;
@@ -30,7 +30,8 @@ async function render() {
     const hl = await getHighlighter();
     html.value = hl.codeToHtml(props.code, {
       lang: props.lang,
-      theme: SHIKI_THEME,
+      themes: SHIKI_THEMES,
+      defaultColor: "dark",
     });
   } catch {
     // Unknown lang or load failure — fall back to plain, escaped text.

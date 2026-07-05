@@ -39,3 +39,48 @@
   --radius-md: 6px;
   --radius-lg: 8px;
 }
+
+/*
+ * Theming (ADR-0016). Dark is the `:root` default above; light is opt-in via a
+ * `data-theme="light"` attribute set on <html> before first paint. Because the
+ * `@theme` block is non-inline, every `bg-canvas`/`text-accent`/… utility and
+ * every `var(--color-*)` consumer resolves through the custom property — so
+ * overriding the properties here re-themes the whole site chrome for free.
+ *
+ * The accent split: `--color-accent` is the brand amber, used for FILLS (buttons,
+ * active tracks) where dark ink sits on top. `--color-accent-text` is accent as
+ * INK / hairlines: it aliases the brand amber in dark (so the dark theme is
+ * pixel-identical) and becomes a deeper, AA-safe amber in light — bright amber on
+ * white is only ~1.6:1 and would be unreadable as text.
+ */
+:root {
+  color-scheme: dark;
+  --color-accent-text: var(--color-accent);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  /* Surfaces — warm off-white, echoing the warm-charcoal dark side. */
+  --color-canvas: #fbfaf7;
+  --color-surface: #ffffff;
+  --color-surface2: #f3f1eb;
+  --color-inset: #efebe1; /* code + stage bg — warm, reads as "inset" */
+
+  --color-line: #e6e2d8;
+  --color-line2: #d6d0c2;
+
+  /* Text — all AA on canvas and on #ffffff (the lightest surface). */
+  --color-fg: #1a1a1e;
+  --color-muted: #55555e;
+  --color-dim: #6e6e77;
+
+  /* Accent — fills stay bright amber (dark ink on top); hover darkens on light. */
+  --color-accent: #f5b544;
+  --color-accent2: #e9a62f;
+  --color-accent-ink: #1a1206;
+  --color-accent-soft: rgba(245, 181, 68, 0.22); /* bumped so the tint reads on white */
+
+  /* Accent as ink / hairlines — deep amber, ~6:1 on canvas. */
+  --color-accent-text: #8a5300;
+}

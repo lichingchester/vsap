@@ -90,7 +90,7 @@
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.04em;
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 .ctl-panel__name {
   font-family: var(--label-font);
@@ -234,7 +234,7 @@
   transition: color 0.15s ease;
 }
 .ctl-toggle__btn[aria-checked="true"] .ctl-toggle__bracket {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 
 /* c · led — status dot + label */
@@ -262,7 +262,7 @@
 /* d · checkbox — [x] / [ ] */
 .ctl-toggle__cb {
   font-size: 0.82rem;
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   white-space: pre;
 }
 .ctl-toggle__cblabel {
@@ -617,7 +617,7 @@
 }
 .ctl-panel[data-skin="terminal"] .ctl-label::before {
   content: "# ";
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 
 /* B2 · Refined — soft product UI: heavier labels, larger radii + thumb. */
@@ -851,7 +851,7 @@
   color: var(--color-fg);
   margin: 0;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--color-accent);
+  border-bottom: 1px solid var(--color-accent-text);
 }
 .lab__sub {
   margin: 0.5rem 0 0;
@@ -886,7 +886,7 @@
   font-size: 0.72rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 .lab__toggle .ctl-toggle {
   align-items: flex-end;

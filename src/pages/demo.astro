@@ -7,6 +7,7 @@
  * promote the winner into a reusable control kit. See src/styles/demo.css.
  */
 import Layout from "../layouts/Layout.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
 import DemoGallery from "../demo/DemoGallery.vue";
 import "../styles/demo.css";
 ---
@@ -20,13 +21,14 @@ import "../styles/demo.css";
     <nav class="s-navlinks">
       <a href="/">Home</a>
       <a href="https://github.com/lichingchester/tskr-ui">GitHub</a>
+      <ThemeToggle />
     </nav>
   </nav>
 
   <div class="demo">
     <header style="margin-bottom: 2.5rem;">
       <p
-        style="font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-accent); margin: 0 0 0.5rem;"
+        style="font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-accent-text); margin: 0 0 0.5rem;"
       >
         Internal · design exploration
       </p>

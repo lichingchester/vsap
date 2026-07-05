@@ -5,6 +5,7 @@
  * of every snippet (discovered from disk via the registry).
  */
 import Layout from "../layouts/Layout.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
 import { allSnippets, groupedSnippets, snippetHref } from "../lib/snippets";
 
 const groups = groupedSnippets();
@@ -22,6 +23,7 @@ const browseHref = allSnippets[0] ? snippetHref(allSnippets[0]) : "/";
       <a href={browseHref}>Snippets</a>
       <a href="/design">Design</a>
       <a href="https://github.com/lichingchester/tskr-ui">GitHub</a>
+      <ThemeToggle />
     </nav>
   </nav>
 
