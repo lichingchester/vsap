@@ -1,0 +1,13 @@
+---
+/*
+ * Brand — the tskr/ui wordmark (links home) plus the version chip beside it.
+ * Shared across every nav (home, docs header, /design, /demo) so the version
+ * marker is global and consistent. Docs-only site chrome, never copied.
+ */
+import VersionChip from "./VersionChip.astro";
+---
+
+<span class="s-brandwrap">
+  <a class="s-brand" href="/">tskr<span>/ui</span></a>
+  <VersionChip />
+</span>

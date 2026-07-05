@@ -8,6 +8,7 @@
 import Layout from "./Layout.astro";
 import { groupedSnippets, snippetHref } from "../lib/snippets";
 import VariantSelector from "../detail/VariantSelector.vue";
+import Brand from "../components/Brand.astro";
 import NavActions from "../components/NavActions.astro";
 import "../styles/detail.css";
 
@@ -24,7 +25,7 @@ const groups = groupedSnippets();
 <Layout title={title} description={description}>
   <div class="docs-app">
     <header class="docs-header">
-      <a class="s-brand" href="/">tskr<span>/ui</span></a>
+      <Brand />
       <div class="docs-header__right">
         <VariantSelector compact client:load />
         <nav class="s-navlinks">

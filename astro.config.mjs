@@ -1,6 +1,41 @@
+import { execSync } from "node:child_process";
+import { readFileSync } from "node:fs";
 import { defineConfig } from "astro/config";
 import vue from "@astrojs/vue";
 import react from "@astrojs/react";
+
+// Displayed site version. Source of truth is the latest `v*` git tag (we tag on
+// every production deploy), resolved here at build and injected as
+// import.meta.env.PUBLIC_APP_VERSION. `--sort=-v:refname` gives the newest
+// release regardless of branch (git describe would return an ancestry-based
+// string like `pre-tskr-47-gsha` on develop). Falls back to package.json
+// version (kept in sync), then "dev" when no git/tags are reachable (a bare
+// checkout or a shallow CI clone). "dev" renders as plain text; a real version
+// links to its GitHub release tag (see VersionChip.astro).
+function resolveVersion() {
+  try {
+    const tag = execSync("git tag --list 'v*' --sort=-v:refname", {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    })
+      .split("\n")
+      .map((s) => s.trim())
+      .filter(Boolean)[0];
+    if (tag) return tag;
+  } catch {
+    /* no git / no tags */
+  }
+  try {
+    const pkg = JSON.parse(
+      readFileSync(new URL("./package.json", import.meta.url), "utf8"),
+    );
+    if (pkg.version) return `v${pkg.version}`;
+  } catch {
+    /* unreadable */
+  }
+  return "dev";
+}
+const APP_VERSION = resolveVersion();
 
 // Astro's dev dependency scanner crawls *every* component under `src/`, not
 // just files reachable from a live page. That sweep enters code that is never
@@ -48,5 +83,8 @@ export default defineConfig({
 
   vite: {
     plugins: [ignoreUnexecutedImports()],
+    define: {
+      "import.meta.env.PUBLIC_APP_VERSION": JSON.stringify(APP_VERSION),
+    },
   },
 });

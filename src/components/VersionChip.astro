@@ -1,0 +1,31 @@
+---
+/*
+ * VersionChip — the small dim mono version marker shown next to the brand on
+ * every page. Docs-only site chrome, never copied. The value is resolved at
+ * build (latest `v*` git tag → package.json → "dev") and injected by
+ * astro.config as import.meta.env.PUBLIC_APP_VERSION.
+ *
+ * A resolved release links to its GitHub tag (works for a plain lightweight tag
+ * — no Release object needed); the "dev" fallback is plain, non-linked text.
+ * Reads as a build/collection marker, not an installable package version
+ * (ADR-0001: tskr/ui is copy-paste, no package).
+ */
+const version = import.meta.env.PUBLIC_APP_VERSION ?? "dev";
+const isRelease = version !== "dev";
+const href = `https://github.com/lichingchester/tskr-ui/releases/tag/${version}`;
+---
+
+{
+  isRelease ? (
+    <a
+      class="s-ver"
+      href={href}
+      title={`tskr/ui ${version} — view release`}
+      aria-label={`Version ${version}, view on GitHub`}
+    >
+      {version}
+    </a>
+  ) : (
+    <span class="s-ver s-ver--dev">{version}</span>
+  )
+}

@@ -7,6 +7,7 @@
  * promote the winner into a reusable control kit. See src/styles/demo.css.
  */
 import Layout from "../layouts/Layout.astro";
+import Brand from "../components/Brand.astro";
 import NavActions from "../components/NavActions.astro";
 import DemoGallery from "../demo/DemoGallery.vue";
 import "../styles/demo.css";
@@ -17,7 +18,7 @@ import "../styles/demo.css";
   description="Exploring custom-styled prop control fields across six skins."
 >
   <nav class="s-nav">
-    <a class="s-brand" href="/">tskr<span>/ui</span></a>
+    <Brand />
     <nav class="s-navlinks">
       <NavActions />
     </nav>

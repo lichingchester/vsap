@@ -87,6 +87,24 @@
 .s-brand span {
   color: var(--color-accent-text);
 }
+/* Version marker (ADR-0016) — dim mono chip beside the brand; reads as a build
+   marker, not a package version. Baseline-aligned so it sits on the wordmark. */
+.s-brandwrap {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.s-ver {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  letter-spacing: 0.02em;
+  color: var(--color-dim);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+a.s-ver:hover {
+  color: var(--color-accent-text);
+}
 .s-navlinks {
   display: flex;
   align-items: center;

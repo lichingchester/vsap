@@ -9,6 +9,7 @@
  * CSS var, matching the site's copy-paste culture.
  */
 import Layout from "../layouts/Layout.astro";
+import Brand from "../components/Brand.astro";
 import NavActions from "../components/NavActions.astro";
 import DesignToc from "../design/DesignToc.vue";
 import ControlsGallery from "../design/ControlsGallery.vue";
@@ -20,7 +21,7 @@ import { colorGroups, fonts, ramp, radii, sections } from "../design/tokens";
   description="The design system behind tskr/ui: color, type, radii, motion, and the control kit."
 >
   <nav class="s-nav">
-    <a class="s-brand" href="/">tskr<span>/ui</span></a>
+    <Brand />
     <nav class="s-navlinks">
       <NavActions current="design" />
     </nav>

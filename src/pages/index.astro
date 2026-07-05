@@ -5,6 +5,7 @@
  * of every snippet (discovered from disk via the registry).
  */
 import Layout from "../layouts/Layout.astro";
+import Brand from "../components/Brand.astro";
 import NavActions from "../components/NavActions.astro";
 import { allSnippets, groupedSnippets, snippetHref } from "../lib/snippets";
 
@@ -18,7 +19,7 @@ const browseHref = allSnippets[0] ? snippetHref(allSnippets[0]) : "/";
   description="A copy-paste collection of components, effects, and layouts for the web."
 >
   <nav class="s-nav">
-    <a class="s-brand" href="/">tskr<span>/ui</span></a>
+    <Brand />
     <nav class="s-navlinks">
       <a href={browseHref}>Snippets</a>
       <NavActions />
