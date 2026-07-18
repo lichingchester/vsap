@@ -21,6 +21,8 @@ Map-of-content for the **tskr/ui** vault — all project documentation lives her
 - [[0013-single-purpose-snippets-static-vs-animated]]
 - [[0014-type-ramp-is-chrome-local-not-a-theme-token]]
 - [[0015-api-table-depicts-defaults-render-kinds-echo-controls]]
+- [[0016-os-default-light-mode-accent-safe-token-split]]
+- [[0017-sandboxes-verify-the-ports-the-site-never-runs]]
 
 ## Tooling
 - [[Impeccable (design tooling)]] — design-detector skill + how contributors use it
