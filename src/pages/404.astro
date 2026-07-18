@@ -1,0 +1,83 @@
+---
+/*
+ * 404 — branded not-found. Astro emits this as dist/404.html, which Cloudflare
+ * Pages serves for any unmatched path. Terminal aesthetic, reusing the home
+ * nav (Brand + actions) so the page still feels like the site.
+ */
+import Layout from "../layouts/Layout.astro";
+import Brand from "../components/Brand.astro";
+import NavActions from "../components/NavActions.astro";
+import { allSnippets, snippetHref } from "../lib/snippets";
+
+const browseHref = allSnippets[0] ? snippetHref(allSnippets[0]) : "/";
+---
+
+<Layout
+  title="404"
+  description="That route doesn't exist — head back to the index."
+>
+  <nav class="s-nav">
+    <Brand />
+    <nav class="s-navlinks">
+      <a href={browseHref}>Snippets</a>
+      <NavActions />
+    </nav>
+  </nav>
+
+  <main class="nf">
+    <p class="nf-code">404</p>
+    <p class="nf-line">
+      <span class="nf-prompt">$</span> cat <span id="nf-path">&lt;route&gt;</span>
+    </p>
+    <p class="nf-msg">
+      No such route. The snippet or page you were after isn't here.
+    </p>
+    <div class="nf-cta">
+      <a class="s-btn s-btn--primary" href="/">cd&nbsp;~</a>
+      <a class="s-btn s-btn--ghost" href={browseHref}>Browse snippets</a>
+    </div>
+  </main>
+</Layout>
+
+{/* Static page served for any path; show the real requested route client-side. */}
+<script is:inline>
+  const el = document.getElementById("nf-path");
+  if (el) el.textContent = location.pathname;
+</script>
+
+<style>
+  .nf {
+    max-width: 40rem;
+    margin: 0 auto;
+    padding: clamp(3rem, 12vh, 8rem) 1.5rem;
+    font-family: var(--font-mono);
+  }
+  .nf-code {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(3.5rem, 12vw, 6rem);
+    line-height: 1;
+    color: var(--color-accent);
+  }
+  .nf-line {
+    margin: 1.25rem 0 0;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    word-break: break-all;
+  }
+  .nf-prompt {
+    color: var(--color-accent);
+  }
+  .nf-msg {
+    margin: 0.5rem 0 0;
+    color: var(--color-dim);
+    font-size: 0.9rem;
+  }
+  .nf-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+</style>

@@ -75,6 +75,12 @@ function ignoreUnexecutedImports() {
 
 // https://docs.astro.build/en/reference/configuration-reference/
 export default defineConfig({
+  // Canonical origin for the production deploy (Cloudflare Pages → the custom
+  // domain). Powers absolute canonical + Open Graph URLs (see Layout.astro) and
+  // any future sitemap. Preview deploys still render fine; only the absolute
+  // social-card URLs point at production, which is what we want them to.
+  site: "https://ui.tskrlabs.com",
+
   // Vue handles .vue files, React handles .jsx/.tsx — no overlap, so both
   // framework islands can render on the same page (the multi-framework preview).
   // Tailwind v4 is wired via PostCSS (postcss.config.mjs) rather than the

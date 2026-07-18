@@ -1,6 +1,6 @@
 {
   "name": "tskr-ui",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Copy-paste collection of UI components, effects, and layouts for the web.",
   "type": "module",
   "engines": {
