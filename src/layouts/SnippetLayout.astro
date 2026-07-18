@@ -23,9 +23,37 @@ const groups = groupedSnippets();
 ---
 
 <Layout title={title} description={description}>
-  <div class="docs-app">
+  <div class="docs-app" data-drawer="closed">
     <header class="docs-header">
-      <Brand />
+      <div class="docs-header__left">
+        {/* Drawer toggle (ADR-0008 responsive): only shown <1024 via CSS. Opens
+            the snippet-list sidebar as an off-canvas panel on tablet/phone. */}
+        <button
+          class="docs-burger"
+          type="button"
+          aria-label="Open snippet navigation"
+          aria-controls="docs-side"
+          aria-expanded="false"
+          data-drawer-toggle
+        >
+          <svg
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <Brand />
+      </div>
       <div class="docs-header__right">
         <VariantSelector compact client:load />
         <nav class="s-navlinks">
@@ -35,7 +63,8 @@ const groups = groupedSnippets();
     </header>
 
     <div class="docs-body">
-      <aside class="docs-side" aria-label="Snippets">
+      <div class="docs-scrim" data-drawer-close aria-hidden="true"></div>
+      <aside id="docs-side" class="docs-side" aria-label="Snippets">
         {
           groups.map((g) => (
             <div class="docs-side__group">
@@ -61,4 +90,52 @@ const groups = groupedSnippets();
       </main>
     </div>
   </div>
+
+  {/* Drawer controller (ADR-0008 responsive). Vanilla is:inline — no hydration
+      cost on every detail page. Toggles `data-drawer` on `.docs-app`; CSS owns
+      the off-canvas transform + backdrop. Closes on backdrop-click, Escape,
+      link-tap, and any resize up to desktop (where the sidebar is inline again). */}
+  <script is:inline>
+    (() => {
+      const app = document.querySelector(".docs-app");
+      if (!app) return;
+      const burger = app.querySelector("[data-drawer-toggle]");
+      const side = document.getElementById("docs-side");
+      const desktop = window.matchMedia("(min-width: 1024px)");
+      // Everything the open drawer veils — kept out of the tab order while it's up.
+      const behind = app.querySelectorAll(".docs-header, .docs-main");
+
+      const open = () => {
+        app.dataset.drawer = "open";
+        burger?.setAttribute("aria-expanded", "true");
+        document.body.style.overflow = "hidden";
+        behind.forEach((el) => (el.inert = true));
+        side?.querySelector(".docs-link")?.focus();
+      };
+      const close = ({ refocus = false } = {}) => {
+        app.dataset.drawer = "closed";
+        burger?.setAttribute("aria-expanded", "false");
+        document.body.style.overflow = "";
+        behind.forEach((el) => (el.inert = false));
+        if (refocus) burger?.focus();
+      };
+
+      burger?.addEventListener("click", () =>
+        app.dataset.drawer === "open" ? close({ refocus: true }) : open()
+      );
+      app
+        .querySelectorAll("[data-drawer-close]")
+        .forEach((el) => el.addEventListener("click", () => close()));
+      side
+        ?.querySelectorAll(".docs-link")
+        .forEach((el) => el.addEventListener("click", () => close()));
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && app.dataset.drawer === "open") close({ refocus: true });
+      });
+      // Reset to the inline layout the moment we cross into desktop.
+      desktop.addEventListener("change", (e) => {
+        if (e.matches) close();
+      });
+    })();
+  </script>
 </Layout>

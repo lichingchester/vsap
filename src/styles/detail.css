@@ -17,17 +17,108 @@
 .doc-main {
   min-width: 0;
 }
-@media (max-width: 1000px) {
-  .doc-grid {
-    grid-template-columns: 1fr;
-  }
-}
 
-/* header: selector + nav grouped on the right */
+/* header: burger + brand grouped on the left, selector + nav on the right */
+.docs-header__left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
 .docs-header__right {
   display: flex;
   align-items: center;
   gap: 1.25rem;
+}
+/* Drawer toggle + backdrop are desktop-hidden; the <1024 block below lights
+   them up and turns .docs-side into an off-canvas panel. */
+.docs-burger {
+  display: none;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-left: -0.6rem; /* pull the icon toward the edge without shrinking the target */
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-dim);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+.docs-burger:hover {
+  color: var(--color-fg);
+  background: var(--color-surface);
+}
+.docs-burger:focus-visible {
+  outline: 2px solid var(--color-accent-text);
+  outline-offset: 2px;
+}
+.docs-scrim {
+  display: none;
+}
+
+/* ---- tablet + phone (<1024): drawer sidebar, single content column ----
+   Placed AFTER the base burger/scrim rules above: media queries add no
+   specificity, so these overrides must come later in source order to win. */
+@media (max-width: 1023px) {
+  .doc-grid {
+    grid-template-columns: 1fr;
+  }
+  /* Reveal the toggle; the header variant selector folds away (the one in the
+     Source toolbar still switches variants) and the progress rail is dropped —
+     it only earns its keep beside a wide column. */
+  .docs-burger {
+    display: inline-grid;
+  }
+  .docs-header__right .vsel {
+    display: none;
+  }
+  .toc-prog {
+    display: none;
+  }
+
+  /* .docs-side → off-canvas drawer. Fixed, so it leaves the flex flow and the
+     main column spans full width; slides in on data-drawer="open". */
+  .docs-side {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 50;
+    width: min(19rem, 82vw);
+    height: 100%;
+    padding: 1.5rem 1rem 2rem;
+    background: var(--color-canvas);
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+  }
+  .docs-app[data-drawer="open"] .docs-side {
+    transform: translateX(0);
+  }
+
+  .docs-scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: color-mix(in srgb, var(--color-canvas) 72%, transparent);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.25s ease,
+      visibility 0.25s ease;
+  }
+  .docs-app[data-drawer="open"] .docs-scrim {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .docs-side,
+  .docs-scrim {
+    transition: none;
+  }
 }
 
 /* ---- variant selector (two-axis segmented control) ---- */

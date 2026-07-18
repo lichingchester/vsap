@@ -286,6 +286,34 @@ a.s-ver:hover {
   color: var(--color-dim);
 }
 
+/* ---- phone (<640): tighten the chrome, let long paths wrap ---- */
+@media (max-width: 639px) {
+  .s-nav {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  /* The version chip is a nice-to-have marker; drop it on phones to reclaim
+     header width for the wordmark + icon row (home nav + docs header both). */
+  .s-ver {
+    display: none;
+  }
+  .home {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+  .home-head {
+    padding-top: 3.5rem;
+  }
+  .home-cta {
+    flex-wrap: wrap;
+  }
+  /* Long mono paths (e.g. text-animations/animated-gradient-text) can exceed a
+     narrow column — wrap them rather than overflow the viewport. */
+  .home-item__path {
+    overflow-wrap: anywhere;
+  }
+}
+
 /* ================= Docs shell (snippet detail) ================= */
 .docs-app {
   display: flex;
@@ -365,9 +393,14 @@ a.s-ver:hover {
   gap: 2.5rem;
   align-items: start;
 }
-@media (max-width: 1000px) {
+@media (max-width: 1023px) {
   .docs-doc {
     grid-template-columns: 1fr;
+  }
+  /* The right scroll-spy rail (design page) drops on tablet/phone — like the
+     detail page's progress rail, it only pays off beside a wide column. */
+  .docs-toc {
+    display: none;
   }
 }
 
@@ -934,7 +967,7 @@ a.s-ver:hover {
 .ds-controls__wide {
   grid-column: 1 / -1;
 }
-@media (max-width: 560px) {
+@media (max-width: 639px) {
   .ds-controls {
     grid-template-columns: 1fr;
   }
