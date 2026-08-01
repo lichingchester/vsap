@@ -46,6 +46,29 @@ const ogImage = new URL("/og.png", Astro.site).href;
       })();
     </script>
     <meta name="theme-color" content="#0e0e11" />
+
+    {/* Google Analytics (GA4) — production only, so local dev traffic doesn't
+        pollute reports. `is:inline` keeps the tags verbatim (unbundled). */}
+    {
+      import.meta.env.PROD && (
+        <>
+          <script
+            is:inline
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-SEV45BE0K5"
+          />
+          <script is:inline>
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-SEV45BE0K5');
+            `}
+          </script>
+        </>
+      )
+    }
+
     <link rel="icon" type="image/png" href="/favicon.png" />
     <title>{pageTitle}</title>
     <meta name="description" content={metaDescription} />
